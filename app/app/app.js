@@ -47,10 +47,10 @@ System.register(["angular2/core", "angular2/platform/browser", "angular2/router"
                     core_1.Component({
                         selector: "files-app",
                         template: "<router-outlet></router-outlet>",
-                        directives: [router_1.ROUTER_DIRECTIVES],
-                        providers: [http_1.HTTP_PROVIDERS]
+                        directives: [router_1.ROUTER_DIRECTIVES]
                     }),
                     router_1.RouteConfig([
+                        { name: "Default", path: "", redirectTo: ["Login"] },
                         { name: "Login", component: login_1.Login, path: "/login" },
                         { name: "Files", component: files_1.Files, path: "/files" }
                     ]), 
@@ -59,7 +59,7 @@ System.register(["angular2/core", "angular2/platform/browser", "angular2/router"
                 return App;
             })();
             exports_1("App", App);
-            browser_1.bootstrap(App, [authHelper_1.AuthHelper, router_1.ROUTER_PROVIDERS, core_1.provide(router_1.LocationStrategy, { useClass: router_1.HashLocationStrategy })]);
+            browser_1.bootstrap(App, [authHelper_1.AuthHelper, http_1.HTTP_PROVIDERS, router_1.ROUTER_PROVIDERS, core_1.bind(router_1.LocationStrategy).toClass(router_1.HashLocationStrategy)]);
         }
     }
 });

@@ -1,5 +1,4 @@
 import { Component, View } from "angular2/core";
-import { Http, Headers } from "angular2/http";
 
 import { AuthHelper } from "../authHelper/authHelper";
 
@@ -12,18 +11,14 @@ import { AuthHelper } from "../authHelper/authHelper";
 })
 export class Files {
     private files = [];
-    constructor(http: Http, authHelper: AuthHelper) {
+    constructor(authHelper: AuthHelper) {
         // perform REST call into Microsoft Graph for files on OneDrive for Business
-        http.get("https://graph.microsoft.com/v1.0/me/drive/root/children", {
-            // headers: new Headers({ "Authorization": "Bearer " + authHelper.access_token })
-        })
-            .subscribe(res => {
-                // check the response status before trying to display files
-                if (res.status === 200) {
-                    this.files = res.json().value;
-                } else {
-                    alert("An error occurred calling the Microsoft Graph: " + res.status);
-                }
-            });
+        authHelper.getRequestPromise("/v1.0/me/drive/root/children").then((data) => {
+            if (data.status === 200) {
+                this.files = data.json().value;
+            } else {
+                alert("An error occurred calling the Microsoft Graph: " + data.status);
+            }
+        });
     }
 }

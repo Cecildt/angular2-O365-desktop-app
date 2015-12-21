@@ -7,7 +7,7 @@
     <body>
 
       <div class="container">
-        <h1>Hello Electron with Angular 2 and Office 365!</h1>
+        <h1>Office 365 Desktop Experience</h1>
         <files-app></files-app>
       </div>
 
@@ -22,39 +22,34 @@
 	<script src="../node_modules/angular2/bundles/angular2.dev.js"></script>
 	<script src="../node_modules/angular2/bundles/router.dev.js"></script>
 	<script src="../node_modules/angular2/bundles/http.dev.js"></script>
-    <script src="../node_modules/adal-node/lib/adal.js"></script>
+    <script src="./assets/adal.min.js"></script>
         
 	<script type="text/javascript">
 		System.config({
 			packages: {
 				"app": {
 					format: "register",
-					defaultExtension: "js",
-                    defaultJSExtensions: true
+					defaultExtension: "js"
 				},
                 "login": {
 					format: "register",
-					defaultExtension: "js",
-                    defaultJSExtensions: true
+					defaultExtension: "js"
 				},
                 "files": {
 					format: "register",
-					defaultExtension: "js",
-                    defaultJSExtensions: true
+					defaultExtension: "js"
 				},
                 "authHelper": {
 					format: "register",
-					defaultExtension: "js",
-                    defaultJSExtensions: true
+					defaultExtension: "js"
 				},
                 "svcConsts": {
 					format: "register",
-					defaultExtension: "js",
-                    defaultJSExtensions: true
+					defaultExtension: "js"
 				}
 			}
 		});
-		System.import("app/app");
+		System.import("app/app").then(null, console.error.bind(console));
 	</script>
     </body> 
   </html>

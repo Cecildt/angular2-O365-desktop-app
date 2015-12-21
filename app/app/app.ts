@@ -1,4 +1,4 @@
-import { Component, provide } from "angular2/core";
+import { Component, bind } from "angular2/core";
 import { bootstrap } from "angular2/platform/browser";
 import {
 Router,
@@ -17,12 +17,12 @@ import { AuthHelper } from "../authHelper/authHelper";
 @Component({
     selector: "files-app",
     template: "<router-outlet></router-outlet>",
-    directives: [ROUTER_DIRECTIVES],
-    providers: [HTTP_PROVIDERS]
+    directives: [ROUTER_DIRECTIVES]
 })
 
 // configure the routes for the app
 @RouteConfig([
+    { name: "Default", path: "", redirectTo: ["Login"] },
     { name: "Login", component: Login, path: "/login" },
     { name: "Files", component: Files, path: "/files" }
 ])
@@ -40,4 +40,4 @@ export class App {
     }
 }
 
-bootstrap(App, [AuthHelper, ROUTER_PROVIDERS, provide(LocationStrategy, { useClass: HashLocationStrategy })]);
+bootstrap(App, [AuthHelper, HTTP_PROVIDERS, ROUTER_PROVIDERS, bind(LocationStrategy).toClass(HashLocationStrategy)]);
