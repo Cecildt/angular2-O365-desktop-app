@@ -1,33 +1,56 @@
-html>
+<html>
     <head>
       <meta charset="UTF-8">
-      <title>Image Size Calculator</title>
+      <title>Office 365 Desktop Experience</title>
       <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     </head>
     <body>
 
       <div class="container">
-        <h1>Hello Electron with Angular 2</h1>
+        <h1>Hello Electron with Angular 2 and Office 365!</h1>
+        <files-app></files-app>
       </div>
 
-      <!-- Bootstrap stuff -->
-	<script src="node_modules/jquery/dist/jquery.min.js"></script>
-	<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <!-- Bootstrap stuff -->
+    <!--<script src="../node_modules/jquery/dist/jquery.min.js"></script>-->
+	<link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css" />
 	
-	<!-- Angular2 stuff -->
-	<script src="node_modules/systemjs/dist/system.src.js"></script>
-	<script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>
-	<script src="node_modules/rxjs/bundles/Rx.js"></script>
-	<script src="node_modules/angular2/bundles/angular2.dev.js"></script>
-	<script src="node_modules/angular2/bundles/router.dev.js"></script>
-	<script src="node_modules/angular2/bundles/http.dev.js"></script>
+	<!-- Angular2 stuff -->	
+    <script src="../node_modules/systemjs/dist/system.src.js"></script>
+	<script src="../node_modules/angular2/bundles/angular2-polyfills.js"></script>
+	<script src="../node_modules/rxjs/bundles/Rx.js"></script>
+	<script src="../node_modules/angular2/bundles/angular2.dev.js"></script>
+	<script src="../node_modules/angular2/bundles/router.dev.js"></script>
+	<script src="../node_modules/angular2/bundles/http.dev.js"></script>
+    <script src="../node_modules/adal-node/lib/adal.js"></script>
+        
 	<script type="text/javascript">
 		System.config({
 			packages: {
-				"src": {
+				"app": {
 					format: "register",
-					defaultExtension: "js"
+					defaultExtension: "js",
+                    defaultJSExtensions: true
+				},
+                "login": {
+					format: "register",
+					defaultExtension: "js",
+                    defaultJSExtensions: true
+				},
+                "files": {
+					format: "register",
+					defaultExtension: "js",
+                    defaultJSExtensions: true
+				},
+                "authHelper": {
+					format: "register",
+					defaultExtension: "js",
+                    defaultJSExtensions: true
+				},
+                "svcConsts": {
+					format: "register",
+					defaultExtension: "js",
+                    defaultJSExtensions: true
 				}
 			}
 		});
