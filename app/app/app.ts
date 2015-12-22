@@ -34,7 +34,7 @@ export class App {
         // route the user to a view based on presence of access token
         if (auth.isUserAuthenticated) {
             // access token exists...display the users files
-            this.userName = "Welcome " + auth.currentUserName;
+            //this.userName = "Welcome " + auth.currentUserName;
             router.navigate(["/Files"]);
         } else {
             // access token doesn't exist, so the user needs to login

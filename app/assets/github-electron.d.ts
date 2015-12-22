@@ -3,7 +3,6 @@
 // Definitions by: jedmao <https://github.com/jedmao/>, rhysd <https://rhysd.github.io>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
-
 declare module GitHubElectron {
 	/**
 	 * This class is used to represent an image.

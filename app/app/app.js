@@ -37,7 +37,6 @@ System.register(["angular2/core", "angular2/platform/browser", "angular2/router"
             App = (function () {
                 function App(router, auth) {
                     if (auth.isUserAuthenticated) {
-                        this.userName = "Welcome " + auth.currentUserName;
                         router.navigate(["/Files"]);
                     }
                     else {

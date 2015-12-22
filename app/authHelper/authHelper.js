@@ -28,28 +28,23 @@ System.register(["angular2/core", "angular2/http", "../svcConsts/svcConsts"], fu
             AuthHelper = (function () {
                 function AuthHelper(http) {
                     var _this = this;
-                    this.config = {
-                        tenant: svcConsts_1.SvcConsts.TENTANT_ID,
-                        clientId: svcConsts_1.SvcConsts.CLIENT_ID,
-                        postLogoutRedirectUri: "http://localhost:8000",
-                        redirectUri: "http://localhost:8000",
-                        endpoints: {
-                            officeGraph: svcConsts_1.SvcConsts.GRAPH_RESOURCE
-                        },
-                        cacheLocation: "localStorage",
-                        displayCall: this.openAuth
-                    };
-                    this.handleLogInCallBack = function () {
-                        var isCallback = _this.authContext.isCallback(window.location.hash);
-                        _this.authContext.handleWindowCallback();
-                        _this.currentUser = _this.authContext.getCachedUser();
-                        var logError = -_this.authContext.getLoginError();
-                        if (!!logError) {
-                            alert(logError);
-                        }
-                        else if (isCallback && !logError) {
-                            window.location = _this.authContext._getItem(_this.authContext.CONSTANTS.STORAGE.LOGIN_REQUEST);
-                        }
+                    this.getRequestPromise = function (reqUrl) {
+                        var p = new Promise(function (resolve, reject) {
+                            var tokenPromise = _this.tokenPromise(svcConsts_1.SvcConsts.GRAPH_RESOURCE);
+                            tokenPromise.then(function (token) {
+                                var headers = new http_1.Headers();
+                                headers.append("Authorization", "Bearer " + token);
+                                _this.http.get(svcConsts_1.SvcConsts.GRAPH_RESOURCE + reqUrl, { headers: headers }).subscribe(function (res) {
+                                    if (res.status === 200) {
+                                        resolve(JSON.parse(res._body));
+                                    }
+                                    else {
+                                        reject("An error occurred calling the Microsoft Graph.");
+                                    }
+                                });
+                            });
+                        });
+                        return p;
                     };
                     this.tokenPromise = function (endpoint) {
                         var p = new Promise(function (resolve, reject) {
@@ -64,62 +59,29 @@ System.register(["angular2/core", "angular2/http", "../svcConsts/svcConsts"], fu
                         });
                         return p;
                     };
-                    this.getRequestPromise = function (reqUrl) {
-                        var p = new Promise(function (resolve, reject) {
-                            var tokenPromise = _this.tokenPromise(_this.config.endpoints.officeGraph);
-                            tokenPromise.then(function (token) {
-                                var headers = new http_1.Headers();
-                                headers.append("Authorization", "Bearer " + token);
-                                _this.http.get(_this.config.endpoints.officeGraph + reqUrl, { headers: headers }).subscribe(function (res) {
-                                    if (res.status === 200) {
-                                        resolve(JSON.parse(res._body));
-                                    }
-                                    else {
-                                        reject("An error occurred calling the Microsoft Graph.");
-                                    }
-                                });
-                            });
-                        });
-                        return p;
-                    };
                     this.http = http;
-                    this.authContext = new AuthenticationContext(this.config);
-                    this.handleLogInCallBack();
+                    var id_token = window.localStorage.getItem("id_token");
+                    if (id_token != null) {
+                        this.getAccessToken();
+                    }
                 }
                 Object.defineProperty(AuthHelper.prototype, "isUserAuthenticated", {
                     get: function () {
-                        return !!this.currentUser;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-                Object.defineProperty(AuthHelper.prototype, "currentUserName", {
-                    get: function () {
-                        return this.isUserAuthenticated ? this.currentUser.profile.name : "";
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-                Object.defineProperty(AuthHelper.prototype, "userPropr", {
-                    get: function () {
-                        var userProps = new Array();
-                        for (var property in this.currentUser.profile) {
-                            if (this.currentUser.profile.hasOwnProperty(property)) {
-                                userProps.push({ propertyName: property, value: this.currentUser.profile[property] });
-                            }
-                        }
-                        return userProps;
+                        var id_token = window.localStorage.getItem("id_token");
+                        return id_token != null;
                     },
                     enumerable: true,
                     configurable: true
                 });
                 AuthHelper.prototype.logIn = function () {
-                    this.authContext.login();
-                };
-                AuthHelper.prototype.logOut = function () {
-                    this.authContext.logOut();
+                    var loginUrl = "https://login.microsoftonline.com/" + svcConsts_1.SvcConsts.TENTANT_ID +
+                        "/oauth2/authorize?response_type=id_token&client_id=" + svcConsts_1.SvcConsts.CLIENT_ID +
+                        "&redirect_uri=" + encodeURIComponent(svcConsts_1.SvcConsts.REDIRECT_URL) +
+                        "&state=SomeState&nonce=SomeNonce";
+                    this.openAuth(loginUrl);
                 };
                 AuthHelper.prototype.openAuth = function (authUrl) {
+                    var _this = this;
                     var authWindow = new BrowserWindow({
                         width: 800,
                         height: 600,
@@ -128,35 +90,31 @@ System.register(["angular2/core", "angular2/http", "../svcConsts/svcConsts"], fu
                         webPreferences: {
                             nodeIntegration: false
                         } });
-                    authWindow.loadURL(authUrl);
-                    authWindow.show();
                     authWindow.webContents.on("did-get-redirect-request", function (event, oldUrl, newUrl) {
                         console.log("ID Token - did-get-redirect-request: " + newUrl);
                         authWindow.destroy();
-                        handleCallback(newUrl);
-                    });
-                    authWindow.on("close", function () {
-                        authWindow = null;
-                    });
-                    function handleCallback(url) {
-                        var authContextHelper = new AuthenticationContext(null);
-                        var resultURL = new URL(url);
-                        var requestInfo = authContextHelper.getRequestInfo(resultURL.hash);
-                        if (requestInfo.parameters.id_token) {
-                            window.localStorage.setItem("id_token", requestInfo.parameters.id_token);
-                            authContextHelper.saveTokenFromHash(requestInfo);
+                        var tokenURL = new URL(newUrl);
+                        var params = _this.parseQueryString(tokenURL.hash);
+                        if (params.id_token != null) {
+                            window.localStorage.setItem("id_token", params.id_token);
                         }
                         else {
                             window.localStorage.removeItem("id_token");
                         }
                         remote.getCurrentWindow().reload();
-                    }
+                    });
+                    authWindow.on("close", function () {
+                        authWindow = null;
+                    });
+                    authWindow.loadURL(authUrl);
+                    authWindow.show();
                 };
                 AuthHelper.prototype.getAccessToken = function () {
+                    var _this = this;
                     var accessUrl = "https://login.microsoftonline.com/" + svcConsts_1.SvcConsts.TENTANT_ID +
                         "/oauth2/authorize?response_type=token&client_id=" + svcConsts_1.SvcConsts.CLIENT_ID +
                         "&resource=" + svcConsts_1.SvcConsts.GRAPH_RESOURCE +
-                        "&redirect_uri=" + encodeURIComponent(this.config.redirectUri) +
+                        "&redirect_uri=" + encodeURIComponent(svcConsts_1.SvcConsts.REDIRECT_URL) +
                         "&prompt=none&state=SomeState&nonce=SomeNonce";
                     var accessWindow = new BrowserWindow({
                         width: 800,
@@ -169,22 +127,27 @@ System.register(["angular2/core", "angular2/http", "../svcConsts/svcConsts"], fu
                     accessWindow.webContents.on("did-get-redirect-request", function (event, oldUrl, newUrl) {
                         console.log("Access Token - did-get-redirect-request: " + newUrl);
                         accessWindow.destroy();
-                        handleCallback(newUrl);
-                    });
-                    accessWindow.loadURL(accessUrl);
-                    accessWindow.show();
-                    function handleCallback(url) {
-                        var authContextHelper = new AuthenticationContext(null);
-                        var resultURL = new URL(url);
-                        var requestInfo = authContextHelper.getRequestInfo(resultURL.hash);
-                        if (requestInfo.parameters.access_token) {
-                            window.localStorage.setItem("access_token", requestInfo.parameters.access_token);
-                            authContextHelper.saveTokenFromHash(requestInfo);
+                        var tokenURL = new URL(newUrl);
+                        var params = _this.parseQueryString(tokenURL.hash);
+                        if (params.access_token != null) {
+                            window.localStorage.setItem("access_token", params.access_token);
                         }
                         else {
                             window.localStorage.removeItem("access_token");
                         }
+                    });
+                    accessWindow.on("close", function () {
+                        accessWindow = null;
+                    });
+                    accessWindow.loadURL(accessUrl);
+                    accessWindow.show();
+                };
+                AuthHelper.prototype.parseQueryString = function (url) {
+                    var params = {}, queryString = url.substring(1), regex = /([^&=]+)=([^&]*)/g, m;
+                    while (m = regex.exec(queryString)) {
+                        params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
                     }
+                    return params;
                 };
                 AuthHelper = __decorate([
                     core_1.Injectable(), 
