@@ -1,31 +1,60 @@
 <html>
-    <head>
-      <meta charset="UTF-8">
-      <title>Office 365 Desktop Experience</title>
-      <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-    </head>
-    <body>
 
-      <div class="container">
-        <h1>Office 365 Desktop Experience</h1>
-        <files-app></files-app>
-      </div>
+<head>
+    <meta charset="UTF-8">
+    <title>Office 365 Desktop Experience</title>
+    <!-- Material Design -->
+    <link rel="stylesheet" href="../node_modules/material-design-lite/dist/material.blue-red.min.css" />    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="../node_modules/material-design-icons/sprites/css-sprite/sprite-av-black.css" rel="stylesheet">
+    <script src="../node_modules/material-design-lite/dist/material.min.js"></script>
+</head>
 
-    <!-- Bootstrap stuff -->
-    <!--<script src="../node_modules/jquery/dist/jquery.min.js"></script>-->
-	<link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css" />
-	
-	<!-- Angular2 stuff -->	
+<body>
+
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <header class="mdl-layout__header">
+            <div class="mdl-layout__header-row">
+                <!-- Title -->
+                <span class="mdl-layout-title">Office 365 Desktop Experience</span>
+                <!-- Add spacer, to align navigation to the right -->
+                <div class="mdl-layout-spacer"></div>
+                <!-- Navigation. We hide it in small screens. -->
+                <nav class="mdl-navigation mdl-layout--large-screen-only">
+                    <a class="mdl-navigation__link" href="">Files</a>
+                    <a class="mdl-navigation__link" href="">Mails</a>
+                    <a class="mdl-navigation__link" href="">Groups</a>
+                    <a class="mdl-navigation__link" href="">Contacts</a>
+                </nav>
+            </div>
+        </header>
+        <div class="mdl-layout__drawer">
+            <span class="mdl-layout-title">Title</span>
+            <nav class="mdl-navigation">
+                <a class="mdl-navigation__link" href="">Files</a>
+                <a class="mdl-navigation__link" href="">Mails</a>
+                <a class="mdl-navigation__link" href="">Groups</a>
+                <a class="mdl-navigation__link" href="">Contacts</a>
+            </nav>
+        </div>
+        <main class="mdl-layout__content">
+            <div class="page-content" style="margin: 15px;">
+                <files-app></files-app>
+            </div>
+        </main>
+    </div>
+
+    <!-- Angular2 -->
     <script src="../node_modules/systemjs/dist/system.src.js"></script>
-	<script src="../node_modules/angular2/bundles/angular2-polyfills.js"></script>
-	<script src="../node_modules/rxjs/bundles/Rx.js"></script>
-	<script src="../node_modules/angular2/bundles/angular2.dev.js"></script>
-	<script src="../node_modules/angular2/bundles/router.dev.js"></script>
-	<script src="../node_modules/angular2/bundles/http.dev.js"></script>
+    <script src="../node_modules/angular2/bundles/angular2-polyfills.js"></script>
+    <script src="../node_modules/rxjs/bundles/Rx.js"></script>
+    <script src="../node_modules/angular2/bundles/angular2.dev.js"></script>
+    <script src="../node_modules/angular2/bundles/router.dev.js"></script>
+    <script src="../node_modules/angular2/bundles/http.dev.js"></script>
     <script src="./assets/adal.js"></script>
-        
-	<script type="text/javascript">
-		System.config({
+
+    <script type="text/javascript">
+        System.config({
 			packages: {
 				"app": {
 					format: "register",
@@ -50,6 +79,7 @@
 			}
 		});
 		System.import("app/app").then(null, console.error.bind(console));
-	</script>
-    </body> 
-  </html>
+    </script>
+</body>
+
+</html>

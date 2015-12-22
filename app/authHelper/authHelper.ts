@@ -114,7 +114,7 @@ export class AuthHelper {
                             width: 800,
                             height: 600,
                             show: false,
-                            frame: true,
+                            frame: false,
                             webPreferences: {
                                 nodeIntegration: false
                             } });

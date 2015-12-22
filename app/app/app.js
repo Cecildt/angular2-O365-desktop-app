@@ -37,6 +37,7 @@ System.register(["angular2/core", "angular2/platform/browser", "angular2/router"
             App = (function () {
                 function App(router, auth) {
                     if (auth.isUserAuthenticated) {
+                        this.userName = "Welcome " + auth.currentUserName;
                         router.navigate(["/Files"]);
                     }
                     else {
@@ -46,7 +47,7 @@ System.register(["angular2/core", "angular2/platform/browser", "angular2/router"
                 App = __decorate([
                     core_1.Component({
                         selector: "files-app",
-                        template: "<router-outlet></router-outlet>",
+                        template: "<strong>{{userName}}</strong><router-outlet></router-outlet>",
                         directives: [router_1.ROUTER_DIRECTIVES]
                     }),
                     router_1.RouteConfig([

@@ -1,18 +1,20 @@
-<table class="table table-striped table-hover">
+<h3>My Files</h3>
+<table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
 	<thead>
 		<tr>
-			<th>Type</th>
-			<th>Name</th>
+			<th class="mdl-data-table__cell--non-numeric">Type</th>
+			<th class="mdl-data-table__cell--non-numeric">Name</th>
 			<th>Size</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr *ngFor="#file of files">
-			<td>
+			<td></td>
+            <td class="mdl-data-table__cell--non-numeric">
 				<span *ngIf="file.file">File</span>
 				<span *ngIf="!file.file">Folder</span>
 			</td>
-			<td>{{file.name}}</td>
+			<td class="mdl-data-table__cell--non-numeric">{{file.name}}</td>
 			<td>{{file.size}}</td>
 		</tr>
 	</tbody>

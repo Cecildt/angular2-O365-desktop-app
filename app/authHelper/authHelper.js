@@ -124,7 +124,7 @@ System.register(["angular2/core", "angular2/http", "../svcConsts/svcConsts"], fu
                         width: 800,
                         height: 600,
                         show: false,
-                        frame: true,
+                        frame: false,
                         webPreferences: {
                             nodeIntegration: false
                         } });
