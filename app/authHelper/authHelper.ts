@@ -66,33 +66,34 @@ export class AuthHelper {
         } else if (isCallback && !logError) {
             window.location = this.authContext._getItem(this.authContext.CONSTANTS.STORAGE.LOGIN_REQUEST);
         }
-    }
+    };
 
     private tokenPromise = (endpoint: string): Promise<string> => {
-        var p = new Promise<string>((resolve, reject) => {
-            this.authContext.acquireToken(endpoint, function(error, token) {
-                if (error || !token) {
-                    alert("ADAL error occurred: " + error);
-                    return;
-                } else {
-                    resolve(token);
-                }
-            }).fail(function() {
-                console.log("fetching files from onedrive failed.");
-                alert("something went wrong! try refreshing the page.");
-            });
+        var p = new Promise<string>((resolve: Function, reject: Function) => {
+            var token = window.localStorage.getItem("access_token");
+            if (token && token !== "undefined") {
+                resolve(token);
+            } else {
+                this.getAccessToken();
+                reject();
+            }
         });
-        return p
-    }
+
+        return p;
+    };
 
     public getRequestPromise = (reqUrl: string): Promise<any> => {
-        var p = new Promise<any>((resolve, reject) => {
+        var p = new Promise<any>((resolve: Function, reject: Function) => {
             var tokenPromise = this.tokenPromise(this.config.endpoints.officeGraph);
             tokenPromise.then((token: string) => {
                 var headers = new Headers();
                 headers.append("Authorization", "Bearer " + token);
                 this.http.get(this.config.endpoints.officeGraph + reqUrl, { headers: headers }).subscribe((res: any) => {
-                    resolve(JSON.parse(res._body));
+                    if (res.status === 200) {
+                        resolve(JSON.parse(res._body));
+                    } else {
+                        reject("An error occurred calling the Microsoft Graph.");
+                    }
                 });
             });
         });
@@ -108,35 +109,85 @@ export class AuthHelper {
         this.authContext.logOut();
     }
 
-    private openAuth(authUrl: string){
+    private openAuth(authUrl: string) {
         var authWindow = new BrowserWindow({
-            width: 800,
-            height: 600,
-            show: false,
-            webPreferences: {
-                nodeIntegration: false
-            } });
+                            width: 800,
+                            height: 600,
+                            show: false,
+                            frame: true,
+                            webPreferences: {
+                                nodeIntegration: false
+                            } });
 
         authWindow.loadURL(authUrl);
         authWindow.show();
 
-        authWindow.webContents.on("will-navigate", (event, url) => {
-            // this.handleCallback(url);
-            console.log("will-navigate: " + url);
-            this.handleLogInCallBack();
+        authWindow.webContents.on("did-get-redirect-request", (event: any, oldUrl: string, newUrl: string) => {
+            console.log("ID Token - did-get-redirect-request: " + newUrl);
             authWindow.destroy();
-        });
-
-        authWindow.webContents.on("did-get-redirect-request", (event, oldUrl, newUrl) => {
-            // this.handleCallback(newUrl);
-            console.log("did-get-redirect-request: " + newUrl);
-            this.handleLogInCallBack();
-            authWindow.destroy();
+            handleCallback(newUrl);
         });
 
         // reset the authWindow on close
         authWindow.on("close", () => {
-            authWindow.destroy();
+            authWindow = null;
         });
+
+        function handleCallback(url: string){
+            var authContextHelper = new AuthenticationContext(null);
+            var resultURL = new URL(url);
+            var requestInfo = authContextHelper.getRequestInfo(resultURL.hash);
+
+            if (requestInfo.parameters.id_token) {
+                window.localStorage.setItem("id_token", requestInfo.parameters.id_token);
+                authContextHelper.saveTokenFromHash(requestInfo);
+            } else {
+                window.localStorage.removeItem("id_token");
+            }
+
+            remote.getCurrentWindow().reload();
+        }
     }
+
+    private getAccessToken() {
+		// redirect to get access_token
+		var accessUrl = "https://login.microsoftonline.com/" + SvcConsts.TENTANT_ID +
+			"/oauth2/authorize?response_type=token&client_id=" + SvcConsts.CLIENT_ID +
+			"&resource=" + SvcConsts.GRAPH_RESOURCE +
+			"&redirect_uri=" + encodeURIComponent(this.config.redirectUri) +
+			"&prompt=none&state=SomeState&nonce=SomeNonce";
+
+        var accessWindow = new BrowserWindow({
+                            width: 800,
+                            height: 600,
+                            show: false,
+                            frame: true,
+                            webPreferences: {
+                                nodeIntegration: false
+                            } });
+
+        accessWindow.webContents.on("did-get-redirect-request", (event: any, oldUrl: string, newUrl: string) => {
+            console.log("Access Token - did-get-redirect-request: " + newUrl);
+            accessWindow.destroy();
+            handleCallback(newUrl);
+        });
+
+        accessWindow.loadURL(accessUrl);
+        accessWindow.show();
+
+        function handleCallback(url: string){
+            var authContextHelper = new AuthenticationContext(null);
+            var resultURL = new URL(url);
+            var requestInfo = authContextHelper.getRequestInfo(resultURL.hash);
+
+            if (requestInfo.parameters.access_token) {
+                window.localStorage.setItem("access_token", requestInfo.parameters.access_token);
+                authContextHelper.saveTokenFromHash(requestInfo);
+            } else {
+                window.localStorage.removeItem("access_token");
+            }
+
+            //remote.getCurrentWindow().reload();
+        }
+	}
 }

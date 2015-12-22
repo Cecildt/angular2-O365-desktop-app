@@ -53,18 +53,14 @@ System.register(["angular2/core", "angular2/http", "../svcConsts/svcConsts"], fu
                     };
                     this.tokenPromise = function (endpoint) {
                         var p = new Promise(function (resolve, reject) {
-                            _this.authContext.acquireToken(endpoint, function (error, token) {
-                                if (error || !token) {
-                                    alert("ADAL error occurred: " + error);
-                                    return;
-                                }
-                                else {
-                                    resolve(token);
-                                }
-                            }).fail(function () {
-                                console.log("fetching files from onedrive failed.");
-                                alert("something went wrong! try refreshing the page.");
-                            });
+                            var token = window.localStorage.getItem("access_token");
+                            if (token && token !== "undefined") {
+                                resolve(token);
+                            }
+                            else {
+                                _this.getAccessToken();
+                                reject();
+                            }
                         });
                         return p;
                     };
@@ -75,7 +71,12 @@ System.register(["angular2/core", "angular2/http", "../svcConsts/svcConsts"], fu
                                 var headers = new http_1.Headers();
                                 headers.append("Authorization", "Bearer " + token);
                                 _this.http.get(_this.config.endpoints.officeGraph + reqUrl, { headers: headers }).subscribe(function (res) {
-                                    resolve(JSON.parse(res._body));
+                                    if (res.status === 200) {
+                                        resolve(JSON.parse(res._body));
+                                    }
+                                    else {
+                                        reject("An error occurred calling the Microsoft Graph.");
+                                    }
                                 });
                             });
                         });
@@ -119,29 +120,71 @@ System.register(["angular2/core", "angular2/http", "../svcConsts/svcConsts"], fu
                     this.authContext.logOut();
                 };
                 AuthHelper.prototype.openAuth = function (authUrl) {
-                    var _this = this;
                     var authWindow = new BrowserWindow({
                         width: 800,
                         height: 600,
                         show: false,
+                        frame: true,
                         webPreferences: {
                             nodeIntegration: false
                         } });
                     authWindow.loadURL(authUrl);
                     authWindow.show();
-                    authWindow.webContents.on("will-navigate", function (event, url) {
-                        console.log("will-navigate: " + url);
-                        _this.handleLogInCallBack();
-                        authWindow.destroy();
-                    });
                     authWindow.webContents.on("did-get-redirect-request", function (event, oldUrl, newUrl) {
-                        console.log("did-get-redirect-request: " + newUrl);
-                        _this.handleLogInCallBack();
+                        console.log("ID Token - did-get-redirect-request: " + newUrl);
                         authWindow.destroy();
+                        handleCallback(newUrl);
                     });
                     authWindow.on("close", function () {
-                        authWindow.destroy();
+                        authWindow = null;
                     });
+                    function handleCallback(url) {
+                        var authContextHelper = new AuthenticationContext(null);
+                        var resultURL = new URL(url);
+                        var requestInfo = authContextHelper.getRequestInfo(resultURL.hash);
+                        if (requestInfo.parameters.id_token) {
+                            window.localStorage.setItem("id_token", requestInfo.parameters.id_token);
+                            authContextHelper.saveTokenFromHash(requestInfo);
+                        }
+                        else {
+                            window.localStorage.removeItem("id_token");
+                        }
+                        remote.getCurrentWindow().reload();
+                    }
+                };
+                AuthHelper.prototype.getAccessToken = function () {
+                    var accessUrl = "https://login.microsoftonline.com/" + svcConsts_1.SvcConsts.TENTANT_ID +
+                        "/oauth2/authorize?response_type=token&client_id=" + svcConsts_1.SvcConsts.CLIENT_ID +
+                        "&resource=" + svcConsts_1.SvcConsts.GRAPH_RESOURCE +
+                        "&redirect_uri=" + encodeURIComponent(this.config.redirectUri) +
+                        "&prompt=none&state=SomeState&nonce=SomeNonce";
+                    var accessWindow = new BrowserWindow({
+                        width: 800,
+                        height: 600,
+                        show: false,
+                        frame: true,
+                        webPreferences: {
+                            nodeIntegration: false
+                        } });
+                    accessWindow.webContents.on("did-get-redirect-request", function (event, oldUrl, newUrl) {
+                        console.log("Access Token - did-get-redirect-request: " + newUrl);
+                        accessWindow.destroy();
+                        handleCallback(newUrl);
+                    });
+                    accessWindow.loadURL(accessUrl);
+                    accessWindow.show();
+                    function handleCallback(url) {
+                        var authContextHelper = new AuthenticationContext(null);
+                        var resultURL = new URL(url);
+                        var requestInfo = authContextHelper.getRequestInfo(resultURL.hash);
+                        if (requestInfo.parameters.access_token) {
+                            window.localStorage.setItem("access_token", requestInfo.parameters.access_token);
+                            authContextHelper.saveTokenFromHash(requestInfo);
+                        }
+                        else {
+                            window.localStorage.removeItem("access_token");
+                        }
+                    }
                 };
                 AuthHelper = __decorate([
                     core_1.Injectable(), 

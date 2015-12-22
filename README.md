@@ -9,6 +9,10 @@ Desktop application using Electron, Angular 2 and Office 365.
 npm install
 `
 
+# Azure AD application Registration
+
+Set "oauth2AllowImplicitFlow": true in application manifest file.
+
 ## Resources
 
 * [Angular 2](https://angular.io/)

@@ -7,17 +7,17 @@ import { AuthHelper } from "../authHelper/authHelper";
 })
 
 @View({
-    templateUrl: "src/files/view-files.html"
+    templateUrl: "./files/view-files.html"
 })
 export class Files {
     private files = [];
     constructor(authHelper: AuthHelper) {
         // perform REST call into Microsoft Graph for files on OneDrive for Business
-        authHelper.getRequestPromise("/v1.0/me/drive/root/children").then((data) => {
-            if (data.status === 200) {
-                this.files = data.json().value;
+        authHelper.getRequestPromise("/v1.0/me/drive/root/children").then((data: any) => {
+            if (data) {
+                this.files = data.value;
             } else {
-                alert("An error occurred calling the Microsoft Graph: " + data.status);
+                alert("An error occurred calling the Microsoft Graph: " + data);
             }
         });
     }

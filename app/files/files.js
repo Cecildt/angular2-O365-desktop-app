@@ -24,11 +24,11 @@ System.register(["angular2/core", "../authHelper/authHelper"], function(exports_
                     var _this = this;
                     this.files = [];
                     authHelper.getRequestPromise("/v1.0/me/drive/root/children").then(function (data) {
-                        if (data.status === 200) {
-                            _this.files = data.json().value;
+                        if (data) {
+                            _this.files = data.value;
                         }
                         else {
-                            alert("An error occurred calling the Microsoft Graph: " + data.status);
+                            alert("An error occurred calling the Microsoft Graph: " + data);
                         }
                     });
                 }
@@ -37,7 +37,7 @@ System.register(["angular2/core", "../authHelper/authHelper"], function(exports_
                         selector: "files"
                     }),
                     core_1.View({
-                        templateUrl: "src/files/view-files.html"
+                        templateUrl: "./files/view-files.html"
                     }), 
                     __metadata('design:paramtypes', [authHelper_1.AuthHelper])
                 ], Files);
