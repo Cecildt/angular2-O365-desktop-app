@@ -1,5 +1,9 @@
 /// <reference path="../assets/github-electron.d.ts" />
 
+var electron = require("electron");
+var remote = electron.remote;
+var BrowserWindow = remote.BrowserWindow;
+
 import { Injectable } from "angular2/core";
 import { Http, Headers } from "angular2/http";
 import { SvcConsts } from "../svcConsts/svcConsts";
@@ -13,7 +17,8 @@ export class AuthHelper {
     private config: any = {
         tenant: SvcConsts.TENTANT_ID,
         clientId: SvcConsts.CLIENT_ID,
-        postLogoutRedirectUri: window.location.origin,
+        postLogoutRedirectUri: "http://localhost:8000",
+        redirectUri: "http://localhost:8000",
         endpoints: {
             officeGraph: SvcConsts.GRAPH_RESOURCE
         },
@@ -104,30 +109,34 @@ export class AuthHelper {
     }
 
     private openAuth(authUrl: string){
-        var authWindow = new GitHubElectron.BrowserWindow({
+        var authWindow = new BrowserWindow({
             width: 800,
             height: 600,
             show: false,
-            node-integration: false });
+            webPreferences: {
+                nodeIntegration: false
+            } });
 
-        authWindow.loadUrl(authUrl);
+        authWindow.loadURL(authUrl);
         authWindow.show();
 
-        authWindow.webContents.on('will-navigate', function (event, url) {
+        authWindow.webContents.on("will-navigate", (event, url) => {
             // this.handleCallback(url);
             console.log("will-navigate: " + url);
+            this.handleLogInCallBack();
             authWindow.destroy();
         });
 
-        authWindow.webContents.on('did-get-redirect-request', function (event, oldUrl, newUrl) {
+        authWindow.webContents.on("did-get-redirect-request", (event, oldUrl, newUrl) => {
             // this.handleCallback(newUrl);
             console.log("did-get-redirect-request: " + newUrl);
+            this.handleLogInCallBack();
             authWindow.destroy();
         });
 
         // reset the authWindow on close
-        authWindow.on('close', function() {
-            authWindow = null;
-        }, false);
+        authWindow.on("close", () => {
+            authWindow.destroy();
+        });
     }
 }

@@ -503,7 +503,6 @@ declare module GitHubElectron {
 		subpixelFontScaling?: boolean;
 		overlayFullscreenVideo?: boolean;
 		titleBarStyle?: string;
-        node-integration?: boolean;
 	}
 
 	interface Rectangle {

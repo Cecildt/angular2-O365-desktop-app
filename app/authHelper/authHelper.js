@@ -9,7 +9,7 @@ System.register(["angular2/core", "angular2/http", "../svcConsts/svcConsts"], fu
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, http_1, svcConsts_1;
-    var AuthHelper;
+    var electron, remote, BrowserWindow, AuthHelper;
     return {
         setters:[
             function (core_1_1) {
@@ -22,13 +22,17 @@ System.register(["angular2/core", "angular2/http", "../svcConsts/svcConsts"], fu
                 svcConsts_1 = svcConsts_1_1;
             }],
         execute: function() {
+            electron = require("electron");
+            remote = electron.remote;
+            BrowserWindow = remote.BrowserWindow;
             AuthHelper = (function () {
                 function AuthHelper(http) {
                     var _this = this;
                     this.config = {
                         tenant: svcConsts_1.SvcConsts.TENTANT_ID,
                         clientId: svcConsts_1.SvcConsts.CLIENT_ID,
-                        postLogoutRedirectUri: window.location.origin,
+                        postLogoutRedirectUri: "http://localhost:8000",
+                        redirectUri: "http://localhost:8000",
                         endpoints: {
                             officeGraph: svcConsts_1.SvcConsts.GRAPH_RESOURCE
                         },
@@ -115,24 +119,29 @@ System.register(["angular2/core", "angular2/http", "../svcConsts/svcConsts"], fu
                     this.authContext.logOut();
                 };
                 AuthHelper.prototype.openAuth = function (authUrl) {
-                    var authWindow = new GitHubElectron.BrowserWindow({
+                    var _this = this;
+                    var authWindow = new BrowserWindow({
                         width: 800,
                         height: 600,
                         show: false,
-                        node: -integration, false:  });
-                    authWindow.loadUrl(authUrl);
+                        webPreferences: {
+                            nodeIntegration: false
+                        } });
+                    authWindow.loadURL(authUrl);
                     authWindow.show();
-                    authWindow.webContents.on('will-navigate', function (event, url) {
+                    authWindow.webContents.on("will-navigate", function (event, url) {
                         console.log("will-navigate: " + url);
+                        _this.handleLogInCallBack();
                         authWindow.destroy();
                     });
-                    authWindow.webContents.on('did-get-redirect-request', function (event, oldUrl, newUrl) {
+                    authWindow.webContents.on("did-get-redirect-request", function (event, oldUrl, newUrl) {
                         console.log("did-get-redirect-request: " + newUrl);
+                        _this.handleLogInCallBack();
                         authWindow.destroy();
                     });
-                    authWindow.on('close', function () {
-                        authWindow = null;
-                    }, false);
+                    authWindow.on("close", function () {
+                        authWindow.destroy();
+                    });
                 };
                 AuthHelper = __decorate([
                     core_1.Injectable(), 
