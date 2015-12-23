@@ -34,7 +34,7 @@ System.register(["angular2/core", "../authHelper/authHelper"], function(exports_
                 }
                 Mails = __decorate([
                     core_1.Component({
-                        selector: "app-user",
+                        selector: "my-mails",
                         templateUrl: "./mails/view-mails.html",
                     }), 
                     __metadata('design:paramtypes', [authHelper_1.AuthHelper])

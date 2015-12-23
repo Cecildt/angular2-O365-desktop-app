@@ -2,16 +2,16 @@ import { Component } from "angular2/core";
 import { AuthHelper } from "../authHelper/authHelper";
 
 @Component({
-    selector: "app-user",
-    template: "<p>Trending</p>",
+    selector: "my-trending",
+    templateUrl: "./trending/view-trending.html",
 })
 export class Trending {
-    private displayName: string = "";
+    private files = [];
 
     constructor(authHelper: AuthHelper) {
-        authHelper.getRequestPromise("/v1.0/me/").then((data: any) => {
+        authHelper.getRequestPromise("/beta/me/trendingAround").then((data: any) => {
             if (data) {
-                this.displayName = data.displayName;
+                this.files = data.value;
             } else {
                 alert("An error occurred calling the Microsoft Graph: " + data);
             }

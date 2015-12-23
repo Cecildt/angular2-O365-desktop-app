@@ -34,7 +34,7 @@ System.register(["angular2/core", "../authHelper/authHelper"], function(exports_
                 }
                 Users = __decorate([
                     core_1.Component({
-                        selector: "app-user",
+                        selector: "my-users",
                         templateUrl: "./users/view-users.html",
                     }), 
                     __metadata('design:paramtypes', [authHelper_1.AuthHelper])

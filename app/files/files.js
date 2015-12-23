@@ -34,7 +34,7 @@ System.register(["angular2/core", "../authHelper/authHelper"], function(exports_
                 }
                 Files = __decorate([
                     core_1.Component({
-                        selector: "files",
+                        selector: "my-files",
                         templateUrl: "./files/view-files.html"
                     }), 
                     __metadata('design:paramtypes', [authHelper_1.AuthHelper])

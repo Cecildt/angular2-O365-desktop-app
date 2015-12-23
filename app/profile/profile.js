@@ -43,7 +43,7 @@ System.register(["angular2/core", "../authHelper/authHelper"], function(exports_
                 }
                 Profile = __decorate([
                     core_1.Component({
-                        selector: "app-user",
+                        selector: "my-profile",
                         template: "<img src='{{photo}}' width='80' height='80' /><strong>Welcome {{displayName}}</strong>",
                     }), 
                     __metadata('design:paramtypes', [authHelper_1.AuthHelper])

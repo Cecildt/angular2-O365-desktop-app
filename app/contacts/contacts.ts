@@ -2,7 +2,7 @@ import { Component } from "angular2/core";
 import { AuthHelper } from "../authHelper/authHelper";
 
 @Component({
-    selector: "app-user",
+    selector: "my-contacts",
     templateUrl: "./contacts/view-contacts.html",
 })
 export class Contacts {

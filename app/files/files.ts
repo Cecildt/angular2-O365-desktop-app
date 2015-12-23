@@ -3,7 +3,7 @@ import { Component } from "angular2/core";
 import { AuthHelper } from "../authHelper/authHelper";
 
 @Component({
-    selector: "files",
+    selector: "my-files",
     templateUrl: "./files/view-files.html"
 })
 

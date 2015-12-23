@@ -2,7 +2,7 @@ import { Component, View } from "angular2/core";
 import { AuthHelper } from "../authHelper/authHelper";
 
 @Component({
-	selector: "login"
+	selector: "my-login"
 })
 
 @View({

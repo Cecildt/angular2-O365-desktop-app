@@ -2,7 +2,7 @@ import { Component } from "angular2/core";
 import { AuthHelper } from "../authHelper/authHelper";
 
 @Component({
-    selector: "app-user",
+    selector: "my-notes",
     templateUrl: "./notes/view-notes.html",
 })
 export class Notes {

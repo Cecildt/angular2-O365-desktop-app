@@ -28,7 +28,7 @@ System.register(["angular2/core", "../authHelper/authHelper"], function(exports_
                 };
                 Login = __decorate([
                     core_1.Component({
-                        selector: "login"
+                        selector: "my-login"
                     }),
                     core_1.View({
                         templateUrl: "./login/view-login.html"

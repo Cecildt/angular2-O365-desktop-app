@@ -142,7 +142,7 @@ export class AuthHelper {
                             width: 800,
                             height: 600,
                             show: false,
-                            frame: true,
+                            frame: false,
                             webPreferences: {
                                 nodeIntegration: false
                             } });
@@ -166,7 +166,7 @@ export class AuthHelper {
         });
 
         accessWindow.loadURL(accessUrl);
-        accessWindow.show();
+        //accessWindow.show();
 	}
 
     private parseQueryString(url: string) {

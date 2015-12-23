@@ -2,7 +2,7 @@ import { Component } from "angular2/core";
 import { AuthHelper } from "../authHelper/authHelper";
 
 @Component({
-    selector: "app-user",
+    selector: "my-profile",
     template: "<img src='{{photo}}' width='80' height='80' /><strong>Welcome {{displayName}}</strong>",
 })
 export class Profile {
