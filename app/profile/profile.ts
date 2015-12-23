@@ -5,7 +5,7 @@ import { AuthHelper } from "../authHelper/authHelper";
     selector: "app-user",
     template: "<img src='{{photo}}' width='80' height='80' /><strong>Welcome {{displayName}}</strong>",
 })
-export class User {
+export class Profile {
     private displayName: string = "";
     private photo: string = "";
 

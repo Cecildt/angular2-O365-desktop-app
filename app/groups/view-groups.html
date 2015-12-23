@@ -1,0 +1,23 @@
+<h3>My Groups</h3>
+<table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+	<thead>
+		<tr>
+			<th class="mdl-data-table__cell--non-numeric">Type</th>
+			<th class="mdl-data-table__cell--non-numeric">Name</th>
+			<th>Size</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="#file of files">
+			<td></td>
+            <td class="mdl-data-table__cell--non-numeric">
+				<span *ngIf="file.file">File</span>
+				<span *ngIf="!file.file">Folder</span>
+			</td>
+			<td class="mdl-data-table__cell--non-numeric">
+                <a href={{file.webUrl}} target="_blank">{{file.name}}</a>
+            </td>
+			<td>{{file.size}}</td>
+		</tr>
+	</tbody>
+</table>

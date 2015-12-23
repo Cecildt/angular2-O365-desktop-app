@@ -14,18 +14,19 @@ import "rxjs/Rx";
 import { Login } from "../login/login";
 import { Files } from "../files/files";
 import { AuthHelper } from "../authHelper/authHelper";
-import { User } from "../user/user";
+import { Profile } from "../profile/profile";
 import { Contacts } from "../contacts/contacts";
 import { Groups } from "../groups/groups";
 import { Mails } from "../mails/mails";
 import { Notes } from "../notes/notes";
 import { Tasks } from "../tasks/tasks";
 import { Trending } from "../trending/trending";
+import { Users } from "../users/users";
 
 @Component({
     selector: "graph-app",
     templateUrl: "./app/view-main.html",
-    directives: [ROUTER_DIRECTIVES, User]
+    directives: [ROUTER_DIRECTIVES, Profile]
 })
 
 // configure the routes for the app
@@ -38,7 +39,8 @@ import { Trending } from "../trending/trending";
     { name: "Mails", component: Mails, path: "/mails" },
     { name: "Notes", component: Notes, path: "/notes" },
     { name: "Tasks", component: Tasks, path: "/tasks" },
-    { name: "Trending", component: Trending, path: "/trending" }
+    { name: "Trending", component: Trending, path: "/trending" },
+    { name: "Users", component: Users, path: "/users" },
 ])
 
 export class App {

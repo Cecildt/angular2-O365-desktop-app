@@ -9,7 +9,7 @@ System.register(["angular2/core", "../authHelper/authHelper"], function(exports_
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, authHelper_1;
-    var Contacts;
+    var Users;
     return {
         setters:[
             function (core_1_1) {
@@ -19,30 +19,30 @@ System.register(["angular2/core", "../authHelper/authHelper"], function(exports_
                 authHelper_1 = authHelper_1_1;
             }],
         execute: function() {
-            Contacts = (function () {
-                function Contacts(authHelper) {
+            Users = (function () {
+                function Users(authHelper) {
                     var _this = this;
-                    this.contacts = [];
+                    this.displayName = "";
                     authHelper.getRequestPromise("/v1.0/me/contacts").then(function (data) {
                         if (data) {
-                            _this.contacts = data.value;
+                            _this.displayName = data.displayName;
                         }
                         else {
                             alert("An error occurred calling the Microsoft Graph: " + data);
                         }
                     });
                 }
-                Contacts = __decorate([
+                Users = __decorate([
                     core_1.Component({
                         selector: "app-user",
-                        templateUrl: "./contacts/view-contacts.html",
+                        templateUrl: "./users/view-users.html",
                     }), 
                     __metadata('design:paramtypes', [authHelper_1.AuthHelper])
-                ], Contacts);
-                return Contacts;
+                ], Users);
+                return Users;
             })();
-            exports_1("Contacts", Contacts);
+            exports_1("Users", Users);
         }
     }
 });
-//# sourceMappingURL=contacts.js.map
+//# sourceMappingURL=users.js.map

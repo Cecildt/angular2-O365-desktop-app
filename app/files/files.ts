@@ -9,6 +9,7 @@ import { AuthHelper } from "../authHelper/authHelper";
 
 export class Files {
     private files = [];
+
     constructor(authHelper: AuthHelper) {
         // perform REST call into Microsoft Graph for files on OneDrive for Business
         authHelper.getRequestPromise("/v1.0/me/drive/root/children").then((data: any) => {

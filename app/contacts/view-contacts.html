@@ -1,0 +1,21 @@
+<h3>My Contacts</h3>
+<table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+	<thead>
+		<tr>
+            <th></th>
+			<th class="mdl-data-table__cell--non-numeric">Display Name</th>
+			<th class="mdl-data-table__cell--non-numeric">Email</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="#contact of contacts">
+			<td></td>
+            <td class="mdl-data-table__cell--non-numeric">
+				{{contact.displayName}}>
+			</td>
+			<td class="mdl-data-table__cell--non-numeric">
+                {{contact.emailAddresses[0].address}}
+            </td>
+		</tr>
+	</tbody>
+</table>

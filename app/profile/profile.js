@@ -9,7 +9,7 @@ System.register(["angular2/core", "../authHelper/authHelper"], function(exports_
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, authHelper_1;
-    var User;
+    var Profile;
     return {
         setters:[
             function (core_1_1) {
@@ -19,8 +19,8 @@ System.register(["angular2/core", "../authHelper/authHelper"], function(exports_
                 authHelper_1 = authHelper_1_1;
             }],
         execute: function() {
-            User = (function () {
-                function User(authHelper) {
+            Profile = (function () {
+                function Profile(authHelper) {
                     var _this = this;
                     this.displayName = "";
                     this.photo = "";
@@ -41,17 +41,17 @@ System.register(["angular2/core", "../authHelper/authHelper"], function(exports_
                         }
                     });
                 }
-                User = __decorate([
+                Profile = __decorate([
                     core_1.Component({
                         selector: "app-user",
                         template: "<img src='{{photo}}' width='80' height='80' /><strong>Welcome {{displayName}}</strong>",
                     }), 
                     __metadata('design:paramtypes', [authHelper_1.AuthHelper])
-                ], User);
-                return User;
+                ], Profile);
+                return Profile;
             })();
-            exports_1("User", User);
+            exports_1("Profile", Profile);
         }
     }
 });
-//# sourceMappingURL=user.js.map
+//# sourceMappingURL=profile.js.map
