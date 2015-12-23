@@ -52,6 +52,7 @@ To package files for deployment:
 
 ## TODO
 
+* Set Electron top menu options.
 * Improve error handling.
 * Implement better design for each section.
 * Manual refresh button for user.

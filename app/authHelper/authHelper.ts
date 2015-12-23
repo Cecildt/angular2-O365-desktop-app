@@ -166,7 +166,6 @@ export class AuthHelper {
         });
 
         accessWindow.loadURL(accessUrl);
-        //accessWindow.show();
 	}
 
     private parseQueryString(url: string) {
