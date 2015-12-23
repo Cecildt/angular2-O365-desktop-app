@@ -1,5 +1,6 @@
 import { Component } from "angular2/core";
 import { Profile } from "../profile/profile";
+import { AuthHelper } from "../authHelper/authHelper";
 
 @Component({
     selector: "my-home",
@@ -7,11 +8,13 @@ import { Profile } from "../profile/profile";
     directives: [Profile]
 })
 export class Home {
+    private authHelper:AuthHelper;
+
+    constructor(auth: AuthHelper) {
+		this.authHelper = auth;
+	}
 
     public signOut() {
-        window.localStorage.removeItem("id_token");
-        window.localStorage.removeItem("access_token");
-
-        window.location.reload();
+        this.authHelper.logOut();
     }
 }

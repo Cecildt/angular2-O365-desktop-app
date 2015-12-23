@@ -1,4 +1,4 @@
-System.register(["angular2/core", "../profile/profile"], function(exports_1) {
+System.register(["angular2/core", "../profile/profile", "../authHelper/authHelper"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +8,7 @@ System.register(["angular2/core", "../profile/profile"], function(exports_1) {
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, profile_1;
+    var core_1, profile_1, authHelper_1;
     var Home;
     return {
         setters:[
@@ -17,15 +17,17 @@ System.register(["angular2/core", "../profile/profile"], function(exports_1) {
             },
             function (profile_1_1) {
                 profile_1 = profile_1_1;
+            },
+            function (authHelper_1_1) {
+                authHelper_1 = authHelper_1_1;
             }],
         execute: function() {
             Home = (function () {
-                function Home() {
+                function Home(auth) {
+                    this.authHelper = auth;
                 }
                 Home.prototype.signOut = function () {
-                    window.localStorage.removeItem("id_token");
-                    window.localStorage.removeItem("access_token");
-                    window.location.reload();
+                    this.authHelper.logOut();
                 };
                 Home = __decorate([
                     core_1.Component({
@@ -33,7 +35,7 @@ System.register(["angular2/core", "../profile/profile"], function(exports_1) {
                         templateUrl: "./home/view-home.html",
                         directives: [profile_1.Profile]
                     }), 
-                    __metadata('design:paramtypes', [])
+                    __metadata('design:paramtypes', [authHelper_1.AuthHelper])
                 ], Home);
                 return Home;
             })();

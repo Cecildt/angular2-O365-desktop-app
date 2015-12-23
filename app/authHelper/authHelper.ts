@@ -83,6 +83,36 @@ export class AuthHelper {
        this.openAuth(loginUrl);
     }
 
+    public logOut() {
+        let logoutUrl = "https://login.microsoftonline.com/common/oauth2/logout?post_logout_redirect_uri="
+                         + encodeURIComponent(SvcConsts.REDIRECT_URL);
+
+        let logOutWindow = new BrowserWindow({
+                            width: 800,
+                            height: 600,
+                            show: false,
+                            frame: false,
+                            webPreferences: {
+                                nodeIntegration: false
+                            } });
+
+        logOutWindow.webContents.on("did-finish-load", (event: any, oldUrl: string, newUrl: string) => {
+            window.localStorage.removeItem("id_token");
+            window.localStorage.removeItem("access_token");
+
+            logOutWindow.destroy();
+
+            remote.getCurrentWindow().reload();
+        });
+
+        // reset the accessWindow on close
+        logOutWindow.on("closed", () => {
+            logOutWindow = null;
+        });
+
+        logOutWindow.loadURL(logoutUrl);
+    }
+
     private tokenPromise = (endpoint: string): Promise<string> => {
         let p = new Promise<string>((resolve: Function, reject: Function) => {
             var token = window.localStorage.getItem("access_token");
@@ -122,7 +152,7 @@ export class AuthHelper {
         });
 
         // reset the authWindow on close
-        authWindow.on("close", () => {
+        authWindow.on("closed", () => {
             authWindow = null;
         });
 
@@ -167,7 +197,7 @@ export class AuthHelper {
         });
 
         // reset the accessWindow on close
-        accessWindow.on("close", () => {
+        accessWindow.on("closed", () => {
             accessWindow = null;
         });
 

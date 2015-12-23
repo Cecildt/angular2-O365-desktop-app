@@ -100,6 +100,28 @@ System.register(["angular2/core", "angular2/http", "../svcConsts/svcConsts"], fu
                         "&state=SomeState&nonce=SomeNonce";
                     this.openAuth(loginUrl);
                 };
+                AuthHelper.prototype.logOut = function () {
+                    var logoutUrl = "https://login.microsoftonline.com/common/oauth2/logout?post_logout_redirect_uri="
+                        + encodeURIComponent(svcConsts_1.SvcConsts.REDIRECT_URL);
+                    var logOutWindow = new BrowserWindow({
+                        width: 800,
+                        height: 600,
+                        show: false,
+                        frame: false,
+                        webPreferences: {
+                            nodeIntegration: false
+                        } });
+                    logOutWindow.webContents.on("did-finish-load", function (event, oldUrl, newUrl) {
+                        window.localStorage.removeItem("id_token");
+                        window.localStorage.removeItem("access_token");
+                        logOutWindow.destroy();
+                        remote.getCurrentWindow().reload();
+                    });
+                    logOutWindow.on("closed", function () {
+                        logOutWindow = null;
+                    });
+                    logOutWindow.loadURL(logoutUrl);
+                };
                 AuthHelper.prototype.openAuth = function (authUrl) {
                     var _this = this;
                     var authWindow = new BrowserWindow({
@@ -122,7 +144,7 @@ System.register(["angular2/core", "angular2/http", "../svcConsts/svcConsts"], fu
                         }
                         remote.getCurrentWindow().reload();
                     });
-                    authWindow.on("close", function () {
+                    authWindow.on("closed", function () {
                         authWindow = null;
                     });
                     authWindow.loadURL(authUrl);
@@ -158,7 +180,7 @@ System.register(["angular2/core", "angular2/http", "../svcConsts/svcConsts"], fu
                             window.localStorage.removeItem("access_token");
                         }
                     });
-                    accessWindow.on("close", function () {
+                    accessWindow.on("closed", function () {
                         accessWindow = null;
                     });
                     accessWindow.loadURL(accessUrl);
