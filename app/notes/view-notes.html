@@ -2,22 +2,23 @@
 <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
 	<thead>
 		<tr>
-			<th class="mdl-data-table__cell--non-numeric">Type</th>
 			<th class="mdl-data-table__cell--non-numeric">Name</th>
-			<th>Size</th>
+			<th class="mdl-data-table__cell--non-numeric">Last Modified By</th>
+			<th class="mdl-data-table__cell--non-numeric">Last Modified Date</th>
 		</tr>
 	</thead>
 	<tbody>
-		<tr *ngFor="#file of files">
+		<tr *ngFor="#book of books">
 			<td></td>
             <td class="mdl-data-table__cell--non-numeric">
-				<span *ngIf="file.file">File</span>
-				<span *ngIf="!file.file">Folder</span>
+				{{book.name}}
 			</td>
 			<td class="mdl-data-table__cell--non-numeric">
-                <a href={{file.webUrl}} target="_blank">{{file.name}}</a>
+                {{book.lastModifiedBy}}
             </td>
-			<td>{{file.size}}</td>
+			<td class="mdl-data-table__cell--non-numeric">
+                {{book.lastModifiedTime}}
+            </td>
 		</tr>
 	</tbody>
 </table>

@@ -22,10 +22,10 @@ System.register(["angular2/core", "../authHelper/authHelper"], function(exports_
             Notes = (function () {
                 function Notes(authHelper) {
                     var _this = this;
-                    this.displayName = "";
-                    authHelper.getRequestPromise("/v1.0/me/").then(function (data) {
+                    this.books = [];
+                    authHelper.getRequestPromise("/beta/me/notes/notebooks").then(function (data) {
                         if (data) {
-                            _this.displayName = data.displayName;
+                            _this.books = data.value;
                         }
                         else {
                             alert("An error occurred calling the Microsoft Graph: " + data);
@@ -35,7 +35,7 @@ System.register(["angular2/core", "../authHelper/authHelper"], function(exports_
                 Notes = __decorate([
                     core_1.Component({
                         selector: "app-user",
-                        template: "<p>Notes</p>",
+                        templateUrl: "./notes/view-notes.html",
                     }), 
                     __metadata('design:paramtypes', [authHelper_1.AuthHelper])
                 ], Notes);
