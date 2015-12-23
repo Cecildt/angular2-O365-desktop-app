@@ -21,9 +21,13 @@ System.register(["angular2/core", "../authHelper/authHelper"], function(exports_
         execute: function() {
             Files = (function () {
                 function Files(authHelper) {
-                    var _this = this;
                     this.files = [];
-                    authHelper.getRequestPromise("/v1.0/me/drive/root/children").then(function (data) {
+                    this.authHelper = authHelper;
+                    this.refreshInfo();
+                }
+                Files.prototype.refreshInfo = function () {
+                    var _this = this;
+                    this.authHelper.getRequestPromise("/v1.0/me/drive/root/children").then(function (data) {
                         if (data) {
                             _this.files = data.value;
                         }
@@ -31,7 +35,7 @@ System.register(["angular2/core", "../authHelper/authHelper"], function(exports_
                             alert("An error occurred calling the Microsoft Graph: " + data);
                         }
                     });
-                }
+                };
                 Files = __decorate([
                     core_1.Component({
                         selector: "my-files",

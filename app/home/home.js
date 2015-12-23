@@ -23,11 +23,15 @@ System.register(["angular2/core", "../profile/profile", "../authHelper/authHelpe
             }],
         execute: function() {
             Home = (function () {
-                function Home(auth) {
+                function Home(auth, profile) {
                     this.authHelper = auth;
+                    this.profile = profile;
                 }
                 Home.prototype.signOut = function () {
                     this.authHelper.logOut();
+                };
+                Home.prototype.refreshInfo = function () {
+                    this.profile.refreshInfo();
                 };
                 Home = __decorate([
                     core_1.Component({
@@ -35,7 +39,7 @@ System.register(["angular2/core", "../profile/profile", "../authHelper/authHelpe
                         templateUrl: "./home/view-home.html",
                         directives: [profile_1.Profile]
                     }), 
-                    __metadata('design:paramtypes', [authHelper_1.AuthHelper])
+                    __metadata('design:paramtypes', [authHelper_1.AuthHelper, profile_1.Profile])
                 ], Home);
                 return Home;
             })();

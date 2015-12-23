@@ -21,10 +21,14 @@ System.register(["angular2/core", "../authHelper/authHelper"], function(exports_
         execute: function() {
             Profile = (function () {
                 function Profile(authHelper) {
-                    var _this = this;
                     this.displayName = "";
                     this.photo = "";
-                    authHelper.getRequestPromise("/v1.0/me/").then(function (data) {
+                    this.authHelper = authHelper;
+                    this.refreshInfo();
+                }
+                Profile.prototype.refreshInfo = function () {
+                    var _this = this;
+                    this.authHelper.getRequestPromise("/v1.0/me/").then(function (data) {
                         if (data) {
                             _this.displayName = data.displayName;
                         }
@@ -32,7 +36,7 @@ System.register(["angular2/core", "../authHelper/authHelper"], function(exports_
                             alert("An error occurred calling the Microsoft Graph: " + data);
                         }
                     });
-                    authHelper.getPhotoRequestPromise("/v1.0/me/photo/$value").then(function (data) {
+                    this.authHelper.getPhotoRequestPromise("/v1.0/me/photo/$value").then(function (data) {
                         if (data) {
                             _this.photo = data;
                         }
@@ -40,12 +44,13 @@ System.register(["angular2/core", "../authHelper/authHelper"], function(exports_
                             alert("An error occurred calling the Microsoft Graph: " + data);
                         }
                     });
-                }
+                };
                 Profile = __decorate([
                     core_1.Component({
                         selector: "my-profile",
-                        template: "<img src='{{photo}}' width='80' height='80' /><strong>Welcome {{displayName}}</strong>",
-                    }), 
+                        template: "<img src='{{photo}}' width='80' height='80' /><h5>Welcome {{displayName}}</h5>",
+                    }),
+                    core_1.Injectable(), 
                     __metadata('design:paramtypes', [authHelper_1.AuthHelper])
                 ], Profile);
                 return Profile;

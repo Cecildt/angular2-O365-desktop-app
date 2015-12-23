@@ -95,7 +95,7 @@ System.register(["angular2/core", "angular2/platform/browser", "angular2/router"
                 return App;
             })();
             exports_1("App", App);
-            browser_1.bootstrap(App, [authHelper_1.AuthHelper, http_1.HTTP_PROVIDERS, router_1.ROUTER_PROVIDERS, core_1.bind(router_1.LocationStrategy).toClass(router_1.HashLocationStrategy)]);
+            browser_1.bootstrap(App, [authHelper_1.AuthHelper, profile_1.Profile, http_1.HTTP_PROVIDERS, router_1.ROUTER_PROVIDERS, core_1.bind(router_1.LocationStrategy).toClass(router_1.HashLocationStrategy)]);
         }
     }
 });
