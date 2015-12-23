@@ -23,11 +23,41 @@ npm run electron
 
 ## Azure AD application Registration
 
-Set "oauth2AllowImplicitFlow": true in application manifest file.
+Register this application in the Azure Active Directory service for your Office 365 tenant.
+Easy to use online tool: [Office 365 App Registration Tool](https://dev.office.com/app-registration) 
+
+* App Registration Type: Native Application
+* Redirect URI: http://localhost:8000
+* Select all read items for Users, Groups, Mail, Calendar, Contacts and Files.
+* Register the app and remember to copy your client ID provided to you.
+* Update the svcConstant.ts file with your values.
+
+// Image
+
+Once your app is registered you need to download the app manifest file from [Azure Portal](https://manage.windowsazure.com/)
+Set "oauth2AllowImplicitFlow": true in application manifest file and upload the amnifest file again.
 
 ### Azure AD Application Permission requirements
+You need to make sure the application permission is set correctly to have access to the Microsoft Graph resource.
+This can be done in the [Azure Portal](https://manage.windowsazure.com/)
 
-* Read Files
+Required Permissions
+
+* Read all notebooks that the user can access
+* Access user's data anytime
+* Read items in all site collections
+* Read files that the user selects
+* Read user files and files shared with user
+* Read user contacts
+* Read user calendars
+* Read user mail
+* Read directory data
+* Read all groups
+* Read all users' full profiles
+* Read all users' basic profiles
+* Sign in and read user profile
+* Read user notebooks
+* Read users' relevant people list
 
 ## Application Build & Deployment
 

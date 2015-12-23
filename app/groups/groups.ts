@@ -9,7 +9,7 @@ export class Groups {
     private groups = [];
 
     constructor(authHelper: AuthHelper) {
-        authHelper.getRequestPromise("/v1.0/me/memberOf/$/microsoft.graph.group?$filter=groupTypes/any(a:a%20eq%20'unified')")
+        authHelper.getRequestPromise("/v1.0/me/memberOf/$/microsoft.graph.group")
         .then((data: any) => {
             if (data) {
                 this.groups = data.value;

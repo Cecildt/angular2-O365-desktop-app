@@ -23,7 +23,7 @@ System.register(["angular2/core", "../authHelper/authHelper"], function(exports_
                 function Groups(authHelper) {
                     var _this = this;
                     this.groups = [];
-                    authHelper.getRequestPromise("/v1.0/me/memberOf/$/microsoft.graph.group?$filter=groupTypes/any(a:a%20eq%20'unified')")
+                    authHelper.getRequestPromise("/v1.0/me/memberOf/$/microsoft.graph.group")
                         .then(function (data) {
                         if (data) {
                             _this.groups = data.value;
