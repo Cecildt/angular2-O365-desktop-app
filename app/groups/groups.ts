@@ -3,15 +3,16 @@ import { AuthHelper } from "../authHelper/authHelper";
 
 @Component({
     selector: "app-user",
-    template: "<p>Groups</p>",
+    templateUrl: "./groups/view-groups.html",
 })
 export class Groups {
-    private displayName: string = "";
+    private groups = [];
 
     constructor(authHelper: AuthHelper) {
-        authHelper.getRequestPromise("/v1.0/me/").then((data: any) => {
+        authHelper.getRequestPromise("/v1.0/me/memberOf/$/microsoft.graph.group?$filter=groupTypes/any(a:a%20eq%20'unified')")
+        .then((data: any) => {
             if (data) {
-                this.displayName = data.displayName;
+                this.groups = data.value;
             } else {
                 alert("An error occurred calling the Microsoft Graph: " + data);
             }

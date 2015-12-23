@@ -2,22 +2,22 @@
 <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
 	<thead>
 		<tr>
-			<th class="mdl-data-table__cell--non-numeric">Type</th>
+            <th></th>
 			<th class="mdl-data-table__cell--non-numeric">Name</th>
-			<th>Size</th>
+			<th class="mdl-data-table__cell--non-numeric">Mail Address</th>
+			<th class="mdl-data-table__cell--non-numeric">Visibility</th>
 		</tr>
 	</thead>
 	<tbody>
-		<tr *ngFor="#file of files">
+		<tr *ngFor="#group of groups">
 			<td></td>
             <td class="mdl-data-table__cell--non-numeric">
-				<span *ngIf="file.file">File</span>
-				<span *ngIf="!file.file">Folder</span>
+				{{group.displayName}}
 			</td>
 			<td class="mdl-data-table__cell--non-numeric">
-                <a href={{file.webUrl}} target="_blank">{{file.name}}</a>
+                {{group.mail}}
             </td>
-			<td>{{file.size}}</td>
+			<td>{{group.visibility}}</td>
 		</tr>
 	</tbody>
 </table>

@@ -3,15 +3,15 @@ import { AuthHelper } from "../authHelper/authHelper";
 
 @Component({
     selector: "app-user",
-    template: "<p>Mails</p>",
+    templateUrl: "./mails/view-mails.html",
 })
 export class Mails {
-    private displayName: string = "";
+    private messages = [];
 
     constructor(authHelper: AuthHelper) {
-        authHelper.getRequestPromise("/v1.0/me/").then((data: any) => {
+        authHelper.getRequestPromise("/v1.0/me/messages").then((data: any) => {
             if (data) {
-                this.displayName = data.displayName;
+                this.messages = data.value;
             } else {
                 alert("An error occurred calling the Microsoft Graph: " + data);
             }

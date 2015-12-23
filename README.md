@@ -9,9 +9,22 @@ Desktop application using Electron, Angular 2, Material Design Lite and Office 3
 npm install
 `
 
-# Azure AD application Registration
+## Azure AD application Registration
 
 Set "oauth2AllowImplicitFlow": true in application manifest file.
+
+## Application Build & Deployment
+
+Follow Electron documentation for build for Windows, Linux and OSX.
+
+To package files for deployment:
+
+
+* npm install -g asar
+* asar pack angular2-O365-desktop-app app.asar
+
+
+** More details to follow **
 
 ## Resources
 

@@ -22,10 +22,11 @@ System.register(["angular2/core", "../authHelper/authHelper"], function(exports_
             Groups = (function () {
                 function Groups(authHelper) {
                     var _this = this;
-                    this.displayName = "";
-                    authHelper.getRequestPromise("/v1.0/me/").then(function (data) {
+                    this.groups = [];
+                    authHelper.getRequestPromise("/v1.0/me/memberOf/$/microsoft.graph.group?$filter=groupTypes/any(a:a%20eq%20'unified')")
+                        .then(function (data) {
                         if (data) {
-                            _this.displayName = data.displayName;
+                            _this.groups = data.value;
                         }
                         else {
                             alert("An error occurred calling the Microsoft Graph: " + data);
@@ -35,7 +36,7 @@ System.register(["angular2/core", "../authHelper/authHelper"], function(exports_
                 Groups = __decorate([
                     core_1.Component({
                         selector: "app-user",
-                        template: "<p>Groups</p>",
+                        templateUrl: "./groups/view-groups.html",
                     }), 
                     __metadata('design:paramtypes', [authHelper_1.AuthHelper])
                 ], Groups);
