@@ -32,14 +32,14 @@ Easy to use online tool: [Office 365 App Registration Tool](https://dev.office.c
 * Register the app and remember to copy your client ID provided to you.
 * Update the svcConstant.ts file with your values.
 
-// Image
+![Application Registration](./images/app-registration.png)
 
 Once your app is registered you need to download the app manifest file from [Azure Portal](https://manage.windowsazure.com/)
-Set "oauth2AllowImplicitFlow": true in application manifest file and upload the amnifest file again.
+Set "oauth2AllowImplicitFlow": true in application manifest file and upload the manifest file again.
 
 ### Azure AD Application Permission requirements
 You need to make sure the application permission is set correctly to have access to the Microsoft Graph resource.
-This can be done in the [Azure Portal](https://manage.windowsazure.com/)
+This can be done in the [Azure Portal](https://manage.windowsazure.com/).
 
 Required Permissions
 
