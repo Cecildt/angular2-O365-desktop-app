@@ -9,7 +9,7 @@ System.register(["angular2/core", "../authHelper/authHelper"], function(exports_
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, authHelper_1;
-    var User;
+    var Notes;
     return {
         setters:[
             function (core_1_1) {
@@ -19,11 +19,10 @@ System.register(["angular2/core", "../authHelper/authHelper"], function(exports_
                 authHelper_1 = authHelper_1_1;
             }],
         execute: function() {
-            User = (function () {
-                function User(authHelper) {
+            Notes = (function () {
+                function Notes(authHelper) {
                     var _this = this;
                     this.displayName = "";
-                    this.photo = "";
                     authHelper.getRequestPromise("/v1.0/me/").then(function (data) {
                         if (data) {
                             _this.displayName = data.displayName;
@@ -32,26 +31,18 @@ System.register(["angular2/core", "../authHelper/authHelper"], function(exports_
                             alert("An error occurred calling the Microsoft Graph: " + data);
                         }
                     });
-                    authHelper.getPhotoRequestPromise("/v1.0/me/photo/$value").then(function (data) {
-                        if (data) {
-                            _this.photo = data;
-                        }
-                        else {
-                            alert("An error occurred calling the Microsoft Graph: " + data);
-                        }
-                    });
                 }
-                User = __decorate([
+                Notes = __decorate([
                     core_1.Component({
                         selector: "app-user",
-                        template: "<img src='{{photo}}' width='80' height='80' /><strong>Welcome {{displayName}}</strong>",
+                        template: "<p>Notes</p>",
                     }), 
                     __metadata('design:paramtypes', [authHelper_1.AuthHelper])
-                ], User);
-                return User;
+                ], Notes);
+                return Notes;
             })();
-            exports_1("User", User);
+            exports_1("Notes", Notes);
         }
     }
 });
-//# sourceMappingURL=user.js.map
+//# sourceMappingURL=notes.js.map

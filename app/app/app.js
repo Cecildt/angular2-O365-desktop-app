@@ -1,4 +1,4 @@
-System.register(["angular2/core", "angular2/platform/browser", "angular2/router", "angular2/http", "rxjs/Rx", "../login/login", "../files/files", "../authHelper/authHelper", "../user/user"], function(exports_1) {
+System.register(["angular2/core", "angular2/platform/browser", "angular2/router", "angular2/http", "rxjs/Rx", "../login/login", "../files/files", "../authHelper/authHelper", "../user/user", "../contacts/contacts", "../groups/groups", "../mails/mails", "../notes/notes", "../tasks/tasks", "../trending/trending"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +8,7 @@ System.register(["angular2/core", "angular2/platform/browser", "angular2/router"
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, browser_1, router_1, http_1, login_1, files_1, authHelper_1, user_1;
+    var core_1, browser_1, router_1, http_1, login_1, files_1, authHelper_1, user_1, contacts_1, groups_1, mails_1, notes_1, tasks_1, trending_1;
     var App;
     return {
         setters:[
@@ -36,6 +36,24 @@ System.register(["angular2/core", "angular2/platform/browser", "angular2/router"
             },
             function (user_1_1) {
                 user_1 = user_1_1;
+            },
+            function (contacts_1_1) {
+                contacts_1 = contacts_1_1;
+            },
+            function (groups_1_1) {
+                groups_1 = groups_1_1;
+            },
+            function (mails_1_1) {
+                mails_1 = mails_1_1;
+            },
+            function (notes_1_1) {
+                notes_1 = notes_1_1;
+            },
+            function (tasks_1_1) {
+                tasks_1 = tasks_1_1;
+            },
+            function (trending_1_1) {
+                trending_1 = trending_1_1;
             }],
         execute: function() {
             App = (function () {
@@ -49,14 +67,20 @@ System.register(["angular2/core", "angular2/platform/browser", "angular2/router"
                 }
                 App = __decorate([
                     core_1.Component({
-                        selector: "files-app",
-                        template: "<app-user></app-user><router-outlet></router-outlet>",
+                        selector: "graph-app",
+                        templateUrl: "./app/view-main.html",
                         directives: [router_1.ROUTER_DIRECTIVES, user_1.User]
                     }),
                     router_1.RouteConfig([
                         { name: "Default", path: "", redirectTo: ["Login"] },
                         { name: "Login", component: login_1.Login, path: "/login" },
-                        { name: "Files", component: files_1.Files, path: "/files" }
+                        { name: "Files", component: files_1.Files, path: "/files" },
+                        { name: "Groups", component: groups_1.Groups, path: "/groups" },
+                        { name: "Contacts", component: contacts_1.Contacts, path: "/contacts" },
+                        { name: "Mails", component: mails_1.Mails, path: "/mails" },
+                        { name: "Notes", component: notes_1.Notes, path: "/notes" },
+                        { name: "Tasks", component: tasks_1.Tasks, path: "/tasks" },
+                        { name: "Trending", component: trending_1.Trending, path: "/trending" }
                     ]), 
                     __metadata('design:paramtypes', [router_1.Router, authHelper_1.AuthHelper])
                 ], App);

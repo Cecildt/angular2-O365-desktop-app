@@ -36,10 +36,10 @@ export class AuthHelper {
                 headers.append("Authorization", "Bearer " + token);
 
                 this.http.get(SvcConsts.GRAPH_RESOURCE + reqUrl, { headers: headers })
-                         .map(res => res.json())
+                         .map((res: any) => res.json())
                          .subscribe(
-                             res => resolve(res),
-                             error => reject(error));
+                             (res: any) => resolve(res),
+                             (error: any) => reject(error));
             });
         });
 

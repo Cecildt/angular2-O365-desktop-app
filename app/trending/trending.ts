@@ -3,24 +3,15 @@ import { AuthHelper } from "../authHelper/authHelper";
 
 @Component({
     selector: "app-user",
-    template: "<img src='{{photo}}' width='80' height='80' /><strong>Welcome {{displayName}}</strong>",
+    template: "<p>Trending</p>",
 })
-export class User {
+export class Trending {
     private displayName: string = "";
-    private photo: string = "";
 
     constructor(authHelper: AuthHelper) {
         authHelper.getRequestPromise("/v1.0/me/").then((data: any) => {
             if (data) {
                 this.displayName = data.displayName;
-            } else {
-                alert("An error occurred calling the Microsoft Graph: " + data);
-            }
-        });
-
-         authHelper.getPhotoRequestPromise("/v1.0/me/photo/$value").then((data: any) => {
-            if (data) {
-                this.photo = data;
             } else {
                 alert("An error occurred calling the Microsoft Graph: " + data);
             }

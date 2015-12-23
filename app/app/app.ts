@@ -15,10 +15,16 @@ import { Login } from "../login/login";
 import { Files } from "../files/files";
 import { AuthHelper } from "../authHelper/authHelper";
 import { User } from "../user/user";
+import { Contacts } from "../contacts/contacts";
+import { Groups } from "../groups/groups";
+import { Mails } from "../mails/mails";
+import { Notes } from "../notes/notes";
+import { Tasks } from "../tasks/tasks";
+import { Trending } from "../trending/trending";
 
 @Component({
-    selector: "files-app",
-    template: "<app-user></app-user><router-outlet></router-outlet>",
+    selector: "graph-app",
+    templateUrl: "./app/view-main.html",
     directives: [ROUTER_DIRECTIVES, User]
 })
 
@@ -26,7 +32,13 @@ import { User } from "../user/user";
 @RouteConfig([
     { name: "Default", path: "", redirectTo: ["Login"] },
     { name: "Login", component: Login, path: "/login" },
-    { name: "Files", component: Files, path: "/files" }
+    { name: "Files", component: Files, path: "/files" },
+    { name: "Groups", component: Groups, path: "/groups" },
+    { name: "Contacts", component: Contacts, path: "/contacts" },
+    { name: "Mails", component: Mails, path: "/mails" },
+    { name: "Notes", component: Notes, path: "/notes" },
+    { name: "Tasks", component: Tasks, path: "/tasks" },
+    { name: "Trending", component: Trending, path: "/trending" }
 ])
 
 export class App {
