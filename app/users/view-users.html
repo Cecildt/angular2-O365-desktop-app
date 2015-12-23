@@ -1,1 +1,22 @@
-<p>Users</p>
+<h3>Organization Users</h3>
+
+<table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+	<thead>
+		<tr>
+            <th></th>
+			<th class="mdl-data-table__cell--non-numeric">Display Name</th>
+			<th class="mdl-data-table__cell--non-numeric">Email</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="#user of users">
+			<td></td>
+            <td class="mdl-data-table__cell--non-numeric">
+				{{user.displayName}}
+			</td>
+			<td class="mdl-data-table__cell--non-numeric">
+                {{user.mail}}
+            </td>
+		</tr>
+	</tbody>
+</table>

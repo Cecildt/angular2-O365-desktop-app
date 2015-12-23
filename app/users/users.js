@@ -22,10 +22,10 @@ System.register(["angular2/core", "../authHelper/authHelper"], function(exports_
             Users = (function () {
                 function Users(authHelper) {
                     var _this = this;
-                    this.displayName = "";
-                    authHelper.getRequestPromise("/v1.0/me/contacts").then(function (data) {
+                    this.users = [];
+                    authHelper.getRequestPromise("/v1.0/users").then(function (data) {
                         if (data) {
-                            _this.displayName = data.displayName;
+                            _this.users = data.value;
                         }
                         else {
                             alert("An error occurred calling the Microsoft Graph: " + data);

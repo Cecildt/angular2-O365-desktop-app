@@ -11,6 +11,7 @@ HashLocationStrategy
 import { HTTP_PROVIDERS } from "angular2/http";
 import "rxjs/Rx";
 
+import { Home } from "../home/home";
 import { Login } from "../login/login";
 import { Files } from "../files/files";
 import { AuthHelper } from "../authHelper/authHelper";
@@ -32,6 +33,7 @@ import { Users } from "../users/users";
 // configure the routes for the app
 @RouteConfig([
     { name: "Default", path: "", redirectTo: ["Login"] },
+    { name: "Home", component: Home, path: "/home" },
     { name: "Login", component: Login, path: "/login" },
     { name: "Files", component: Files, path: "/files" },
     { name: "Groups", component: Groups, path: "/groups" },
@@ -50,7 +52,7 @@ export class App {
         // route the user to a view based on presence of access token
         if (auth.isUserAuthenticated) {
             // access token exists...display the users files
-            router.navigate(["/Files"]);
+            router.navigate(["/Home"]);
         } else {
             // access token doesn't exist, so the user needs to login
             router.navigate(["/Login"]);

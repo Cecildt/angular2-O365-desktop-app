@@ -1,4 +1,4 @@
-System.register(["angular2/core", "angular2/platform/browser", "angular2/router", "angular2/http", "rxjs/Rx", "../login/login", "../files/files", "../authHelper/authHelper", "../profile/profile", "../contacts/contacts", "../groups/groups", "../mails/mails", "../notes/notes", "../tasks/tasks", "../trending/trending", "../users/users"], function(exports_1) {
+System.register(["angular2/core", "angular2/platform/browser", "angular2/router", "angular2/http", "rxjs/Rx", "../home/home", "../login/login", "../files/files", "../authHelper/authHelper", "../profile/profile", "../contacts/contacts", "../groups/groups", "../mails/mails", "../notes/notes", "../tasks/tasks", "../trending/trending", "../users/users"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +8,7 @@ System.register(["angular2/core", "angular2/platform/browser", "angular2/router"
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, browser_1, router_1, http_1, login_1, files_1, authHelper_1, profile_1, contacts_1, groups_1, mails_1, notes_1, tasks_1, trending_1, users_1;
+    var core_1, browser_1, router_1, http_1, home_1, login_1, files_1, authHelper_1, profile_1, contacts_1, groups_1, mails_1, notes_1, tasks_1, trending_1, users_1;
     var App;
     return {
         setters:[
@@ -25,6 +25,9 @@ System.register(["angular2/core", "angular2/platform/browser", "angular2/router"
                 http_1 = http_1_1;
             },
             function (_1) {},
+            function (home_1_1) {
+                home_1 = home_1_1;
+            },
             function (login_1_1) {
                 login_1 = login_1_1;
             },
@@ -62,7 +65,7 @@ System.register(["angular2/core", "angular2/platform/browser", "angular2/router"
             App = (function () {
                 function App(router, auth) {
                     if (auth.isUserAuthenticated) {
-                        router.navigate(["/Files"]);
+                        router.navigate(["/Home"]);
                     }
                     else {
                         router.navigate(["/Login"]);
@@ -76,6 +79,7 @@ System.register(["angular2/core", "angular2/platform/browser", "angular2/router"
                     }),
                     router_1.RouteConfig([
                         { name: "Default", path: "", redirectTo: ["Login"] },
+                        { name: "Home", component: home_1.Home, path: "/home" },
                         { name: "Login", component: login_1.Login, path: "/login" },
                         { name: "Files", component: files_1.Files, path: "/files" },
                         { name: "Groups", component: groups_1.Groups, path: "/groups" },

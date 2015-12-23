@@ -54,7 +54,8 @@ To package files for deployment:
 
 * Improve error handling.
 * Implement better design for each section.
-* Manual refresh button for user
-* Add content paging
-* Setup production build task
-* Create unit tests
+* Manual refresh button for user.
+* Add content paging.
+* Add D3.js for dashboard components
+* Setup production build task.
+* Create unit tests.
