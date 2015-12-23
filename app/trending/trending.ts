@@ -6,12 +6,12 @@ import { AuthHelper } from "../authHelper/authHelper";
     templateUrl: "./trending/view-trending.html",
 })
 export class Trending {
-    private files = [];
+    private trends = [];
 
     constructor(authHelper: AuthHelper) {
         authHelper.getRequestPromise("/beta/me/trendingAround").then((data: any) => {
             if (data) {
-                this.files = data.value;
+                this.trends = data.value;
             } else {
                 alert("An error occurred calling the Microsoft Graph: " + data);
             }

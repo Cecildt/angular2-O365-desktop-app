@@ -22,6 +22,11 @@ System.register(["angular2/core", "../profile/profile"], function(exports_1) {
             Home = (function () {
                 function Home() {
                 }
+                Home.prototype.signOut = function () {
+                    window.localStorage.removeItem("id_token");
+                    window.localStorage.removeItem("access_token");
+                    window.location.reload();
+                };
                 Home = __decorate([
                     core_1.Component({
                         selector: "my-home",

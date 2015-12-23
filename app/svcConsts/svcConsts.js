@@ -6,8 +6,8 @@ System.register([], function(exports_1) {
             SvcConsts = (function () {
                 function SvcConsts() {
                 }
-                SvcConsts.CLIENT_ID = "280e411e-0f7c-43ec-ae22-5397f6b14ceb";
-                SvcConsts.TENTANT_ID = "devlaundry.onmicrosoft.com";
+                SvcConsts.CLIENT_ID = "1e9bcdbd-640e-43af-b115-65d1285c28e7";
+                SvcConsts.TENTANT_ID = "crunchdemo.onmicrosoft.com";
                 SvcConsts.GRAPH_RESOURCE = "https://graph.microsoft.com";
                 SvcConsts.REDIRECT_URL = "http://localhost:8000";
                 return SvcConsts;

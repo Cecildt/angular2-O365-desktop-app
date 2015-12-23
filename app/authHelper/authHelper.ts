@@ -132,7 +132,13 @@ export class AuthHelper {
     }
 
     private getAccessToken() {
-		let accessUrl = "https://login.microsoftonline.com/" + SvcConsts.TENTANT_ID +
+		let id_token = window.localStorage.getItem("id_token");
+
+        if (!id_token) {
+            return;
+        }
+
+        let accessUrl = "https://login.microsoftonline.com/" + SvcConsts.TENTANT_ID +
 			"/oauth2/authorize?response_type=token&client_id=" + SvcConsts.CLIENT_ID +
 			"&resource=" + SvcConsts.GRAPH_RESOURCE +
 			"&redirect_uri=" + encodeURIComponent(SvcConsts.REDIRECT_URL) +

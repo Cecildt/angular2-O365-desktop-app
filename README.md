@@ -59,6 +59,8 @@ Required Permissions
 * Read user notebooks
 * Read users' relevant people list
 
+Go to [Microsoft Graph API](http://graph.microsoft.io/docs/overview/overview) if you want to know more.
+
 ## Application Build & Deployment
 
 Follow Electron documentation for build for Windows, Linux and OSX.
@@ -90,3 +92,6 @@ To package files for deployment:
 * Add D3.js for dashboard components
 * Setup production build task.
 * Create unit tests.
+
+
+If you have any issues or suggestion please submit on [GitHub Issues](https://github.com/Cecildt/angular2-O365-desktop-app/issues).

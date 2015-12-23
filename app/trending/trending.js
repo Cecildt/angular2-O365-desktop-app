@@ -22,10 +22,10 @@ System.register(["angular2/core", "../authHelper/authHelper"], function(exports_
             Trending = (function () {
                 function Trending(authHelper) {
                     var _this = this;
-                    this.files = [];
+                    this.trends = [];
                     authHelper.getRequestPromise("/beta/me/trendingAround").then(function (data) {
                         if (data) {
-                            _this.files = data.value;
+                            _this.trends = data.value;
                         }
                         else {
                             alert("An error occurred calling the Microsoft Graph: " + data);

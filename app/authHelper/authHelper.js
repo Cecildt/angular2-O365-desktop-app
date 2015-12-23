@@ -130,6 +130,10 @@ System.register(["angular2/core", "angular2/http", "../svcConsts/svcConsts"], fu
                 };
                 AuthHelper.prototype.getAccessToken = function () {
                     var _this = this;
+                    var id_token = window.localStorage.getItem("id_token");
+                    if (!id_token) {
+                        return;
+                    }
                     var accessUrl = "https://login.microsoftonline.com/" + svcConsts_1.SvcConsts.TENTANT_ID +
                         "/oauth2/authorize?response_type=token&client_id=" + svcConsts_1.SvcConsts.CLIENT_ID +
                         "&resource=" + svcConsts_1.SvcConsts.GRAPH_RESOURCE +

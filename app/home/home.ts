@@ -8,4 +8,10 @@ import { Profile } from "../profile/profile";
 })
 export class Home {
 
+    public signOut() {
+        window.localStorage.removeItem("id_token");
+        window.localStorage.removeItem("access_token");
+
+        window.location.reload();
+    }
 }

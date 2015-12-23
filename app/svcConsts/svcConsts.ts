@@ -1,8 +1,8 @@
 export class SvcConsts {
 
-	public static CLIENT_ID:string = "280e411e-0f7c-43ec-ae22-5397f6b14ceb";
+	public static CLIENT_ID:string = "1e9bcdbd-640e-43af-b115-65d1285c28e7";
 
-	public static TENTANT_ID:string = "devlaundry.onmicrosoft.com";
+	public static TENTANT_ID:string = "crunchdemo.onmicrosoft.com";
 
 	public static GRAPH_RESOURCE:string = "https://graph.microsoft.com";
 
