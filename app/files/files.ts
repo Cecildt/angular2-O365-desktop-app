@@ -1,14 +1,12 @@
-import { Component, View } from "angular2/core";
+import { Component } from "angular2/core";
 
 import { AuthHelper } from "../authHelper/authHelper";
 
 @Component({
-    selector: "files"
-})
-
-@View({
+    selector: "files",
     templateUrl: "./files/view-files.html"
 })
+
 export class Files {
     private files = [];
     constructor(authHelper: AuthHelper) {

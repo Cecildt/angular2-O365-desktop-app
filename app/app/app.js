@@ -1,4 +1,4 @@
-System.register(["angular2/core", "angular2/platform/browser", "angular2/router", "angular2/http", "../login/login", "../files/files", "../authHelper/authHelper"], function(exports_1) {
+System.register(["angular2/core", "angular2/platform/browser", "angular2/router", "angular2/http", "rxjs/Rx", "../login/login", "../files/files", "../authHelper/authHelper", "../user/user"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +8,7 @@ System.register(["angular2/core", "angular2/platform/browser", "angular2/router"
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, browser_1, router_1, http_1, login_1, files_1, authHelper_1;
+    var core_1, browser_1, router_1, http_1, login_1, files_1, authHelper_1, user_1;
     var App;
     return {
         setters:[
@@ -24,6 +24,7 @@ System.register(["angular2/core", "angular2/platform/browser", "angular2/router"
             function (http_1_1) {
                 http_1 = http_1_1;
             },
+            function (_1) {},
             function (login_1_1) {
                 login_1 = login_1_1;
             },
@@ -32,6 +33,9 @@ System.register(["angular2/core", "angular2/platform/browser", "angular2/router"
             },
             function (authHelper_1_1) {
                 authHelper_1 = authHelper_1_1;
+            },
+            function (user_1_1) {
+                user_1 = user_1_1;
             }],
         execute: function() {
             App = (function () {
@@ -46,8 +50,8 @@ System.register(["angular2/core", "angular2/platform/browser", "angular2/router"
                 App = __decorate([
                     core_1.Component({
                         selector: "files-app",
-                        template: "<strong>{{userName}}</strong><router-outlet></router-outlet>",
-                        directives: [router_1.ROUTER_DIRECTIVES]
+                        template: "<app-user></app-user><router-outlet></router-outlet>",
+                        directives: [router_1.ROUTER_DIRECTIVES, user_1.User]
                     }),
                     router_1.RouteConfig([
                         { name: "Default", path: "", redirectTo: ["Login"] },

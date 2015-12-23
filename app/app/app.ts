@@ -9,15 +9,17 @@ LocationStrategy,
 HashLocationStrategy
 } from "angular2/router";
 import { HTTP_PROVIDERS } from "angular2/http";
+import "rxjs/Rx";
 
 import { Login } from "../login/login";
 import { Files } from "../files/files";
 import { AuthHelper } from "../authHelper/authHelper";
+import { User } from "../user/user";
 
 @Component({
     selector: "files-app",
-    template: "<strong>{{userName}}</strong><router-outlet></router-outlet>",
-    directives: [ROUTER_DIRECTIVES]
+    template: "<app-user></app-user><router-outlet></router-outlet>",
+    directives: [ROUTER_DIRECTIVES, User]
 })
 
 // configure the routes for the app
@@ -34,7 +36,6 @@ export class App {
         // route the user to a view based on presence of access token
         if (auth.isUserAuthenticated) {
             // access token exists...display the users files
-            //this.userName = "Welcome " + auth.currentUserName;
             router.navigate(["/Files"]);
         } else {
             // access token doesn't exist, so the user needs to login

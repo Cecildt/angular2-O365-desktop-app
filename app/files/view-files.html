@@ -14,7 +14,9 @@
 				<span *ngIf="file.file">File</span>
 				<span *ngIf="!file.file">Folder</span>
 			</td>
-			<td class="mdl-data-table__cell--non-numeric">{{file.name}}</td>
+			<td class="mdl-data-table__cell--non-numeric">
+                <a href={{file.webUrl}} target="_blank">{{file.name}}</a>
+            </td>
 			<td>{{file.size}}</td>
 		</tr>
 	</tbody>

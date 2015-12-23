@@ -34,14 +34,34 @@ System.register(["angular2/core", "angular2/http", "../svcConsts/svcConsts"], fu
                             tokenPromise.then(function (token) {
                                 var headers = new http_1.Headers();
                                 headers.append("Authorization", "Bearer " + token);
-                                _this.http.get(svcConsts_1.SvcConsts.GRAPH_RESOURCE + reqUrl, { headers: headers }).subscribe(function (res) {
-                                    if (res.status === 200) {
-                                        resolve(JSON.parse(res._body));
+                                _this.http.get(svcConsts_1.SvcConsts.GRAPH_RESOURCE + reqUrl, { headers: headers })
+                                    .map(function (res) { return res.json(); })
+                                    .subscribe(function (res) { return resolve(res); }, function (error) { return reject(error); });
+                            });
+                        });
+                        return p;
+                    };
+                    this.getPhotoRequestPromise = function (reqUrl) {
+                        var p = new Promise(function (resolve, reject) {
+                            var tokenPromise = _this.tokenPromise(svcConsts_1.SvcConsts.GRAPH_RESOURCE);
+                            tokenPromise.then(function (token) {
+                                var request = new XMLHttpRequest;
+                                request.open("GET", svcConsts_1.SvcConsts.GRAPH_RESOURCE + reqUrl);
+                                request.setRequestHeader("Authorization", "Bearer " + token);
+                                request.responseType = "blob";
+                                request.onload = function () {
+                                    if (request.readyState === 4 && request.status === 200) {
+                                        var reader = new FileReader();
+                                        reader.onload = function () {
+                                            resolve(reader.result);
+                                        };
+                                        reader.readAsDataURL(request.response);
                                     }
                                     else {
                                         reject("An error occurred calling the Microsoft Graph.");
                                     }
-                                });
+                                };
+                                request.send(null);
                             });
                         });
                         return p;
@@ -91,7 +111,6 @@ System.register(["angular2/core", "angular2/http", "../svcConsts/svcConsts"], fu
                             nodeIntegration: false
                         } });
                     authWindow.webContents.on("did-get-redirect-request", function (event, oldUrl, newUrl) {
-                        console.log("ID Token - did-get-redirect-request: " + newUrl);
                         authWindow.destroy();
                         var tokenURL = new URL(newUrl);
                         var params = _this.parseQueryString(tokenURL.hash);
@@ -125,7 +144,6 @@ System.register(["angular2/core", "angular2/http", "../svcConsts/svcConsts"], fu
                             nodeIntegration: false
                         } });
                     accessWindow.webContents.on("did-get-redirect-request", function (event, oldUrl, newUrl) {
-                        console.log("Access Token - did-get-redirect-request: " + newUrl);
                         accessWindow.destroy();
                         var tokenURL = new URL(newUrl);
                         var params = _this.parseQueryString(tokenURL.hash);

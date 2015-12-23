@@ -9,7 +9,7 @@ System.register(["angular2/core", "../authHelper/authHelper"], function(exports_
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, authHelper_1;
-    var Files;
+    var User;
     return {
         setters:[
             function (core_1_1) {
@@ -19,30 +19,38 @@ System.register(["angular2/core", "../authHelper/authHelper"], function(exports_
                 authHelper_1 = authHelper_1_1;
             }],
         execute: function() {
-            Files = (function () {
-                function Files(authHelper) {
+            User = (function () {
+                function User(authHelper) {
                     var _this = this;
-                    this.files = [];
-                    authHelper.getRequestPromise("/v1.0/me/drive/root/children").then(function (data) {
+                    this.displayName = "";
+                    authHelper.getRequestPromise("/v1.0/me/").then(function (data) {
                         if (data) {
-                            _this.files = data.value;
+                            _this.displayName = data.displayName;
+                        }
+                        else {
+                            alert("An error occurred calling the Microsoft Graph: " + data);
+                        }
+                    });
+                    authHelper.getPhotoRequestPromise("/v1.0/me/photo/$value").then(function (data) {
+                        if (data) {
+                            _this.photo = data;
                         }
                         else {
                             alert("An error occurred calling the Microsoft Graph: " + data);
                         }
                     });
                 }
-                Files = __decorate([
+                User = __decorate([
                     core_1.Component({
-                        selector: "files",
-                        templateUrl: "./files/view-files.html"
+                        selector: "app-user",
+                        template: "<img src='{{photo}}' /><strong>Welcome {{displayName}}</strong>",
                     }), 
                     __metadata('design:paramtypes', [authHelper_1.AuthHelper])
-                ], Files);
-                return Files;
+                ], User);
+                return User;
             })();
-            exports_1("Files", Files);
+            exports_1("User", User);
         }
     }
 });
-//# sourceMappingURL=files.js.map
+//# sourceMappingURL=user.js.map

@@ -4,6 +4,7 @@ var BrowserWindow = remote.BrowserWindow;
 
 import { Injectable } from "angular2/core";
 import { Http, Headers } from "angular2/http";
+
 import { SvcConsts } from "../svcConsts/svcConsts";
 
 @Injectable()
@@ -16,7 +17,7 @@ export class AuthHelper {
 
         let id_token = window.localStorage.getItem("id_token");
 
-        if (id_token != null){
+        if (id_token != null) {
             this.getAccessToken();
         }
     }
@@ -29,21 +30,49 @@ export class AuthHelper {
     public getRequestPromise = (reqUrl: string): Promise<any> => {
         let p = new Promise<any>((resolve: Function, reject: Function) => {
             let tokenPromise = this.tokenPromise(SvcConsts.GRAPH_RESOURCE);
+
             tokenPromise.then((token: string) => {
                 let headers = new Headers();
                 headers.append("Authorization", "Bearer " + token);
-                this.http.get(SvcConsts.GRAPH_RESOURCE + reqUrl, { headers: headers }).subscribe((res: any) => {
-                    if (res.status === 200) {
-                        resolve(JSON.parse(res._body));
-                    } else {
-                        reject("An error occurred calling the Microsoft Graph.");
-                    }
-                });
+
+                this.http.get(SvcConsts.GRAPH_RESOURCE + reqUrl, { headers: headers })
+                         .map(res => res.json())
+                         .subscribe(
+                             res => resolve(res),
+                             error => reject(error));
             });
         });
 
         return p;
-    }
+    };
+
+    public getPhotoRequestPromise = (reqUrl: string): Promise<any> => {
+        let p = new Promise<any>((resolve: Function, reject: Function) => {
+            let tokenPromise = this.tokenPromise(SvcConsts.GRAPH_RESOURCE);
+            tokenPromise.then((token: string) => {
+                var request = new XMLHttpRequest;
+                request.open("GET", SvcConsts.GRAPH_RESOURCE + reqUrl);
+                request.setRequestHeader("Authorization", "Bearer " + token);
+                request.responseType = "blob";
+                request.onload = function () {
+                    if (request.readyState === 4 && request.status === 200) {
+                        let reader = new FileReader();
+                        reader.onload = () => {
+                            resolve(reader.result);
+                        };
+
+                        reader.readAsDataURL(request.response);
+                    } else {
+                        reject("An error occurred calling the Microsoft Graph.");
+                    }
+                };
+
+                request.send(null);
+            });
+        });
+
+        return p;
+    };
 
     public logIn() {
        let loginUrl = "https://login.microsoftonline.com/" + SvcConsts.TENTANT_ID +
@@ -79,7 +108,6 @@ export class AuthHelper {
                             } });
 
         authWindow.webContents.on("did-get-redirect-request", (event: any, oldUrl: string, newUrl: string) => {
-            console.log("ID Token - did-get-redirect-request: " + newUrl);
             authWindow.destroy();
             let tokenURL: any = new URL(newUrl);
             let params: any = this.parseQueryString(tokenURL.hash);
@@ -120,7 +148,6 @@ export class AuthHelper {
                             } });
 
         accessWindow.webContents.on("did-get-redirect-request", (event: any, oldUrl: string, newUrl: string) => {
-            console.log("Access Token - did-get-redirect-request: " + newUrl);
             accessWindow.destroy();
 
             let tokenURL: any = new URL(newUrl);
