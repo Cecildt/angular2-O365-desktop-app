@@ -1,23 +1,26 @@
 <h3>My Tasks</h3>
+
+<strong>Waiting for new Planner feature roll-out in Office 365 before implementation can be completed.</strong>
 <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
 	<thead>
 		<tr>
-			<th class="mdl-data-table__cell--non-numeric">Type</th>
-			<th class="mdl-data-table__cell--non-numeric">Name</th>
-			<th>Size</th>
+			<th class="mdl-data-table__cell--non-numeric">Title</th>
+			<th class="mdl-data-table__cell--non-numeric">Due Date</th>
+			<th class="mdl-data-table__cell--non-numeric">Created By</th>
 		</tr>
 	</thead>
 	<tbody>
-		<tr *ngFor="#file of files">
+		<tr *ngFor="#task of tasks">
 			<td></td>
             <td class="mdl-data-table__cell--non-numeric">
-				<span *ngIf="file.file">File</span>
-				<span *ngIf="!file.file">Folder</span>
+				{{task.title}}
 			</td>
 			<td class="mdl-data-table__cell--non-numeric">
-                <a href={{file.webUrl}} target="_blank">{{file.name}}</a>
+                {{task.dueDateTime}}
             </td>
-			<td>{{file.size}}</td>
+			<td class="mdl-data-table__cell--non-numeric">
+                {{task.createdBy}}    
+            </td>
 		</tr>
 	</tbody>
 </table>
