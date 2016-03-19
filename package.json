@@ -24,6 +24,6 @@
   },
   "devDependencies": {
     "electron-prebuilt": "^0.37.2",
-    "typescript": "^1.7.5"
+    "typescript": "^1.8.9"
   }
 }
