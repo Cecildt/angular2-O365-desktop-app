@@ -1,4 +1,6 @@
-System.register([], function(exports_1) {
+System.register([], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
     var SvcConsts;
     return {
         setters:[],
@@ -11,7 +13,7 @@ System.register([], function(exports_1) {
                 SvcConsts.GRAPH_RESOURCE = "https://graph.microsoft.com";
                 SvcConsts.REDIRECT_URL = "http://localhost:8000";
                 return SvcConsts;
-            })();
+            }());
             exports_1("SvcConsts", SvcConsts);
         }
     }
