@@ -1,15 +1,11 @@
-import { Component, bind } from "angular2/core";
-import { bootstrap } from "angular2/platform/browser";
+import { Component } from "angular2/core";
 import {
 Router,
 RouteConfig,
 ROUTER_DIRECTIVES,
-ROUTER_PROVIDERS,
-LocationStrategy,
-HashLocationStrategy
+ROUTER_PROVIDERS
 } from "angular2/router";
-import { HTTP_PROVIDERS } from "angular2/http";
-import "rxjs/Rx";
+
 
 import { Home } from "../home/home";
 import { Login } from "../login/login";
@@ -59,5 +55,3 @@ export class App {
         }
     }
 }
-
-bootstrap(App, [AuthHelper, Profile, HTTP_PROVIDERS, ROUTER_PROVIDERS, bind(LocationStrategy).toClass(HashLocationStrategy)]);

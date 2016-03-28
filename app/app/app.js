@@ -1,4 +1,4 @@
-System.register(["angular2/core", "angular2/platform/browser", "angular2/router", "angular2/http", "rxjs/Rx", "../home/home", "../login/login", "../files/files", "../authHelper/authHelper", "../profile/profile", "../contacts/contacts", "../groups/groups", "../mails/mails", "../notes/notes", "../tasks/tasks", "../trending/trending", "../users/users"], function(exports_1, context_1) {
+System.register(["angular2/core", "angular2/router", "../home/home", "../login/login", "../files/files", "../authHelper/authHelper", "../profile/profile", "../contacts/contacts", "../groups/groups", "../mails/mails", "../notes/notes", "../tasks/tasks", "../trending/trending", "../users/users"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,23 +10,16 @@ System.register(["angular2/core", "angular2/platform/browser", "angular2/router"
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, browser_1, router_1, http_1, home_1, login_1, files_1, authHelper_1, profile_1, contacts_1, groups_1, mails_1, notes_1, tasks_1, trending_1, users_1;
+    var core_1, router_1, home_1, login_1, files_1, authHelper_1, profile_1, contacts_1, groups_1, mails_1, notes_1, tasks_1, trending_1, users_1;
     var App;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (browser_1_1) {
-                browser_1 = browser_1_1;
-            },
             function (router_1_1) {
                 router_1 = router_1_1;
             },
-            function (http_1_1) {
-                http_1 = http_1_1;
-            },
-            function (_1) {},
             function (home_1_1) {
                 home_1 = home_1_1;
             },
@@ -92,13 +85,11 @@ System.register(["angular2/core", "angular2/platform/browser", "angular2/router"
                         { name: "Trending", component: trending_1.Trending, path: "/trending" },
                         { name: "Users", component: users_1.Users, path: "/users" },
                     ]), 
-                    __metadata('design:paramtypes', [(typeof (_a = typeof router_1.Router !== 'undefined' && router_1.Router) === 'function' && _a) || Object, authHelper_1.AuthHelper])
+                    __metadata('design:paramtypes', [router_1.Router, authHelper_1.AuthHelper])
                 ], App);
                 return App;
-                var _a;
             }());
             exports_1("App", App);
-            browser_1.bootstrap(App, [authHelper_1.AuthHelper, profile_1.Profile, http_1.HTTP_PROVIDERS, router_1.ROUTER_PROVIDERS, core_1.bind(router_1.LocationStrategy).toClass(router_1.HashLocationStrategy)]);
         }
     }
 });

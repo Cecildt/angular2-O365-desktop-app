@@ -1,18 +1,18 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8">    
     <title>Office 365 Desktop Experience</title>
     <!-- Material Design -->
-    <link rel="stylesheet" href="../node_modules/material-design-lite/dist/material.blue-red.min.css" />    
+    <link rel="stylesheet" href="../node_modules/material-design-lite/dist/material.blue-red.min.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link href="../node_modules/material-design-icons/sprites/css-sprite/sprite-av-black.css" rel="stylesheet">
+    <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css" rel="stylesheet">-->
     <script src="../node_modules/material-design-lite/dist/material.min.js"></script>
 </head>
 
 <body>
     <graph-app></graph-app>
-    
+
     <!-- Angular2 -->
     <script src="../node_modules/systemjs/dist/system.src.js"></script>
     <script src="../node_modules/angular2/bundles/angular2-polyfills.js"></script>
@@ -22,67 +22,10 @@
     <script src="../node_modules/angular2/bundles/http.dev.js"></script>
 
     <script type="text/javascript">
-        System.config({
-			packages: {
-				"app": {
-					format: "register",
-					defaultExtension: "js"
-				},
-                "home": {
-					format: "register",
-					defaultExtension: "js"
-				},
-                "login": {
-					format: "register",
-					defaultExtension: "js"
-				},
-                "files": {
-					format: "register",
-					defaultExtension: "js"
-				},
-                "authHelper": {
-					format: "register",
-					defaultExtension: "js"
-				},
-                "svcConsts": {
-					format: "register",
-					defaultExtension: "js"
-				},
-                "profile": {
-					format: "register",
-					defaultExtension: "js"
-				},
-                "contacts": {
-					format: "register",
-					defaultExtension: "js"
-				},
-                "groups": {
-					format: "register",
-					defaultExtension: "js"
-				},
-                "mails": {
-					format: "register",
-					defaultExtension: "js"
-				},
-                "notes": {
-					format: "register",
-					defaultExtension: "js"
-				},
-                "tasks": {
-					format: "register",
-					defaultExtension: "js"
-				},
-                "trending": {
-					format: "register",
-					defaultExtension: "js"
-				},
-                "users": {
-					format: "register",
-					defaultExtension: "js"
-				}
-			}
-		});
-		System.import("app/app").then(null, console.error.bind(console));
+        System.config({            
+            "baseURL": __dirname + "/"
+        });
+		System.import("boot/boot").then(null, console.error.bind(console));
     </script>
 </body>
 
