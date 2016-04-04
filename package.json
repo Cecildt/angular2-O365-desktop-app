@@ -26,7 +26,7 @@
     "zone.js": "^0.6.6"
   },
   "devDependencies": {
-    "electron-prebuilt": "^0.37.3",
+    "electron-prebuilt": "^0.37.4",
     "typescript": "^1.8.9"
   }
 }
