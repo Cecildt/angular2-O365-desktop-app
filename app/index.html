@@ -29,9 +29,12 @@
     <script src="../node_modules/angular2/bundles/http.dev.js"></script>
 
     <script type="text/javascript">
-        System.defaultJSExtensions = true;
         System.config({            
-            "baseURL": __dirname + "/",
+            defaultJSExtensions: true,
+            paths: {
+            'angular2/*': '../node_modules/angular2/*.js',
+            'rxjs/*': '../node_modules/rxjs/*.js'
+            }
             
         });
 		System.import("boot/boot").then(null, console.error.bind(console));
