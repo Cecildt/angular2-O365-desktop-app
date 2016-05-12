@@ -29,8 +29,10 @@
     <script src="../node_modules/angular2/bundles/http.dev.js"></script>
 
     <script type="text/javascript">
+        System.defaultJSExtensions = true;
         System.config({            
-            "baseURL": __dirname + "/"
+            "baseURL": __dirname + "/",
+            
         });
 		System.import("boot/boot").then(null, console.error.bind(console));
     </script>
