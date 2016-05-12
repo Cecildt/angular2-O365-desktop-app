@@ -5,15 +5,8 @@ const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 let mainWindow = null;
 
-app.on('window-all-closed', function () {
-  if (process.platform != 'darwin') {
-    app.quit();
-  }
-});
-
-app.on('ready', function () {
-
-  // Initialize the window to our specified dimensions
+function createWindow () {
+   // Initialize the window to our specified dimensions
   mainWindow = new BrowserWindow({ width: 1200, height: 900 });
 
   // Tell Electron where to load the entry point from
@@ -24,6 +17,22 @@ app.on('ready', function () {
 
     mainWindow = null;
 
-  });
+  });  
+}
 
+app.on('ready', createWindow);
+
+app.on('window-all-closed', function () {
+  if (process.platform != 'darwin') {
+    app.quit();
+  }
 });
+
+app.on('activate', function () {
+  // On OS X it's common to re-create a window in the app when the
+  // dock icon is clicked and there are no other windows open.
+  if (mainWindow === null) {
+    createWindow()
+  }
+});
+
