@@ -1,9 +1,9 @@
-import { Component } from "angular2/core";
+import { Component } from "@angular/core";
 import { AuthHelper } from "../authHelper/authHelper";
 
 @Component({
     selector: "my-contacts",
-    templateUrl: "./contacts/view-contacts.html",
+    templateUrl: __dirname + "/view-contacts.html",
 })
 export class Contacts {
     private contacts = [];

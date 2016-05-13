@@ -1,10 +1,10 @@
-import { Component } from "angular2/core";
+import { Component } from "@angular/core";
 import {
 Router,
 RouteConfig,
 ROUTER_DIRECTIVES,
 ROUTER_PROVIDERS
-} from "angular2/router";
+} from "@angular/router-deprecated";
 
 
 import { Home } from "../home/home";

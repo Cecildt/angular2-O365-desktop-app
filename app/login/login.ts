@@ -1,14 +1,10 @@
-import { Component, View } from "angular2/core";
+import { Component } from "@angular/core";
 import { AuthHelper } from "../authHelper/authHelper";
 
 @Component({
-	selector: "my-login"
-})
-
-@View({
+	selector: "my-login",
 	templateUrl: "./login/view-login.html"
 })
-
 export class Login {
 	private authHelper:AuthHelper;
 	constructor(auth: AuthHelper) {

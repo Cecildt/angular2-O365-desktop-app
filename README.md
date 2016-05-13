@@ -73,6 +73,8 @@ To package files for deployment:
 * npm install -g asar
 * asar pack angular2-O365-desktop-app app.asar
 
+TODO Packaging: https://www.xplatform.rocks/2016/02/14/angular2-and-electron-the-definitive-guide/
+
 
 ** More details to follow **
 

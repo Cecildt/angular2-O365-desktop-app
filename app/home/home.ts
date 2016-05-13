@@ -1,4 +1,4 @@
-import { Component } from "angular2/core";
+import { Component } from "@angular/core";
 import { Profile } from "../profile/profile";
 import { AuthHelper } from "../authHelper/authHelper";
 

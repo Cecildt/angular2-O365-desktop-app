@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">    
+    <meta charset="UTF-8">
     <title>Office 365 Desktop Experience</title>
     <!-- Material Design -->
     <link rel="stylesheet" href="../node_modules/material-design-lite/dist/material.blue-red.min.css" />
@@ -11,33 +11,45 @@
 </head>
 
 <body>
-    <graph-app></graph-app>
+    <graph-app>Loading...</graph-app>
     <section>
-        The application is using node <script>document.write(process.versions.node)</script>,
-        Chromium <script>document.write(process.versions.chrome)</script>,
-        and Electron <script>document.write(process.versions.electron)</script>.
+        The application is using node
+        <script>
+            document.write(process.versions.node)
+        </script>, Chromium
+        <script>
+            document.write(process.versions.chrome)
+        </script>, and Electron
+        <script>
+            document.write(process.versions.electron)
+        </script>.
     </section>
 
-    <script src="./menu.js"></script>
+
+    <script>
+        window.nodeRequire = require;
+        delete window.require;
+        delete window.exports;
+        delete window.module;
+    </script>
+
+    <!--<script src="./menu.js"></script>-->
+
+    <!-- 1. Load libraries -->
 
     <!-- Angular2 -->
-    <script src="../node_modules/systemjs/dist/system.src.js"></script>
-    <script src="../node_modules/angular2/bundles/angular2-polyfills.js"></script>
-    <script src="../node_modules/rxjs/bundles/Rx.js"></script>
-    <script src="../node_modules/angular2/bundles/angular2.dev.js"></script>
-    <script src="../node_modules/angular2/bundles/router.dev.js"></script>
-    <script src="../node_modules/angular2/bundles/http.dev.js"></script>
+    <!-- Polyfill(s) for older browsers -->
+    <script src="../node_modules/es6-shim/es6-shim.min.js"></script>
 
+
+    <script src="../node_modules/zone.js/dist/zone.js"></script>
+    <script src="../node_modules/reflect-metadata/Reflect.js"></script>
+    <script src="../node_modules/systemjs/dist/system.src.js"></script>
+
+    <!-- 2. Configure SystemJS -->
+    <script src="systemjs.config.js"></script>
     <script type="text/javascript">
-        System.config({            
-            defaultJSExtensions: true,
-            paths: {
-            'angular2/*': '../node_modules/angular2/*.js',
-            'rxjs/*': '../node_modules/rxjs/*.js'
-            }
-            
-        });
-		System.import("boot/boot").then(null, console.error.bind(console));
+        System.import("boot").then(null, console.error.bind(console));
     </script>
 </body>
 

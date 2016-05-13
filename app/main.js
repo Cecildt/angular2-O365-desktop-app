@@ -1,13 +1,26 @@
 const electron = require('electron');
-const app = electron.app; 
+const app = electron.app;
+const ipc = require('electron').ipcMain
+ const crashReporter = electron.crashReporter;
+
+
+// crashReporter.start({
+//   productName: 'angular2-O365-desktop-app',
+//   companyName: 'Open Code',
+//   submitUrl: 'http://localhost:3000/crashes',
+//   autoSubmit: true
+// });
 
 // browser-window creates a native window
 const BrowserWindow = electron.BrowserWindow;
 let mainWindow = null;
 
-function createWindow () {
-   // Initialize the window to our specified dimensions
-  mainWindow = new BrowserWindow({ width: 1200, height: 900 });
+function createWindow() {
+  // Initialize the window to our specified dimensions
+  mainWindow = new BrowserWindow({ 
+    width: 1200, 
+    height: 900 
+  });
 
   // Tell Electron where to load the entry point from
   mainWindow.loadURL('file://' + __dirname + '/index.html');
@@ -17,7 +30,7 @@ function createWindow () {
 
     mainWindow = null;
 
-  });  
+  });
 }
 
 app.on('ready', createWindow);
@@ -36,3 +49,7 @@ app.on('activate', function () {
   }
 });
 
+
+ipc.on('login-event', function (event, arg) {
+  event.returnValue = 'pong'
+})
