@@ -3,7 +3,7 @@ import { AuthHelper } from "../authHelper/authHelper";
 
 @Component({
     selector: "my-groups",
-    templateUrl: "./groups/view-groups.html",
+    templateUrl: __dirname + "/view-groups.html",
 })
 export class Groups {
     private groups = [];

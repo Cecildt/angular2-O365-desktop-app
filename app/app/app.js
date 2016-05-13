@@ -37,7 +37,7 @@ var App = (function () {
     App = __decorate([
         core_1.Component({
             selector: "graph-app",
-            templateUrl: "./app/view-main.html",
+            templateUrl: __dirname + "/view-main.html",
             directives: [router_deprecated_1.ROUTER_DIRECTIVES, profile_1.Profile]
         }),
         router_deprecated_1.RouteConfig([

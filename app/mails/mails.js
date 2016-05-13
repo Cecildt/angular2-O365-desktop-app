@@ -26,7 +26,7 @@ var Mails = (function () {
     Mails = __decorate([
         core_1.Component({
             selector: "my-mails",
-            templateUrl: "./mails/view-mails.html",
+            templateUrl: __dirname + "/view-mails.html",
         }), 
         __metadata('design:paramtypes', [authHelper_1.AuthHelper])
     ], Mails);

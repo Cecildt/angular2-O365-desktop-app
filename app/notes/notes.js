@@ -26,7 +26,7 @@ var Notes = (function () {
     Notes = __decorate([
         core_1.Component({
             selector: "my-notes",
-            templateUrl: "./notes/view-notes.html",
+            templateUrl: __dirname + "/view-notes.html",
         }), 
         __metadata('design:paramtypes', [authHelper_1.AuthHelper])
     ], Notes);

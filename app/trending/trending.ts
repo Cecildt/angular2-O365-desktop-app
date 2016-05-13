@@ -3,7 +3,7 @@ import { AuthHelper } from "../authHelper/authHelper";
 
 @Component({
     selector: "my-trending",
-    templateUrl: "./trending/view-trending.html",
+    templateUrl: __dirname + "/view-trending.html",
 })
 export class Trending {
     private trends = [];

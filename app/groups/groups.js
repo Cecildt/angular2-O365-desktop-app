@@ -27,7 +27,7 @@ var Groups = (function () {
     Groups = __decorate([
         core_1.Component({
             selector: "my-groups",
-            templateUrl: "./groups/view-groups.html",
+            templateUrl: __dirname + "/view-groups.html",
         }), 
         __metadata('design:paramtypes', [authHelper_1.AuthHelper])
     ], Groups);

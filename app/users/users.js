@@ -26,7 +26,7 @@ var Users = (function () {
     Users = __decorate([
         core_1.Component({
             selector: "my-users",
-            templateUrl: "./users/view-users.html",
+            templateUrl: __dirname + "/view-users.html",
         }), 
         __metadata('design:paramtypes', [authHelper_1.AuthHelper])
     ], Users);

@@ -26,7 +26,7 @@ var Trending = (function () {
     Trending = __decorate([
         core_1.Component({
             selector: "my-trending",
-            templateUrl: "./trending/view-trending.html",
+            templateUrl: __dirname + "/view-trending.html",
         }), 
         __metadata('design:paramtypes', [authHelper_1.AuthHelper])
     ], Trending);

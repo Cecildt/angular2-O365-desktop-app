@@ -25,7 +25,7 @@ var Home = (function () {
     Home = __decorate([
         core_1.Component({
             selector: "my-home",
-            templateUrl: "./home/view-home.html",
+            templateUrl: __dirname + "/view-home.html",
             directives: [profile_1.Profile]
         }), 
         __metadata('design:paramtypes', [authHelper_1.AuthHelper, profile_1.Profile])

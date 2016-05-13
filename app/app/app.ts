@@ -22,7 +22,7 @@ import { Users } from "../users/users";
 
 @Component({
     selector: "graph-app",
-    templateUrl: "./app/view-main.html",
+    templateUrl: __dirname + "/view-main.html",
     directives: [ROUTER_DIRECTIVES, Profile]
 })
 

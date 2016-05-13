@@ -21,7 +21,7 @@ var Login = (function () {
     Login = __decorate([
         core_1.Component({
             selector: "my-login",
-            templateUrl: "./login/view-login.html"
+            templateUrl: __dirname + "/view-login.html"
         }), 
         __metadata('design:paramtypes', [authHelper_1.AuthHelper])
     ], Login);

@@ -3,7 +3,7 @@ import { AuthHelper } from "../authHelper/authHelper";
 
 @Component({
     selector: "my-users",
-    templateUrl: "./users/view-users.html",
+    templateUrl: __dirname + "/view-users.html",
 })
 export class Users {
     private users = [];

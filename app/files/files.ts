@@ -4,7 +4,7 @@ import { AuthHelper } from "../authHelper/authHelper";
 
 @Component({
     selector: "my-files",
-    templateUrl: "./files/view-files.html"
+    templateUrl: __dirname + "/view-files.html"
 })
 
 export class Files {

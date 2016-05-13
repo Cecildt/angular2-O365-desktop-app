@@ -26,7 +26,7 @@ var Tasks = (function () {
     Tasks = __decorate([
         core_1.Component({
             selector: "my-tasks",
-            templateUrl: "./tasks/view-tasks.html",
+            templateUrl: __dirname + "/view-tasks.html",
         }), 
         __metadata('design:paramtypes', [authHelper_1.AuthHelper])
     ], Tasks);
