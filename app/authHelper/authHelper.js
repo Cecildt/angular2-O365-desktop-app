@@ -14,7 +14,6 @@ var svcConsts_1 = require("../svcConsts/svcConsts");
 var AuthHelper = (function () {
     function AuthHelper(http) {
         var _this = this;
-        this.params = this.parseQueryString(location.hash);
         this.access_token = null;
         this.getRequestPromise = function (reqUrl) {
             var p = new Promise(function (resolve, reject) {
@@ -68,58 +67,30 @@ var AuthHelper = (function () {
             return p;
         };
         this.http = http;
-        // let id_token = window.localStorage.getItem("id_token");
-        // if (id_token != null) {
-        //     this.getAccessToken();
-        // }
-        //check for id_token or access_token in url
-        if (this.params["id_token"] != null)
-            this.getAccessToken();
-        else if (this.params["access_token"] != null)
-            this.access_token = this.params["access_token"];
+        this.http.get("http://localhost:3000/token")
+            .map(function (res) { return res.json(); })
+            .subscribe(function (token) {
+            _this.access_token = token;
+            window.localStorage.setItem("access_token", token);
+        });
     }
     Object.defineProperty(AuthHelper.prototype, "isUserAuthenticated", {
         get: function () {
-            var id_token = window.localStorage.getItem("id_token");
-            return id_token != null;
+            var token = window.localStorage.getItem("access_token");
+            return token != null;
         },
         enumerable: true,
         configurable: true
     });
     AuthHelper.prototype.logIn = function () {
-        //redirect to get id_token
+        //redirect to get access_token
         window.location.href = "https://login.microsoftonline.com/" + svcConsts_1.SvcConsts.TENTANT_ID +
             "/oauth2/authorize?response_type=id_token&client_id=" + svcConsts_1.SvcConsts.CLIENT_ID +
             "&redirect_uri=" + encodeURIComponent(svcConsts_1.SvcConsts.REDIRECT_URL) +
             "&state=SomeState&nonce=SomeNonce";
     };
     AuthHelper.prototype.logOut = function () {
-        // let logoutUrl = "https://login.microsoftonline.com/common/oauth2/logout?post_logout_redirect_uri="
-        //                  + encodeURIComponent(SvcConsts.REDIRECT_URL);
-        // let logOutWindow = new BrowserWindow({
-        //                     width: 800,
-        //                     height: 600,
-        //                     show: false,
-        //                     frame: false,
-        //                     webPreferences: {
-        //                         nodeIntegration: false
-        //                     } });
-        // logOutWindow.webContents.on("did-finish-load", (event: any, oldUrl: string, newUrl: string) => {
-        //     window.localStorage.removeItem("id_token");
-        //     window.localStorage.removeItem("access_token");
-        //     logOutWindow.destroy();
-        //     remote.getCurrentWindow().reload();
-        // });
-        // // reset the accessWindow on close
-        // logOutWindow.on("closed", () => {
-        //     logOutWindow = null;
-        // });
-        // logOutWindow.loadURL(logoutUrl);
-        // this.http.get("http://localhost:3000/login")
-        //                  .map((res: any) => res.json())
-        //                  .subscribe(
-        //                      (res: any) => resolve(res),
-        //                      (error: any) => reject(error));
+        // TODO
     };
     AuthHelper.prototype.getAccessToken = function () {
         //redirect to get access_token

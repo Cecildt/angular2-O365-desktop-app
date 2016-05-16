@@ -20,6 +20,7 @@ const SvcConsts = require("./svcConsts/svcConsts");
 // browser-window creates a native window
 const BrowserWindow = electron.BrowserWindow;
 let mainWindow = null;
+let accessToken = null;
 
 function createWindow() {
   // Initialize the window to our specified dimensions
@@ -50,9 +51,7 @@ function createWindow() {
     let params = parseQueryString(tokenURL.hash);
     if (params.id_token != null) {
       console.log("Token: " + params.id_token);
-      mainWindow.webContents.executeJavaScript('window.localStorage.setItem("id_token", params.id_token)', () => {
-        console.log("Local Storage saved.");
-      });
+      accessToken = params.id_token;      
     }
   });
 
@@ -86,12 +85,8 @@ function parseQueryString(url) {
   return params;
 }
 
-
 // Start Restify API Server 
-
 let port = process.env.PORT || 3000;
-
-
 var server = restify.createServer({ name: 'electron-backend', version: '0.0.1' });
 
 server.use(restify.queryParser());
@@ -117,8 +112,8 @@ server.get('/info', (req, res, next) => {
   });
 });
 
-server.get('/login', (req, res, next) => {
-  res.send("user: " + req.user.username);
+server.get('/token', (req, res, next) => {
+  res.send(accessToken || {});
 });
 
 server.get('/logout', (req, res, next) => {
