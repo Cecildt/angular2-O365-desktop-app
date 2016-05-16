@@ -25,9 +25,15 @@ var trending_1 = require("../trending/trending");
 var users_1 = require("../users/users");
 var App = (function () {
     function App(http, router, auth) {
+        var _this = this;
         this.http = http;
         this.http.get("http://localhost:3000/info")
-            .map(this.extractData);
+            .map(function (res) { return res.json(); })
+            .subscribe(function (info) {
+            _this.nodeVersion = info.nodeVersion;
+            _this.chromeVersion = info.chromeVersion;
+            _this.electronVersion = info.electronVersion;
+        });
         // route the user to a view based on presence of access token
         if (auth.isUserAuthenticated) {
             // access token exists...display the users files
@@ -38,14 +44,10 @@ var App = (function () {
             router.navigate(["/Login"]);
         }
     }
-    App.prototype.extractData = function (res) {
-        if (res.status < 200 || res.status >= 300) {
-            throw new Error('Bad response status: ' + res.status);
-        }
-        var body = res.json();
-        this.nodeVersion = body.data.nodeVersion;
-        this.chromeVersion = body.data.chromeVersion;
-        this.electronVersion = body.data.electronVersion;
+    App.prototype.extractData = function (info) {
+        this.nodeVersion = info.nodeVersion;
+        this.chromeVersion = info.chromeVersion;
+        this.electronVersion = info.electronVersion;
     };
     App = __decorate([
         core_1.Component({

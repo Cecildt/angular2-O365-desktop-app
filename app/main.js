@@ -125,7 +125,6 @@ server.get('/auth/azureoauth/callback', (req, res, next) => {
   mainWindow.loadURL('file://' + __dirname + '/index.html');
 });
 
-
 server.listen(port, () => {
   console.log('server running on port ' + port);
 });

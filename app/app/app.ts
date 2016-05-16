@@ -52,9 +52,13 @@ export class App {
     constructor(http: Http, router: Router, auth: AuthHelper) {
         this.http = http;
         this.http.get("http://localhost:3000/info")
-                        .map(this.extractData);
-        
-        
+                        .map((res: any) => res.json())
+                        .subscribe(info => {
+                            this.nodeVersion = info.nodeVersion;
+                            this.chromeVersion = info.chromeVersion;
+                            this.electronVersion = info.electronVersion;    
+                        })
+                
         // route the user to a view based on presence of access token
         if (auth.isUserAuthenticated) {
             // access token exists...display the users files
@@ -65,13 +69,10 @@ export class App {
         }
     }
     
-    private extractData(res: Response) {
-        if (res.status < 200 || res.status >= 300) {
-            throw new Error('Bad response status: ' + res.status);
-        }
-        let body = res.json();
-        this.nodeVersion = body.data.nodeVersion;
-        this.chromeVersion = body.data.chromeVersion;
-        this.electronVersion = body.data.electronVersion;
+    private extractData(info: any) {
+        
+        this.nodeVersion = info.nodeVersion;
+        this.chromeVersion = info.chromeVersion;
+        this.electronVersion = info.electronVersion;
     }
 }
