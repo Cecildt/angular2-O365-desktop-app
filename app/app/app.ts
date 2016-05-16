@@ -5,6 +5,7 @@ RouteConfig,
 ROUTER_DIRECTIVES,
 ROUTER_PROVIDERS
 } from "@angular/router-deprecated";
+import { Http, Headers, Response } from "@angular/http";
 
 
 import { Home } from "../home/home";
@@ -42,9 +43,18 @@ import { Users } from "../users/users";
 ])
 
 export class App {
+    http: Http;
     userName: string;
+    nodeVersion: string;
+    chromeVersion: string;
+    electronVersion: string;
 
-    constructor(router: Router, auth: AuthHelper) {
+    constructor(http: Http, router: Router, auth: AuthHelper) {
+        this.http = http;
+        this.http.get("http://localhost:3000/info")
+                        .map(this.extractData);
+        
+        
         // route the user to a view based on presence of access token
         if (auth.isUserAuthenticated) {
             // access token exists...display the users files
@@ -53,5 +63,15 @@ export class App {
             // access token doesn't exist, so the user needs to login
             router.navigate(["/Login"]);
         }
+    }
+    
+    private extractData(res: Response) {
+        if (res.status < 200 || res.status >= 300) {
+            throw new Error('Bad response status: ' + res.status);
+        }
+        let body = res.json();
+        this.nodeVersion = body.data.nodeVersion;
+        this.chromeVersion = body.data.chromeVersion;
+        this.electronVersion = body.data.electronVersion;
     }
 }

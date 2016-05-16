@@ -1,6 +1,6 @@
 const electron = require("electron");
-var remote = electron.remote;
-var BrowserWindow = remote.BrowserWindow;
+// var remote = electron.remote;
+// var BrowserWindow = remote.BrowserWindow;
 
 export class AuthHelper {
 

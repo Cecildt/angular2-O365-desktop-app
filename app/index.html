@@ -12,27 +12,7 @@
 
 <body>
     <graph-app>Loading...</graph-app>
-    <section>
-        The application is using node
-        <script>
-            document.write(process.versions.node)
-        </script>, Chromium
-        <script>
-            document.write(process.versions.chrome)
-        </script>, and Electron
-        <script>
-            document.write(process.versions.electron)
-        </script>.
-    </section>
-
-
-    <script>
-        window.nodeRequire = require;
-        delete window.require;
-        delete window.exports;
-        delete window.module;
-    </script>
-
+    
     <!--<script src="./menu.js"></script>-->
 
     <!-- 1. Load libraries -->

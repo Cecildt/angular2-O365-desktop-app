@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var router_deprecated_1 = require("@angular/router-deprecated");
+var http_1 = require("@angular/http");
 var home_1 = require("../home/home");
 var login_1 = require("../login/login");
 var files_1 = require("../files/files");
@@ -23,7 +24,10 @@ var tasks_1 = require("../tasks/tasks");
 var trending_1 = require("../trending/trending");
 var users_1 = require("../users/users");
 var App = (function () {
-    function App(router, auth) {
+    function App(http, router, auth) {
+        this.http = http;
+        this.http.get("http://localhost:3000/info")
+            .map(this.extractData);
         // route the user to a view based on presence of access token
         if (auth.isUserAuthenticated) {
             // access token exists...display the users files
@@ -34,6 +38,15 @@ var App = (function () {
             router.navigate(["/Login"]);
         }
     }
+    App.prototype.extractData = function (res) {
+        if (res.status < 200 || res.status >= 300) {
+            throw new Error('Bad response status: ' + res.status);
+        }
+        var body = res.json();
+        this.nodeVersion = body.data.nodeVersion;
+        this.chromeVersion = body.data.chromeVersion;
+        this.electronVersion = body.data.electronVersion;
+    };
     App = __decorate([
         core_1.Component({
             selector: "graph-app",
@@ -53,7 +66,7 @@ var App = (function () {
             { name: "Trending", component: trending_1.Trending, path: "/trending" },
             { name: "Users", component: users_1.Users, path: "/users" },
         ]), 
-        __metadata('design:paramtypes', [router_deprecated_1.Router, authHelper_1.AuthHelper])
+        __metadata('design:paramtypes', [http_1.Http, router_deprecated_1.Router, authHelper_1.AuthHelper])
     ], App);
     return App;
 }());

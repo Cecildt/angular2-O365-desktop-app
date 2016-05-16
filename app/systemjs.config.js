@@ -64,7 +64,6 @@
   });
 
   var config = {
-    baseURL: __dirname + "/",
     map: map,
     packages: packages
   }

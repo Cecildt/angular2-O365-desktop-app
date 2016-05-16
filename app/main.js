@@ -1,7 +1,13 @@
 const electron = require('electron');
 const app = electron.app;
 const ipc = require('electron').ipcMain
- const crashReporter = electron.crashReporter;
+const crashReporter = electron.crashReporter;
+const parse = require('url-parse');
+
+const restify = require('restify');
+const remote = require('electron').remote;
+const SvcConsts = require("./svcConsts/svcConsts");
+//require('./server/server.js');
 
 
 // crashReporter.start({
@@ -17,13 +23,20 @@ let mainWindow = null;
 
 function createWindow() {
   // Initialize the window to our specified dimensions
-  mainWindow = new BrowserWindow({ 
-    width: 1200, 
-    height: 900 
+  mainWindow = new BrowserWindow({
+    width: 1200,
+    height: 900,
+    autoHideMenuBar: true,
+    webPreferences: {
+      nodeIntegration: false
+    }
   });
 
   // Tell Electron where to load the entry point from
   mainWindow.loadURL('file://' + __dirname + '/index.html');
+
+  // Open the DevTools.
+  mainWindow.webContents.openDevTools();
 
   // Clear out the main window when the app is closed
   mainWindow.on('closed', function () {
@@ -31,6 +44,18 @@ function createWindow() {
     mainWindow = null;
 
   });
+
+  mainWindow.webContents.on("did-get-redirect-request", (event, oldUrl, newUrl) => {
+    let tokenURL = parse(newUrl, true);
+    let params = parseQueryString(tokenURL.hash);
+    if (params.id_token != null) {
+      console.log("Token: " + params.id_token);
+      mainWindow.webContents.executeJavaScript('window.localStorage.setItem("id_token", params.id_token)', () => {
+        console.log("Local Storage saved.");
+      });
+    }
+  });
+
 }
 
 app.on('ready', createWindow);
@@ -45,11 +70,67 @@ app.on('activate', function () {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
-    createWindow()
+    createWindow();
   }
 });
 
 
-ipc.on('login-event', function (event, arg) {
-  event.returnValue = 'pong'
-})
+function parseQueryString(url) {
+  let params = {}, queryString = url.substring(1),
+    regex = /([^&=]+)=([^&]*)/g, m;
+
+  while (m = regex.exec(queryString)) {
+    params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+  }
+
+  return params;
+}
+
+
+// Start Restify API Server 
+
+let port = process.env.PORT || 3000;
+
+
+var server = restify.createServer({ name: 'electron-backend', version: '0.0.1' });
+
+server.use(restify.queryParser());
+server.use(restify.bodyParser());
+
+server.post('/crashes', (req, res, next) => {
+  console.log(req.body);
+  res.send(200);
+});
+
+server.get('/echo', (req, res, next) => {
+  console.log('echo called.');
+  res.send('Echo hello!');
+});
+
+server.get('/info', (req, res, next) => {
+  console.log('info called.');
+
+  res.send({
+    nodeVersion: process.versions.node,
+    chromeVersion: process.versions.chrome,
+    electronVersion: process.versions.electron
+  });
+});
+
+server.get('/login', (req, res, next) => {
+  res.send("user: " + req.user.username);
+});
+
+server.get('/logout', (req, res, next) => {
+  req.logout();
+  res.redirect('/');
+});
+
+server.get('/auth/azureoauth/callback', (req, res, next) => {
+  mainWindow.loadURL('file://' + __dirname + '/index.html');
+});
+
+
+server.listen(port, () => {
+  console.log('server running on port ' + port);
+});

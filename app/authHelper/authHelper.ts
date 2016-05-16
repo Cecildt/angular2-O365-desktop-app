@@ -1,7 +1,5 @@
-const ipc = nodeRequire("electron").ipcRenderer;
-
 import { Injectable } from "@angular/core";
-import { Http, Headers } from "@angular/http";
+import { Http, Headers, Response } from "@angular/http";
 
 import { SvcConsts } from "../svcConsts/svcConsts";
 
@@ -10,17 +8,26 @@ export class AuthHelper {
 
     http: Http;
 
+    private params = this.parseQueryString(location.hash);
+    public access_token: string = null;
+
     constructor(http: Http) {
         this.http = http;
 
-        let id_token = window.localStorage.getItem("id_token");
+        // let id_token = window.localStorage.getItem("id_token");
 
-        if (id_token != null) {
+        // if (id_token != null) {
+        //     this.getAccessToken();
+        // }
+
+        //check for id_token or access_token in url
+        if (this.params["id_token"] != null)
             this.getAccessToken();
-        }
+        else if (this.params["access_token"] != null)
+            this.access_token = this.params["access_token"];
     }
 
-    public get isUserAuthenticated() : boolean {
+    public get isUserAuthenticated(): boolean {
         let id_token = window.localStorage.getItem("id_token");
         return id_token != null;
     }
@@ -34,10 +41,10 @@ export class AuthHelper {
                 headers.append("Authorization", "Bearer " + token);
 
                 this.http.get(SvcConsts.GRAPH_RESOURCE + reqUrl, { headers: headers })
-                         .map((res: any) => res.json())
-                         .subscribe(
-                             (res: any) => resolve(res),
-                             (error: any) => reject(error));
+                    .map((res: any) => res.json())
+                    .subscribe(
+                    (res: any) => resolve(res),
+                    (error: any) => reject(error));
             });
         });
 
@@ -73,12 +80,11 @@ export class AuthHelper {
     };
 
     public logIn() {
-       let loginUrl = "https://login.microsoftonline.com/" + SvcConsts.TENTANT_ID +
-			"/oauth2/authorize?response_type=id_token&client_id=" + SvcConsts.CLIENT_ID +
-			"&redirect_uri=" + encodeURIComponent(SvcConsts.REDIRECT_URL) +
-			"&state=SomeState&nonce=SomeNonce";
-
-       this.openAuth(loginUrl);
+        //redirect to get id_token
+        window.location.href = "https://login.microsoftonline.com/" + SvcConsts.TENTANT_ID +
+            "/oauth2/authorize?response_type=id_token&client_id=" + SvcConsts.CLIENT_ID +
+            "&redirect_uri=" + encodeURIComponent(SvcConsts.REDIRECT_URL) +
+            "&state=SomeState&nonce=SomeNonce";
     }
 
     public logOut() {
@@ -109,6 +115,12 @@ export class AuthHelper {
         // });
 
         // logOutWindow.loadURL(logoutUrl);
+
+        // this.http.get("http://localhost:3000/login")
+        //                  .map((res: any) => res.json())
+        //                  .subscribe(
+        //                      (res: any) => resolve(res),
+        //                      (error: any) => reject(error));
     }
 
     private tokenPromise = (endpoint: string): Promise<string> => {
@@ -125,94 +137,23 @@ export class AuthHelper {
         return p;
     };
 
-    private openAuth(authUrl: string) {
-        // let authWindow = new BrowserWindow({
-        //                     width: 800,
-        //                     height: 600,
-        //                     show: false,
-        //                     frame: false,
-        //                     webPreferences: {
-        //                         nodeIntegration: false
-        //                     } });
-
-        // authWindow.webContents.on("did-get-redirect-request", (event: any, oldUrl: string, newUrl: string) => {
-        //     authWindow.destroy();
-        //     let tokenURL: any = new URL(newUrl);
-        //     let params: any = this.parseQueryString(tokenURL.hash);
-
-        //     if (params.id_token != null) {
-        //         window.localStorage.setItem("id_token", params.id_token);
-        //     } else {
-        //         window.localStorage.removeItem("id_token");
-        //     }
-
-        //     remote.getCurrentWindow().reload();
-        // });
-
-        // // reset the authWindow on close
-        // authWindow.on("closed", () => {
-        //     authWindow = null;
-        // });
-
-
-        // authWindow.loadURL(authUrl);
-        // authWindow.show();
+    private getAccessToken() {
+        //redirect to get access_token
+        window.location.href = "https://login.microsoftonline.com/" + SvcConsts.TENTANT_ID +
+            "/oauth2/authorize?response_type=token&client_id=" + SvcConsts.CLIENT_ID +
+            "&resource=" + SvcConsts.GRAPH_RESOURCE +
+            "&redirect_uri=" + encodeURIComponent(SvcConsts.REDIRECT_URL) +
+            "&prompt=none&state=SomeState&nonce=SomeNonce";
     }
 
-    private getAccessToken() {
-		let id_token = window.localStorage.getItem("id_token");
+    private parseQueryString(url: string) {
+        let params = {}, queryString = url.substring(1),
+            regex = /([^&=]+)=([^&]*)/g, m;
 
-        if (!id_token) {
-            return;
+        while (m = regex.exec(queryString)) {
+            params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
         }
 
-        const reply = ipc.sendSync('login-event', 'ping');
-        console.log("Login Event Result: " + reply);
-
-        // let accessUrl = "https://login.microsoftonline.com/" + SvcConsts.TENTANT_ID +
-		// 	"/oauth2/authorize?response_type=token&client_id=" + SvcConsts.CLIENT_ID +
-		// 	"&resource=" + SvcConsts.GRAPH_RESOURCE +
-		// 	"&redirect_uri=" + encodeURIComponent(SvcConsts.REDIRECT_URL) +
-		// 	"&prompt=none&state=SomeState&nonce=SomeNonce";
-
-        // let accessWindow = new BrowserWindow({
-        //                     width: 800,
-        //                     height: 600,
-        //                     show: false,
-        //                     frame: false,
-        //                     webPreferences: {
-        //                         nodeIntegration: false
-        //                     } });
-
-        // accessWindow.webContents.on("did-get-redirect-request", (event: any, oldUrl: string, newUrl: string) => {
-        //     accessWindow.destroy();
-
-        //     let tokenURL: any = new URL(newUrl);
-        //     let params: any = this.parseQueryString(tokenURL.hash);
-
-        //     if (params.access_token != null) {
-        //         window.localStorage.setItem("access_token", params.access_token);
-        //     } else {
-        //         window.localStorage.removeItem("access_token");
-        //     }
-        // });
-
-        // // reset the accessWindow on close
-        // accessWindow.on("closed", () => {
-        //     accessWindow = null;
-        // });
-
-        // accessWindow.loadURL(accessUrl);
-	}
-
-    private parseQueryString(url: string) {
-		let params = {}, queryString = url.substring(1),
-		regex = /([^&=]+)=([^&]*)/g, m;
-
-		while (m = regex.exec(queryString)) {
-			params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
-		}
-
-		return params;
-	}
+        return params;
+    }
 }
