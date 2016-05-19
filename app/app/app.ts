@@ -68,11 +68,4 @@ export class App {
             router.navigate(["/Login"]);
         }
     }
-    
-    private extractData(info: any) {
-        
-        this.nodeVersion = info.nodeVersion;
-        this.chromeVersion = info.chromeVersion;
-        this.electronVersion = info.electronVersion;
-    }
 }

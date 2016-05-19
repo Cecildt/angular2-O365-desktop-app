@@ -44,11 +44,6 @@ var App = (function () {
             router.navigate(["/Login"]);
         }
     }
-    App.prototype.extractData = function (info) {
-        this.nodeVersion = info.nodeVersion;
-        this.chromeVersion = info.chromeVersion;
-        this.electronVersion = info.electronVersion;
-    };
     App = __decorate([
         core_1.Component({
             selector: "graph-app",

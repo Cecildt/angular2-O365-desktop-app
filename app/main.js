@@ -113,7 +113,7 @@ server.get('/info', (req, res, next) => {
 });
 
 server.get('/token', (req, res, next) => {
-  res.send(accessToken || {});
+  res.send(accessToken || "");
 });
 
 server.get('/logout', (req, res, next) => {

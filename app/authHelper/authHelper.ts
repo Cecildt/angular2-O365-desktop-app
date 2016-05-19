@@ -16,6 +16,11 @@ export class AuthHelper {
         this.http.get("http://localhost:3000/token")
                  .map((res: any) => res.json())
                  .subscribe(token => {
+                     
+                     if (token === "") {
+                         return;
+                     }
+                     
                      this.access_token = token;
                      window.localStorage.setItem("access_token", token);
                  });

@@ -70,6 +70,9 @@ var AuthHelper = (function () {
         this.http.get("http://localhost:3000/token")
             .map(function (res) { return res.json(); })
             .subscribe(function (token) {
+            if (token === "") {
+                return;
+            }
             _this.access_token = token;
             window.localStorage.setItem("access_token", token);
         });
