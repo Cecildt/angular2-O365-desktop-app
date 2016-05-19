@@ -6,7 +6,6 @@ const parse = require('url-parse');
 
 const restify = require('restify');
 const remote = require('electron').remote;
-const SvcConsts = require("./svcConsts/svcConsts");
 //require('./server/server.js');
 
 
