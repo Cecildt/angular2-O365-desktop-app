@@ -1,7 +1,13 @@
 {
+  "dependencies": {
+    "zone.js": "github:gdi2290/typed-zone.js#66ea8a3451542bb7798369306840e46be1d6ec89"
+  },
   "ambientDependencies": {
     "es6-shim": "registry:dt/es6-shim#0.31.2+20160317120654",
     "jasmine": "registry:dt/jasmine#2.2.0+20160412134438",
-    "node": "registry:dt/node#4.0.0+20160509154515"
+    "node": "registry:dt/node#4.0.0+20160509154515",
+    "webpack": "github:DefinitelyTyped/DefinitelyTyped/webpack/webpack.d.ts#95c02169ba8fa58ac1092422efbd2e3174a206f4",
+    "github-electron": "registry:dt/github-electron#0.37.6+20160417155838",
+    "core-js": "registry:dt/core-js#0.0.0+20160317120654"
   }
 }

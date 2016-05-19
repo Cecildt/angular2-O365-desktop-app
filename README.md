@@ -11,6 +11,18 @@ Install dependencies
 npm install
 `
 
+Install type definitions
+
+`
+typings install
+`
+
+To build and watch for changes
+
+`
+npm run watch
+`
+
 Compile typescript files
 
 `
@@ -20,7 +32,7 @@ npm run tsc
 Run application
 
 `
-npm run electron
+npm run start
 `
 
 ## Azure AD application Registration

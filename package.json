@@ -8,12 +8,13 @@
   },
   "main": "main.js",
   "scripts": {
-    "electron": "electron app",
-    "electron-debug": "electron --debug:5858 app",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "tsc": "tsc -w",
+    "tsc": "tsc",
     "postinstall": "typings install",
-    "typings": "typings"
+    "start": "electron main.js",
+    "build": "webpack --progress --profile --colors --display-error-details --display-cached",
+    "watch": "webpack --watch --progress --profile --colors --display-error-details --display-cached",
+    "distribute": "electron-packager . Electrogram --platform=darwin --arch=x64 --out=releases/ --overwrite --icon=src/assets/images/electrogram  --asar"
   },
   "author": "Cecil du Toit",
   "license": "MIT",
@@ -41,6 +42,14 @@
   "devDependencies": {
     "electron-prebuilt": "^1.1.0",
     "typescript": "^1.8.10",
-    "typings": "^1.0.4"
+    "typings": "^1.0.4",
+    "css-loader": "^0.23.1",
+    "electron-packager": "^7.0.2",
+    "electron-reload": "^0.3.0",
+    "json-loader": "^0.5.4",
+    "raw-loader": "^0.5.1",
+    "ts-loader": "^0.8.2",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.13.0"
   }
 }
