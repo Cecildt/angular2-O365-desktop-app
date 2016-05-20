@@ -6,10 +6,9 @@ const parse = require('url-parse');
 
 const restify = require('restify');
 const remote = require('electron').remote;
+const SvcConsts = require("./svcConsts/svcConsts");
 //require('./server/server.js');
 
-// Allows for live-reload while developing the app
-require('electron-reload')(__dirname + '/build');
 
 // crashReporter.start({
 //   productName: 'angular2-O365-desktop-app',
@@ -22,6 +21,9 @@ require('electron-reload')(__dirname + '/build');
 const BrowserWindow = electron.BrowserWindow;
 let mainWindow = null;
 let accessToken = null;
+
+// Allows for live-reload while developing the app
+require('electron-reload')(__dirname + '/build');
 
 function createWindow() {
   // Initialize the window to our specified dimensions
@@ -55,6 +57,7 @@ function createWindow() {
       accessToken = params.id_token;      
     }
   });
+
 }
 
 app.on('ready', createWindow);
@@ -73,9 +76,6 @@ app.on('activate', function () {
   }
 });
 
-
-
-// Internal REST API functions 
 
 function parseQueryString(url) {
   let params = {}, queryString = url.substring(1),
