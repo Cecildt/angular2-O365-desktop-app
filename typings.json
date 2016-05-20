@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "lodash": "registry:npm/lodash#4.0.0+20160416211519",
+    "webpack": "registry:npm/webpack#1.12.9+20160418172948"
+  },
+  "globalDependencies": {
+    "core-js": "registry:dt/core-js#0.0.0+20160317120654",
+    "github-electron": "registry:dt/github-electron#0.37.8+20160509083739",
+    "jasmine": "registry:dt/jasmine#2.2.0+20160505161446",
+    "node": "registry:env/node#4.0.0+20160507210304",
+    "zone.js": "registry:dt/zone.js#0.0.0+20160316155526"
+  }
+}
