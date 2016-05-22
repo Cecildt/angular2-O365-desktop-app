@@ -1,19 +1,29 @@
 import { Component } from "@angular/core";
+import { NgIf } from "@angular/common";
+import { Router } from "@angular/router-deprecated";
+
 import { Profile } from "../profile/profile";
 import { AuthHelper } from "../authHelper/authHelper";
+
 
 @Component({
     selector: "my-home",
     templateUrl: "src/home/view-home.html",
-    directives: [Profile]
+    directives: [NgIf, Profile]
 })
 export class Home {
-    private authHelper:AuthHelper;
     private profile: Profile;
+    private authenticated: boolean = false;
 
-    constructor(auth: AuthHelper, profile: Profile) {
-		this.authHelper = auth;
+    constructor(public authHelper: AuthHelper, profile: Profile, router: Router) {
         this.profile = profile;
+        
+        this.authenticated = this.authHelper.isUserAuthenticated;
+        
+        if (!this.authHelper.isUserAuthenticated) {
+            router.navigate(["/Login"]);
+            return;
+        }
 	}
 
     public signOut() {

@@ -46,14 +46,14 @@ function createWindow() {
 
   });
 
-  mainWindow.webContents.on("did-get-redirect-request", (event, oldUrl, newUrl) => {
-    let tokenURL = parse(newUrl, true);
-    let params = parseQueryString(tokenURL.hash);
-    if (params.id_token != null) {
-      console.log("Token: " + params.id_token);
-      accessToken = params.id_token;      
-    }
-  });
+  // mainWindow.webContents.on("did-get-redirect-request", (event, oldUrl, newUrl) => {
+  //   let tokenURL = parse(newUrl, true);
+  //   let params = parseQueryString(tokenURL.hash);
+  //   if (params.id_token != null) {
+  //     console.log("Token: " + params.id_token);
+  //     accessToken = params.id_token;      
+  //   }
+  // });
 }
 
 app.on('ready', createWindow);

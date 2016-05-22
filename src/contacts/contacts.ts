@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { AuthHelper } from "../authHelper/authHelper";
+import { Router } from "@angular/router-deprecated";
 
 @Component({
     selector: "my-contacts",
@@ -8,8 +9,14 @@ import { AuthHelper } from "../authHelper/authHelper";
 export class Contacts {
     private contacts = [];
 
-    constructor(authHelper: AuthHelper) {
-        authHelper.getRequestPromise("/v1.0/me/contacts").then((data: any) => {
+    constructor(public authHelper: AuthHelper, router: Router) {
+        
+        if (!this.authHelper.isUserAuthenticated) {
+            router.navigate(["/Login"]);
+            return;
+        }
+        
+        this.authHelper.getRequestPromise("/v1.0/me/contacts").then((data: any) => {
             if (data) {
                 this.contacts = data.value;
             } else {

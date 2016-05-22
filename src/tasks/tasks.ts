@@ -1,4 +1,6 @@
 import { Component } from "@angular/core";
+import { Router } from "@angular/router-deprecated";
+
 import { AuthHelper } from "../authHelper/authHelper";
 
 @Component({
@@ -8,8 +10,13 @@ import { AuthHelper } from "../authHelper/authHelper";
 export class Tasks {
     private tasks = [];
 
-    constructor(authHelper: AuthHelper) {
-        authHelper.getRequestPromise("/beta/me/tasks").then((data: any) => {
+    constructor(public authHelper: AuthHelper, router: Router) {
+        if (!this.authHelper.isUserAuthenticated) {
+            router.navigate(["/Login"]);
+            return;
+        }
+        
+        this.authHelper.getRequestPromise("/beta/me/tasks").then((data: any) => {
             if (data) {
                 this.tasks = data.value;
             } else {

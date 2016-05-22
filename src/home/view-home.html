@@ -7,4 +7,6 @@
 <p>
     Information is only read from your Office 365 tenant. This application does not modify any information. Also does not provide any functionality to modify information.
 </p>
+<section *ngIf="authenticated">
 <button (click)="signOut()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Sign-out</button>
+</section>

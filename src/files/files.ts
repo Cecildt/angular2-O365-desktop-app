@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { Router } from "@angular/router-deprecated";
 
 import { AuthHelper } from "../authHelper/authHelper";
 
@@ -11,8 +12,14 @@ export class Files {
     private files = [];
     private authHelper: AuthHelper;
 
-    constructor(authHelper: AuthHelper) {
-        this.authHelper = authHelper;
+    constructor(auth: AuthHelper, router: Router) {
+        this.authHelper = auth;
+        
+        if (!auth.isUserAuthenticated) {
+            router.navigate(["/Login"]);
+            return;
+        }
+        
         this.refreshInfo();
     }
 

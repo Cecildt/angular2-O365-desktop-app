@@ -9,14 +9,17 @@ import { AuthHelper } from "../authHelper/authHelper";
 export class Profile {
     private displayName: string = "";
     private photo: string = "";
-    private authHelper: AuthHelper;
 
-    constructor(authHelper: AuthHelper) {
-        this.authHelper = authHelper;
+    constructor(public authHelper: AuthHelper) {
         this.refreshInfo();
     }
 
     public refreshInfo(){
+        
+        if (!this.authHelper.isUserAuthenticated) {
+            return;
+        }
+        
         this.authHelper.getRequestPromise("/v1.0/me/").then((data: any) => {
             if (data) {
                 this.displayName = data.displayName;
