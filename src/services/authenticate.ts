@@ -1,56 +1,13 @@
-const electron = require("electron");
-var remote = electron.remote;
-var BrowserWindow = remote.BrowserWindow;
 
-export class AuthHelper {
+import { SvcConsts } from "../svcConsts/svcConsts";
+import { remote, ipcRenderer } from 'electron';
 
-    public getRequestPromise = (reqUrl: string): Promise<any> => {
-        let p = new Promise<any>((resolve: Function, reject: Function) => {
-            let tokenPromise = this.tokenPromise(SvcConsts.GRAPH_RESOURCE);
+let {BrowserWindow} = remote;
 
-            tokenPromise.then((token: string) => {
-                let headers = new Headers();
-                headers.append("Authorization", "Bearer " + token);
-
-                this.http.get(SvcConsts.GRAPH_RESOURCE + reqUrl, { headers: headers })
-                         .map((res: any) => res.json())
-                         .subscribe(
-                             (res: any) => resolve(res),
-                             (error: any) => reject(error));
-            });
-        });
-
-        return p;
-    };
-
-    public getPhotoRequestPromise = (reqUrl: string): Promise<any> => {
-        let p = new Promise<any>((resolve: Function, reject: Function) => {
-            let tokenPromise = this.tokenPromise(SvcConsts.GRAPH_RESOURCE);
-            tokenPromise.then((token: string) => {
-                var request = new XMLHttpRequest;
-                request.open("GET", SvcConsts.GRAPH_RESOURCE + reqUrl);
-                request.setRequestHeader("Authorization", "Bearer " + token);
-                request.responseType = "blob";
-                request.onload = function () {
-                    if (request.readyState === 4 && request.status === 200) {
-                        let reader = new FileReader();
-                        reader.onload = () => {
-                            resolve(reader.result);
-                        };
-
-                        reader.readAsDataURL(request.response);
-                    } else {
-                        reject("An error occurred calling the Microsoft Graph.");
-                    }
-                };
-
-                request.send(null);
-            });
-        });
-
-        return p;
-    };
-
+export class AuthService {
+    
+    constructor(){}
+    
     public logIn() {
        let loginUrl = "https://login.microsoftonline.com/" + SvcConsts.TENTANT_ID +
 			"/oauth2/authorize?response_type=id_token&client_id=" + SvcConsts.CLIENT_ID +
@@ -90,20 +47,6 @@ export class AuthHelper {
         logOutWindow.loadURL(logoutUrl);
     }
 
-    private tokenPromise = (endpoint: string): Promise<string> => {
-        let p = new Promise<string>((resolve: Function, reject: Function) => {
-            var token = window.localStorage.getItem("access_token");
-            if (token && token !== "undefined") {
-                resolve(token);
-            } else {
-                this.getAccessToken();
-                reject();
-            }
-        });
-
-        return p;
-    };
-
     private openAuth(authUrl: string) {
         let authWindow = new BrowserWindow({
                             width: 800,
@@ -116,8 +59,10 @@ export class AuthHelper {
 
         authWindow.webContents.on("did-get-redirect-request", (event: any, oldUrl: string, newUrl: string) => {
             authWindow.destroy();
-            let tokenURL: any = new URL(newUrl);
-            let params: any = this.parseQueryString(tokenURL.hash);
+            var url = document.createElement('a');
+            url.href = newUrl;
+            // let tokenURL: any = URL(newUrl);
+            let params: any = this.parseQueryString(url.hash);
 
             if (params.id_token != null) {
                 window.localStorage.setItem("id_token", params.id_token);
@@ -145,9 +90,6 @@ export class AuthHelper {
             return;
         }
 
-        const reply = ipc.sendSync('login-event', 'ping');
-        console.log("Login Event Result: " + reply);
-
         let accessUrl = "https://login.microsoftonline.com/" + SvcConsts.TENTANT_ID +
 			"/oauth2/authorize?response_type=token&client_id=" + SvcConsts.CLIENT_ID +
 			"&resource=" + SvcConsts.GRAPH_RESOURCE +
@@ -166,8 +108,10 @@ export class AuthHelper {
         accessWindow.webContents.on("did-get-redirect-request", (event: any, oldUrl: string, newUrl: string) => {
             accessWindow.destroy();
 
-            let tokenURL: any = new URL(newUrl);
-            let params: any = this.parseQueryString(tokenURL.hash);
+            let url = document.createElement('a');
+            url.href = newUrl;
+            // let tokenURL: any = new URL(newUrl);
+            let params: any = this.parseQueryString(url.hash);
 
             if (params.access_token != null) {
                 window.localStorage.setItem("access_token", params.access_token);

@@ -2,11 +2,13 @@ import { Injectable } from "@angular/core";
 import { Http, Headers, Response } from "@angular/http";
 
 import { SvcConsts } from "../svcConsts/svcConsts";
+//import { AuthService } from "../services/authenticate"
 
 @Injectable()
 export class AuthHelper {
 
     http: Http;
+    //private authService: AuthService = new AuthService();
 
     public access_token: string = null;
 
@@ -80,14 +82,16 @@ export class AuthHelper {
 
     public logIn() {
         //redirect to get access_token
-        window.location.href = "https://login.microsoftonline.com/" + SvcConsts.TENTANT_ID +
-            "/oauth2/authorize?response_type=id_token&client_id=" + SvcConsts.CLIENT_ID +
-            "&redirect_uri=" + encodeURIComponent(SvcConsts.REDIRECT_URL) +
-            "&state=SomeState&nonce=SomeNonce";
+        // window.location.href = "https://login.microsoftonline.com/" + SvcConsts.TENTANT_ID +
+        //     "/oauth2/authorize?response_type=id_token&client_id=" + SvcConsts.CLIENT_ID +
+        //     "&redirect_uri=" + encodeURIComponent(SvcConsts.REDIRECT_URL) +
+        //     "&state=SomeState&nonce=SomeNonce";
+        
+       // this.authService.logIn();
     }
 
-    public logOut() {
-        // TODO
+    public logOut() {        
+       // this.authService.logOut();
     }
 
     private tokenPromise = (endpoint: string): Promise<string> => {
