@@ -4,7 +4,7 @@ import { AuthHelper } from "../authHelper/authHelper";
 
 @Component({
     selector: "my-home",
-    templateUrl: __dirname + "/view-home.html",
+    templateUrl: "src/home/view-home.html",
     directives: [Profile]
 })
 export class Home {

@@ -13,17 +13,17 @@ export class AuthHelper {
     constructor(http: Http) {
         this.http = http;
         
-        this.http.get("http://localhost:3000/token")
-                 .map((res: any) => res.json())
-                 .subscribe(token => {
+        // this.http.get("http://localhost:3000/token")
+        //          .map((res: any) => res.json())
+        //          .subscribe(token => {
                      
-                     if (token === "") {
-                         return;
-                     }
+        //              if (token === "") {
+        //                  return;
+        //              }
                      
-                     this.access_token = token;
-                     window.localStorage.setItem("access_token", token);
-                 });
+        //              this.access_token = token;
+        //              window.localStorage.setItem("access_token", token);
+        //          });
     }
 
     public get isUserAuthenticated(): boolean {

@@ -3,7 +3,7 @@ import { AuthHelper } from "../authHelper/authHelper";
 
 @Component({
 	selector: "my-login",
-	templateUrl: __dirname + "/view-login.html"
+	templateUrl: "src/login/view-login.html"
 })
 export class Login {
 	private authHelper:AuthHelper;
