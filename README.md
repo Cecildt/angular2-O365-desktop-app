@@ -35,6 +35,17 @@ Run application
 npm run start
 `
 
+## Debug Electron using [Devtron](http://electron.atom.io/devtron/)
+
+`
+
+// Run the following from the Console tab of your app's DevTools
+
+require('devtron').install()
+
+// You should now see a Devtron tab added to the DevTools
+`
+
 ## Azure AD application Registration
 
 Register this application in the Azure Active Directory service for your Office 365 tenant.

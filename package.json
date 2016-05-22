@@ -29,27 +29,29 @@
     "@angular/router-deprecated": "2.0.0-rc.1",
     "es6-promise": "^3.2.1",
     "es6-shim": "^0.35.1",
-    "jquery": "^2.2.3",
+    "jquery": "^2.2.4",
     "material-design-lite": "^1.1.3",
     "reflect-metadata": "^0.1.3",
     "request": "^2.72.0",
     "restify": "^4.0.4",
-    "rxjs": "^5.0.0-beta.7",
+    "rxjs": "5.0.0-beta.6",
     "systemjs": "^0.19.28",
     "url-parse": "^1.1.1",
     "zone.js": "^0.6.12"
   },
   "devDependencies": {
-    "electron-prebuilt": "^1.1.0",
-    "typescript": "^1.8.10",
-    "typings": "^1.0.4",
+    "codelyzer": "0.0.19",
     "css-loader": "^0.23.1",
+    "devtron": "^1.1.2",
     "electron-packager": "^7.0.2",
+    "electron-prebuilt": "^1.1.0",
     "electron-reload": "^0.3.0",
     "json-loader": "^0.5.4",
     "raw-loader": "^0.5.1",
     "ts-loader": "^0.8.2",
+    "typescript": "^1.8.10",
+    "typings": "^1.0.4",
     "url-loader": "^0.5.7",
-    "webpack": "^1.13.0"
+    "webpack": "^1.13.1"
   }
 }
