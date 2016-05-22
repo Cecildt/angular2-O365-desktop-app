@@ -3,7 +3,7 @@ import { AuthHelper } from "../authHelper/authHelper";
 
 @Component({
     selector: "my-contacts",
-    templateUrl: __dirname + "/view-contacts.html",
+    templateUrl: "src/contacts/view-contacts.html",
 })
 export class Contacts {
     private contacts = [];

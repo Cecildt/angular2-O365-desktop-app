@@ -3,7 +3,7 @@ import { AuthHelper } from "../authHelper/authHelper";
 
 @Component({
     selector: "my-mails",
-    templateUrl: __dirname + "/view-mails.html",
+    templateUrl: "src/mails/view-mails.html",
 })
 export class Mails {
     private messages = [];

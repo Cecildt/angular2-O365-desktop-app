@@ -23,7 +23,8 @@ import { Users } from "../users/users";
 
 @Component({
     selector: "graph-app",
-    templateUrl: "src/app/view-main.html"
+    templateUrl: "src/app/view-main.html",
+    directives: [ROUTER_DIRECTIVES, Profile]
 })
 
 // configure the routes for the app
