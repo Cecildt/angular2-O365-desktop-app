@@ -2,13 +2,13 @@ import { Injectable } from "@angular/core";
 import { Http, Headers, Response } from "@angular/http";
 
 import { SvcConsts } from "../svcConsts/svcConsts";
-//import { AuthService } from "../services/authenticate"
+import { AuthService } from "../services/authenticate"
 
 @Injectable()
 export class AuthHelper {
 
     http: Http;
-    //private authService: AuthService = new AuthService();
+    private authService: AuthService = new AuthService();
 
     public access_token: string = null;
 
@@ -87,7 +87,7 @@ export class AuthHelper {
         //     "&redirect_uri=" + encodeURIComponent(SvcConsts.REDIRECT_URL) +
         //     "&state=SomeState&nonce=SomeNonce";
         
-       // this.authService.logIn();
+       this.authService.logIn();
     }
 
     public logOut() {        
