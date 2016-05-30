@@ -21,7 +21,7 @@ module.exports = {
     publicPath: 'build/',
     filename: '[name].js',
     sourceMapFilename: '[name].js.map',
-    chunkFilename: '[id].chunk.js'
+    chunkFilename: '[id].chunk.js'    
   },
 
   resolve: {
@@ -50,7 +50,13 @@ module.exports = {
     ]
   },
   plugins: [
-    new CommonsChunkPlugin({ names: ['@angular', 'common'], minChunks: Infinity })
+    new CommonsChunkPlugin({ names: ['@angular', 'common'], minChunks: Infinity }),
+    new webpack.ExternalsPlugin('commonjs', ['electron'])
+  ],
+  externals: [
+    {
+      // electron : "commonjs electron"
+    }
   ],
   target:'electron-renderer'
 };

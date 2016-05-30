@@ -6,7 +6,7 @@ const ipc = require('electron').ipcMain
 const crashReporter = electron.crashReporter;
 const parse = require('url-parse');
 
-// const restify = require('restify');
+const restify = require('restify');
 const remote = require('electron').remote;
 
 require('electron-debug')({showDevTools: true});
@@ -91,12 +91,12 @@ app.on('activate', function () {
 //   return params;
 // }
 
-// // Start Restify API Server 
-// let port = process.env.PORT || 3000;
-// var server = restify.createServer({ name: 'electron-backend', version: '0.0.1' });
+// Start Restify API Server 
+let port = process.env.PORT || 3000;
+var server = restify.createServer({ name: 'electron-backend', version: '0.0.1' });
 
-// server.use(restify.queryParser());
-// server.use(restify.bodyParser());
+server.use(restify.queryParser());
+server.use(restify.bodyParser());
 
 // server.post('/crashes', (req, res, next) => {
 //   console.log(req.body);
@@ -108,15 +108,15 @@ app.on('activate', function () {
 //   res.send('Echo hello!');
 // });
 
-// server.get('/info', (req, res, next) => {
-//   console.log('info called.');
+server.get('/info', (req, res, next) => {
+  console.log('info called.');
 
-//   res.send({
-//     nodeVersion: process.versions.node,
-//     chromeVersion: process.versions.chrome,
-//     electronVersion: process.versions.electron
-//   });
-// });
+  res.send({
+    nodeVersion: process.versions.node,
+    chromeVersion: process.versions.chrome,
+    electronVersion: process.versions.electron
+  });
+});
 
 // server.get('/token', (req, res, next) => {
 //   res.send(accessToken || "");
@@ -127,10 +127,10 @@ app.on('activate', function () {
 //   res.redirect('/');
 // });
 
-// server.get('/auth/azureoauth/callback', (req, res, next) => {
-//   mainWindow.loadURL('file://' + __dirname + '/index.html');
-// });
+server.get('/auth/azureoauth/callback', (req, res, next) => {
+  mainWindow.loadURL('file://' + __dirname + '/index.html');
+});
 
-// server.listen(port, () => {
-//   console.log('server running on port ' + port);
-// });
+server.listen(port, () => {
+  console.log('server running on port ' + port);
+});

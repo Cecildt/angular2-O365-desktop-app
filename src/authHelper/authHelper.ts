@@ -2,27 +2,32 @@ import { Injectable } from "@angular/core";
 import { Http, Headers, Response } from "@angular/http";
 
 import { SvcConsts } from "../svcConsts/svcConsts";
-import { AuthService } from "../services/authenticate"
+// import { AuthService } from "../services/authenticate"
+// import { ElecService } from "../services/electest";
+// import { AdalService } from "../services/adalService";
+import * as adal from "../adal/adal-request";
 
 @Injectable()
 export class AuthHelper {
 
     http: Http;
-    private authService: AuthService = new AuthService();
+    // private authService: AuthService = new AuthService();
+    // private elecService: ElecService = new ElecService();
+    // private adalService: AdalService = new AdalService();
 
     public access_token: string = null;
 
     constructor(http: Http) {
         this.http = http;
-        
+
         // this.http.get("http://localhost:3000/token")
         //          .map((res: any) => res.json())
         //          .subscribe(token => {
-                     
+
         //              if (token === "") {
         //                  return;
         //              }
-                     
+
         //              this.access_token = token;
         //              window.localStorage.setItem("access_token", token);
         //          });
@@ -86,12 +91,27 @@ export class AuthHelper {
         //     "/oauth2/authorize?response_type=id_token&client_id=" + SvcConsts.CLIENT_ID +
         //     "&redirect_uri=" + encodeURIComponent(SvcConsts.REDIRECT_URL) +
         //     "&state=SomeState&nonce=SomeNonce";
+
+        //    this.authService.logIn();
+        // this.adalService.logIn();
+
+        // adal.adalRequest({
+        //     url: 'https://graph.microsoft.com/v1.0/me/memberOf?$top=500',
+        //     headers: {
+        //         'Accept': 'application/json;odata.metadata=full'
+        //     }
+        // }).then(function (data) { 
+        //     console.log(data);
+            
+        // });
+
+        // adal.processAdalCallback();
         
-       this.authService.logIn();
+        adal.login();
     }
 
-    public logOut() {        
-       // this.authService.logOut();
+    public logOut() {
+        // this.authService.logOut();
     }
 
     private tokenPromise = (endpoint: string): Promise<string> => {

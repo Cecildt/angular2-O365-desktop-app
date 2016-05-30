@@ -3,6 +3,8 @@ export class SvcConsts {
 	public static CLIENT_ID:string = "bbffe1fd-bf52-41b2-b898-4903cb73f9db";
 
 	public static TENTANT_ID:string = "mod340807.onmicrosoft.com";
+	
+	public static TENTANT_NAME:string = "mod340807";
 
 	public static GRAPH_RESOURCE:string = "https://graph.microsoft.com";
 
