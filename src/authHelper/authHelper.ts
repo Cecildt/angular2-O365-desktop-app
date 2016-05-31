@@ -19,23 +19,10 @@ export class AuthHelper {
 
     constructor(http: Http) {
         this.http = http;
-
-        // this.http.get("http://localhost:3000/token")
-        //          .map((res: any) => res.json())
-        //          .subscribe(token => {
-
-        //              if (token === "") {
-        //                  return;
-        //              }
-
-        //              this.access_token = token;
-        //              window.localStorage.setItem("access_token", token);
-        //          });
     }
 
-    public get isUserAuthenticated(): boolean {
-        let token = window.localStorage.getItem("access_token");
-        return token != null;
+    public isUserAuthenticated(callback: Function) {
+        adal.isAuthenticated(callback);
     }
 
     public getRequestPromise = (reqUrl: string): Promise<any> => {
@@ -85,28 +72,7 @@ export class AuthHelper {
         return p;
     };
 
-    public logIn() {
-        //redirect to get access_token
-        // window.location.href = "https://login.microsoftonline.com/" + SvcConsts.TENTANT_ID +
-        //     "/oauth2/authorize?response_type=id_token&client_id=" + SvcConsts.CLIENT_ID +
-        //     "&redirect_uri=" + encodeURIComponent(SvcConsts.REDIRECT_URL) +
-        //     "&state=SomeState&nonce=SomeNonce";
-
-        //    this.authService.logIn();
-        // this.adalService.logIn();
-
-        // adal.adalRequest({
-        //     url: 'https://graph.microsoft.com/v1.0/me/memberOf?$top=500',
-        //     headers: {
-        //         'Accept': 'application/json;odata.metadata=full'
-        //     }
-        // }).then(function (data) { 
-        //     console.log(data);
-            
-        // });
-
-        // adal.processAdalCallback();
-        
+    public logIn() {       
         adal.login();
     }
 

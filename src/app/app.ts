@@ -1,9 +1,9 @@
 import { Component } from "@angular/core";
 import {
-Router,
-RouteConfig,
-ROUTER_DIRECTIVES,
-ROUTER_PROVIDERS
+    Router,
+    RouteConfig,
+    ROUTER_DIRECTIVES,
+    ROUTER_PROVIDERS
 } from "@angular/router-deprecated";
 import { Http, Headers, Response } from "@angular/http";
 
@@ -58,14 +58,18 @@ export class App {
         //                     this.chromeVersion = info.chromeVersion;
         //                     this.electronVersion = info.electronVersion;    
         //                 })
-                
+
         // route the user to a view based on presence of access token
-        if (auth.isUserAuthenticated) {
-            // access token exists...display the users files
-            router.navigate(["/Home"]);
-        } else {
-            // access token doesn't exist, so the user needs to login
-            router.navigate(["/Login"]);
-        }
+        auth.isUserAuthenticated((err, status) => {
+            if (status) {
+                // access token exists...display the users files
+                router.navigate(["/Home"]);
+            } else {
+                // access token doesn't exist, so the user needs to login
+                router.navigate(["/Login"]);
+            }
+        });
+
+
     }
 }

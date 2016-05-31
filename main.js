@@ -2,26 +2,16 @@
 
 const electron = require('electron');
 const app = electron.app;
-const ipc = require('electron').ipcMain
-const crashReporter = electron.crashReporter;
-const parse = require('url-parse');
 
 const restify = require('restify');
-const remote = require('electron').remote;
+const url = require('url');
 
 require('electron-debug')({showDevTools: true});
-
-// crashReporter.start({
-//   productName: 'angular2-O365-desktop-app',
-//   companyName: 'Open Code',
-//   submitUrl: 'http://localhost:3000/crashes',
-//   autoSubmit: true
-// });
 
 // browser-window creates a native window
 const BrowserWindow = electron.BrowserWindow;
 let mainWindow = null;
-let accessToken = null;
+let hash = "";
 
 // Allows for live-reload while developing the app
 require('electron-reload')(__dirname + '/build');
@@ -37,11 +27,9 @@ function createWindow() {
     }
   });
 
+  mainWindow.maximize();
   // Tell Electron where to load the entry point from
   mainWindow.loadURL('file://' + __dirname + '/index.html');
-
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
 
   // Clear out the main window when the app is closed
   mainWindow.on('closed', function () {
@@ -49,15 +37,13 @@ function createWindow() {
     mainWindow = null;
 
   });
-
-  // mainWindow.webContents.on("did-get-redirect-request", (event, oldUrl, newUrl) => {
-  //   let tokenURL = parse(newUrl, true);
-  //   let params = parseQueryString(tokenURL.hash);
-  //   if (params.id_token != null) {
-  //     console.log("Token: " + params.id_token);
-  //     accessToken = params.id_token;      
-  //   }
-  // });
+  
+   mainWindow.webContents.on("did-get-redirect-request", (event, oldUrl, newUrl) => {
+    let tokenURL = url.parse(newUrl);
+    hash = tokenURL.hash;
+    
+    console.log("Hash: " + hash);        
+  });
 }
 
 app.on('ready', createWindow);
@@ -76,37 +62,12 @@ app.on('activate', function () {
   }
 });
 
-
-
-// Internal REST API functions 
-
-// function parseQueryString(url) {
-//   let params = {}, queryString = url.substring(1),
-//     regex = /([^&=]+)=([^&]*)/g, m;
-
-//   while (m = regex.exec(queryString)) {
-//     params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
-//   }
-
-//   return params;
-// }
-
 // Start Restify API Server 
 let port = process.env.PORT || 3000;
 var server = restify.createServer({ name: 'electron-backend', version: '0.0.1' });
 
 server.use(restify.queryParser());
 server.use(restify.bodyParser());
-
-// server.post('/crashes', (req, res, next) => {
-//   console.log(req.body);
-//   res.send(200);
-// });
-
-// server.get('/echo', (req, res, next) => {
-//   console.log('echo called.');
-//   res.send('Echo hello!');
-// });
 
 server.get('/info', (req, res, next) => {
   console.log('info called.');
@@ -118,17 +79,11 @@ server.get('/info', (req, res, next) => {
   });
 });
 
-// server.get('/token', (req, res, next) => {
-//   res.send(accessToken || "");
-// });
-
-// server.get('/logout', (req, res, next) => {
-//   req.logout();
-//   res.redirect('/');
-// });
-
-server.get('/auth/azureoauth/callback', (req, res, next) => {
+server.get('/auth/azureoauth/callback', (req, res, next) => { 
   mainWindow.loadURL('file://' + __dirname + '/index.html');
+  
+  let code = "localStorage.setItem('loginHash', '" + hash + "');"
+  mainWindow.webContents.executeJavaScript(code);
 });
 
 server.listen(port, () => {

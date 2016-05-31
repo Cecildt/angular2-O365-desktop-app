@@ -6,7 +6,7 @@ var adalConfig = {
   redirectUri: "http://localhost:3000/auth/azureoauth/callback",
   postLogoutRedirectUri: window.location.origin,
   endpoints: {
-    'https://graph.microsoft.com': 'https://graph.microsoft.com'
+    graphApiUri: 'https://graph.microsoft.com'
   }
   // cacheLocation: 'localStorage', // enable this for IE, as sessionStorage does not work for localhost. 
 };
