@@ -43,7 +43,7 @@
     "codelyzer": "0.0.19",
     "css-loader": "^0.23.1",
     "devtron": "^1.1.2",
-    "electron-packager": "^7.0.2",
+    "electron-packager": "^7.0.3",
     "electron-prebuilt": "^1.1.0",
     "electron-reload": "^0.3.0",
     "json-loader": "^0.5.4",
