@@ -80,8 +80,6 @@ server.use(restify.queryParser());
 server.use(restify.bodyParser());
 
 server.get('/info', (req, res, next) => {
-  console.log('info called.');
-
   res.send({
     nodeVersion: process.versions.node,
     chromeVersion: process.versions.chrome,
