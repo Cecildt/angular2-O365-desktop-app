@@ -8,5 +8,6 @@ import "rxjs";
 import { App } from '../app/app'
 import { AuthHelper } from "../authHelper/authHelper";
 import { Profile } from "../profile/profile";
+import { ElectronService } from "../services/electronService";
 
-bootstrap(App, [AuthHelper, Profile, HTTP_PROVIDERS, ROUTER_PROVIDERS, { provide: LocationStrategy, useClass: HashLocationStrategy }]);
+bootstrap(App, [AuthHelper, ElectronService, Profile, HTTP_PROVIDERS, ROUTER_PROVIDERS, { provide: LocationStrategy, useClass: HashLocationStrategy }]);

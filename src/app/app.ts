@@ -5,8 +5,6 @@ import {
     ROUTER_DIRECTIVES,
     ROUTER_PROVIDERS
 } from "@angular/router-deprecated";
-import { Http, Headers, Response } from "@angular/http";
-
 
 import { Home } from "../home/home";
 import { Login } from "../login/login";
@@ -20,6 +18,8 @@ import { Notes } from "../notes/notes";
 import { Tasks } from "../tasks/tasks";
 import { Trending } from "../trending/trending";
 import { Users } from "../users/users";
+import { ElectronService } from "../services/electronService";
+import { InfoModel } from "../models/infoModel";
 
 @Component({
     selector: "graph-app",
@@ -43,23 +43,19 @@ import { Users } from "../users/users";
 ])
 
 export class App {
-    http: Http;
     userName: string = "";
     nodeVersion: string = "";
     chromeVersion: string = "";
     electronVersion: string = "";
 
-    constructor(http: Http, router: Router, auth: AuthHelper) {
-        this.http = http;
-        // this.http.get("http://localhost:3000/info")
-        //                 .map((res: any) => res.json())
-        //                 .subscribe(info => {
-        //                     this.nodeVersion = info.nodeVersion;
-        //                     this.chromeVersion = info.chromeVersion;
-        //                     this.electronVersion = info.electronVersion;    
-        //                 })
-
-        // route the user to a view based on presence of access token
+    constructor(router: Router, auth: AuthHelper, electronService: ElectronService) {       
+        electronService.GetInfo((info: InfoModel) => {
+            this.nodeVersion = info.nodeVersion;
+            this.chromeVersion = info.chromeVersion;
+            this.electronVersion = info.electronVersion;
+        })
+        
+        // route the user to a view based if the user is authenticated
         let status = auth.isUserAuthenticated();
 
         if (status) {
