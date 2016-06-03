@@ -1,39 +1,33 @@
 import { Injectable } from "@angular/core";
 import { Http, Headers, Response } from "@angular/http";
-
-import { SvcConsts } from "../svcConsts/svcConsts";
-// import { AuthService } from "../services/authenticate"
-// import { ElecService } from "../services/electest";
-// import { AdalService } from "../services/adalService";
-import * as adal from "../adal/adal-request";
+import * as adalConfig from "../adal/adal-config";
 
 @Injectable()
 export class AuthHelper {
 
-    http: Http;
-    // private authService: AuthService = new AuthService();
-    // private elecService: ElecService = new ElecService();
-    // private adalService: AdalService = new AdalService();
-
-    public access_token: string = null;
+    private http: Http;
+    private access_token: string = null;
 
     constructor(http: Http) {
         this.http = http;
     }
 
-    public isUserAuthenticated(callback: Function) {
-        adal.isAuthenticated(callback);
+    public isUserAuthenticated(): boolean {
+        var token = localStorage.getItem("accessToken");
+        this.access_token = token;
+        
+        return this.access_token !== null;
     }
 
     public getRequestPromise = (reqUrl: string): Promise<any> => {
         let p = new Promise<any>((resolve: Function, reject: Function) => {
-            let tokenPromise = this.tokenPromise(SvcConsts.GRAPH_RESOURCE);
+            let tokenPromise = this.tokenPromise(adalConfig.endpoints.graphApiUri);
 
             tokenPromise.then((token: string) => {
                 let headers = new Headers();
                 headers.append("Authorization", "Bearer " + token);
 
-                this.http.get(SvcConsts.GRAPH_RESOURCE + reqUrl, { headers: headers })
+                this.http.get(adalConfig.endpoints.graphApiUri + reqUrl, { headers: headers })
                     .map((res: any) => res.json())
                     .subscribe(
                     (res: any) => resolve(res),
@@ -46,10 +40,10 @@ export class AuthHelper {
 
     public getPhotoRequestPromise = (reqUrl: string): Promise<any> => {
         let p = new Promise<any>((resolve: Function, reject: Function) => {
-            let tokenPromise = this.tokenPromise(SvcConsts.GRAPH_RESOURCE);
+            let tokenPromise = this.tokenPromise(adalConfig.endpoints.graphApiUri);
             tokenPromise.then((token: string) => {
                 var request = new XMLHttpRequest;
-                request.open("GET", SvcConsts.GRAPH_RESOURCE + reqUrl);
+                request.open("GET", adalConfig.endpoints.graphApiUri + reqUrl);
                 request.setRequestHeader("Authorization", "Bearer " + token);
                 request.responseType = "blob";
                 request.onload = function () {
@@ -73,44 +67,24 @@ export class AuthHelper {
     };
 
     public logIn() {       
-        adal.login();
+        window.location.href = "http://localhost:3000/auth";
     }
 
     public logOut() {
-        // this.authService.logOut();
+        localStorage.clear();
     }
 
     private tokenPromise = (endpoint: string): Promise<string> => {
         let p = new Promise<string>((resolve: Function, reject: Function) => {
-            var token = window.localStorage.getItem("access_token");
+            var token = window.localStorage.getItem("accessToken");
             if (token && token !== "undefined") {
                 resolve(token);
             } else {
-                this.getAccessToken();
+                this.logIn();
                 reject();
             }
         });
 
         return p;
     };
-
-    private getAccessToken() {
-        //redirect to get access_token
-        window.location.href = "https://login.microsoftonline.com/" + SvcConsts.TENTANT_ID +
-            "/oauth2/authorize?response_type=token&client_id=" + SvcConsts.CLIENT_ID +
-            "&resource=" + SvcConsts.GRAPH_RESOURCE +
-            "&redirect_uri=" + encodeURIComponent(SvcConsts.REDIRECT_URL) +
-            "&prompt=none&state=SomeState&nonce=SomeNonce";
-    }
-
-    private parseQueryString(url: string) {
-        let params = {}, queryString = url.substring(1),
-            regex = /([^&=]+)=([^&]*)/g, m;
-
-        while (m = regex.exec(queryString)) {
-            params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
-        }
-
-        return params;
-    }
 }

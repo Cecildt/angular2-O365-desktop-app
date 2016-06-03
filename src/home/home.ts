@@ -18,7 +18,7 @@ export class Home {
     constructor(public authHelper: AuthHelper, profile: Profile, router: Router) {
         this.profile = profile;
         
-        this.authenticated = this.authHelper.isUserAuthenticated;
+        this.authenticated = this.authHelper.isUserAuthenticated();
         
         if (!this.authHelper.isUserAuthenticated) {
             router.navigate(["/Login"]);

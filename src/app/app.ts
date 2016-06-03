@@ -60,16 +60,14 @@ export class App {
         //                 })
 
         // route the user to a view based on presence of access token
-        auth.isUserAuthenticated((err, status) => {
-            if (status) {
-                // access token exists...display the users files
-                router.navigate(["/Home"]);
-            } else {
-                // access token doesn't exist, so the user needs to login
-                router.navigate(["/Login"]);
-            }
-        });
+        let status = auth.isUserAuthenticated();
 
-
+        if (status) {
+            // access token exists...display the users files
+            router.navigate(["/Home"]);
+        } else {
+            // access token doesn't exist, so the user needs to login
+            router.navigate(["/Login"]);
+        }
     }
 }
