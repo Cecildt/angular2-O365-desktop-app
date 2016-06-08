@@ -1,12 +1,13 @@
 import { Injectable } from "@angular/core";
 import { Http, Headers, Response } from "@angular/http";
-import * as adalConfig from "../adal/adal-config";
+import { AdalConfig } from "../adal/adal-config";
 
 @Injectable()
 export class AuthHelper {
 
     private http: Http;
     private access_token: string = null;
+    private adalConfig: AdalConfig = new AdalConfig();
 
     constructor(http: Http) {
         this.http = http;
@@ -21,13 +22,13 @@ export class AuthHelper {
 
     public getRequestPromise = (reqUrl: string): Promise<any> => {
         let p = new Promise<any>((resolve: Function, reject: Function) => {
-            let tokenPromise = this.tokenPromise(adalConfig.endpoints.graphApiUri);
+            let tokenPromise = this.tokenPromise(this.adalConfig.endpoints.graphApiUri);
 
             tokenPromise.then((token: string) => {
                 let headers = new Headers();
                 headers.append("Authorization", "Bearer " + token);
 
-                this.http.get(adalConfig.endpoints.graphApiUri + reqUrl, { headers: headers })
+                this.http.get(this.adalConfig.endpoints.graphApiUri + reqUrl, { headers: headers })
                     .map((res: any) => res.json())
                     .subscribe(
                     (res: any) => resolve(res),
@@ -40,10 +41,10 @@ export class AuthHelper {
 
     public getPhotoRequestPromise = (reqUrl: string): Promise<any> => {
         let p = new Promise<any>((resolve: Function, reject: Function) => {
-            let tokenPromise = this.tokenPromise(adalConfig.endpoints.graphApiUri);
+            let tokenPromise = this.tokenPromise(this.adalConfig.endpoints.graphApiUri);
             tokenPromise.then((token: string) => {
                 var request = new XMLHttpRequest;
-                request.open("GET", adalConfig.endpoints.graphApiUri + reqUrl);
+                request.open("GET", this.adalConfig.endpoints.graphApiUri + reqUrl);
                 request.setRequestHeader("Authorization", "Bearer " + token);
                 request.responseType = "blob";
                 request.onload = function () {
