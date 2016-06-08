@@ -7,7 +7,6 @@ export class AuthHelper {
 
     private http: Http;
     private access_token: string = null;
-    private adalConfig: AdalConfig = new AdalConfig();
 
     constructor(http: Http) {
         this.http = http;
@@ -22,13 +21,13 @@ export class AuthHelper {
 
     public getRequestPromise = (reqUrl: string): Promise<any> => {
         let p = new Promise<any>((resolve: Function, reject: Function) => {
-            let tokenPromise = this.tokenPromise(this.adalConfig.endpoints.graphApiUri);
+            let tokenPromise = this.tokenPromise(AdalConfig.endpoints.graphApiUri);
 
             tokenPromise.then((token: string) => {
                 let headers = new Headers();
                 headers.append("Authorization", "Bearer " + token);
 
-                this.http.get(this.adalConfig.endpoints.graphApiUri + reqUrl, { headers: headers })
+                this.http.get(AdalConfig.endpoints.graphApiUri + reqUrl, { headers: headers })
                     .map((res: any) => res.json())
                     .subscribe(
                     (res: any) => resolve(res),
@@ -41,10 +40,10 @@ export class AuthHelper {
 
     public getPhotoRequestPromise = (reqUrl: string): Promise<any> => {
         let p = new Promise<any>((resolve: Function, reject: Function) => {
-            let tokenPromise = this.tokenPromise(this.adalConfig.endpoints.graphApiUri);
+            let tokenPromise = this.tokenPromise(AdalConfig.endpoints.graphApiUri);
             tokenPromise.then((token: string) => {
                 var request = new XMLHttpRequest;
-                request.open("GET", this.adalConfig.endpoints.graphApiUri + reqUrl);
+                request.open("GET", AdalConfig.endpoints.graphApiUri + reqUrl);
                 request.setRequestHeader("Authorization", "Bearer " + token);
                 request.responseType = "blob";
                 request.onload = function () {
