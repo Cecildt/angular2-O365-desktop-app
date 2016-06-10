@@ -7,7 +7,20 @@ const restify = require('restify');
 const url = require('url');
 const crypto = require('crypto');
 const AuthenticationContext = require('adal-node').AuthenticationContext;
-const adalConfig = require("./src/adal/adal-config");
+const AdalMainConfig = {
+  authorityHostUrl:'https://login.windows.net',
+  tenant: 'mod340807.onmicrosoft.com',
+  clientId: 'bbffe1fd-bf52-41b2-b898-4903cb73f9db',
+  clientSecret: '',
+  extraQueryParameter: 'nux=1',
+  disableRenewal: true,
+  resource: "https://graph.microsoft.com",
+  redirectUri:  "http://localhost:3000/auth/azureoauth/callback",
+  postLogoutRedirectUri: "",
+  endpoints: {
+    graphApiUri:'https://graph.microsoft.com'
+  }
+}
 
 require('electron-debug')({ showDevTools: true });
 
@@ -60,8 +73,8 @@ app.on('activate', function () {
 
 // ADAL Settings
 let authToken = '';
-let authorityUrl = adalConfig.authorityHostUrl + '/' + adalConfig.tenant;
-let templateAuthzUrl = 'https://login.windows.net/' + adalConfig.tenant + '/oauth2/authorize?response_type=code&client_id=<client_id>&redirect_uri=<redirect_uri>&state=<state>&resource=<resource>';
+let authorityUrl = AdalMainConfig.authorityHostUrl + '/' + AdalMainConfig.tenant;
+let templateAuthzUrl = 'https://login.windows.net/' + AdalMainConfig.tenant + '/oauth2/authorize?response_type=code&client_id=<client_id>&redirect_uri=<redirect_uri>&state=<state>&resource=<resource>';
 let tenantID = '';
 let accessToken = '';
 let refreshToken = '';
@@ -115,7 +128,7 @@ server.get('/auth/azureoauth/callback', (req, res, next) => {
   clearStorage();
 
   var authenticationContext = new AuthenticationContext(authorityUrl);
-  authenticationContext.acquireTokenWithAuthorizationCode(req.query.code, adalConfig.redirectUri, adalConfig.resource, adalConfig.clientId, adalConfig.clientSecret, function (err, response) {
+  authenticationContext.acquireTokenWithAuthorizationCode(req.query.code, AdalMainConfig.redirectUri, AdalMainConfig.resource, AdalMainConfig.clientId, AdalMainConfig.clientSecret, function (err, response) {
     var message = '';
     if (err) {
       message = 'error: ' + err.message + '\n';
@@ -141,7 +154,7 @@ server.get('/auth/azureoauth/callback', (req, res, next) => {
     mainWindow.loadURL('file://' + __dirname + '/index.html');
 
     // Later, if the access token is expired it can be refreshed.
-    authenticationContext.acquireTokenWithRefreshToken(response.refreshToken, adalConfig.clientId, adalConfig.clientSecret, adalConfig.resource, function (refreshErr, refreshResponse) {
+    authenticationContext.acquireTokenWithRefreshToken(response.refreshToken, AdalMainConfig.clientId, AdalMainConfig.clientSecret, AdalMainConfig.resource, function (refreshErr, refreshResponse) {
       if (refreshErr) {
         message += 'refreshError: ' + refreshErr.message + '\n';
         logError(message);
@@ -167,10 +180,10 @@ server.listen(port, () => {
 
 
 function createAuthorizationUrl(state) {
-  var authorizationUrl = templateAuthzUrl.replace('<client_id>', adalConfig.clientId);
-  authorizationUrl = authorizationUrl.replace('<redirect_uri>', adalConfig.redirectUri);
+  var authorizationUrl = templateAuthzUrl.replace('<client_id>', AdalMainConfig.clientId);
+  authorizationUrl = authorizationUrl.replace('<redirect_uri>', AdalMainConfig.redirectUri);
   authorizationUrl = authorizationUrl.replace('<state>', state);
-  authorizationUrl = authorizationUrl.replace('<resource>', adalConfig.resource);
+  authorizationUrl = authorizationUrl.replace('<resource>', AdalMainConfig.resource);
   return authorizationUrl;
 }
 
