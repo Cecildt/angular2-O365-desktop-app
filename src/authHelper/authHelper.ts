@@ -1,6 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Http, Headers, Response } from "@angular/http";
+
 import { AdalConfig } from "../adal/adal-config";
+import { UserMessages } from "../messages/messages";
 
 @Injectable()
 export class AuthHelper {
@@ -18,7 +20,7 @@ export class AuthHelper {
             this.access_token = token;
 
             if (this.access_token === null) {
-                reject("No access token available. Please login.");
+                reject(UserMessages.no_access_token);
             }
 
             this.getRequestPromise("/v1.0/me/")
@@ -26,11 +28,11 @@ export class AuthHelper {
                     if (data) {
                         resolve();
                     } else {
-                        reject("No access token available. Please login.");
+                        reject(UserMessages.no_access_token);
                     }
                 })
                 .catch((err) => {
-                    reject("Request failed: " + err);
+                    reject(UserMessages.fail_graph_api + " " + err);
                 });
         });
 
@@ -73,7 +75,7 @@ export class AuthHelper {
 
                         reader.readAsDataURL(request.response);
                     } else {
-                        reject("An error occurred calling the Microsoft Graph.");
+                        reject(UserMessages.fail_graph_api);
                     }
                 };
 

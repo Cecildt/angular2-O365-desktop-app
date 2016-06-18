@@ -1,6 +1,8 @@
 import { Component, Injectable } from "@angular/core";
+
 import { AuthHelper } from "../authHelper/authHelper";
 import { Toast } from "../toast/toast";
+import { UserMessages } from "../messages/messages"
 
 @Component({
     selector: "my-profile",
@@ -23,7 +25,7 @@ export class Profile {
                 this.getUserPhoto();
             })
             .catch((reason) => {
-                this.toast.show("You are not authenticated!");
+                this.toast.show(UserMessages.not_authenticated);
             });
     }
 
@@ -31,11 +33,11 @@ export class Profile {
         this.authHelper.getRequestPromise("/v1.0/me/").then((data: any) => {
             if (data) {
                 this.displayName = data.displayName;
-            } else {
-                alert("An error occurred calling the Microsoft Graph: " + data);
+            } else {                
+                this.toast.show(UserMessages.fail_username);
             }
         }).catch(() => {
-            this.toast.show("Failed to get your name!");
+            this.toast.show(UserMessages.fail_graph_api);
         });
     }
 
@@ -44,10 +46,10 @@ export class Profile {
             if (data) {
                 this.photo = data;
             } else {
-                alert("An error occurred calling the Microsoft Graph: " + data);
+                this.toast.show(UserMessages.fail_user_photo);                
             }
         }).catch(() => {
-            this.toast.show("Failed to get your photo!");
-        });;
+            this.toast.show(UserMessages.fail_graph_api);
+        });
     }
 }
