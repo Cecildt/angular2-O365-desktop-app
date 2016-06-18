@@ -28,7 +28,7 @@
     "@angular/router": "2.0.0-rc.2",
     "@angular/router-deprecated": "2.0.0-rc.2",
     "adal-angular": "^1.0.10",
-    "adal-node": "^0.1.19",
+    "adal-node": "^0.1.20",
     "electron-debug": "^1.0.0",
     "es6-promise": "^3.2.1",
     "es6-shim": "^0.35.1",
