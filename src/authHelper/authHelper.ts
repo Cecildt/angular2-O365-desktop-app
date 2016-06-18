@@ -12,11 +12,29 @@ export class AuthHelper {
         this.http = http;
     }
 
-    public isUserAuthenticated(): boolean {
-        var token = localStorage.getItem("accessToken");
-        this.access_token = token;
-        
-        return this.access_token !== null;
+    public isUserAuthenticated = (): Promise<any> => {
+        let p = new Promise<any>((resolve: Function, reject: Function) => {
+            var token = localStorage.getItem("accessToken");
+            this.access_token = token;
+
+            if (this.access_token === null) {
+                reject("No access token available. Please login.");
+            }
+
+            this.getRequestPromise("/v1.0/me/")
+                .then((data: any) => {
+                    if (data) {
+                        resolve();
+                    } else {
+                        reject("No access token available. Please login.");
+                    }
+                })
+                .catch((err) => {
+                    reject("Request failed: " + err);
+                });
+        });
+
+        return p;
     }
 
     public getRequestPromise = (reqUrl: string): Promise<any> => {
@@ -66,7 +84,7 @@ export class AuthHelper {
         return p;
     };
 
-    public logIn() {       
+    public logIn() {
         window.location.href = "http://localhost:3000/auth";
     }
 

@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, AfterViewInit } from "@angular/core";
 import {
     Router,
     RouteConfig,
@@ -20,11 +20,14 @@ import { Trending } from "../trending/trending";
 import { Users } from "../users/users";
 import { ElectronService } from "../services/electronService";
 import { InfoModel } from "../models/infoModel";
+import { Toast } from "../toast/toast"
+
+declare var componentHandler: any;
 
 @Component({
     selector: "graph-app",
     templateUrl: "src/app/view-main.html",
-    directives: [ROUTER_DIRECTIVES, Profile]
+    directives: [ROUTER_DIRECTIVES, Toast]
 })
 
 // configure the routes for the app
@@ -42,7 +45,7 @@ import { InfoModel } from "../models/infoModel";
     { name: "Users", component: Users, path: "/users" }
 ])
 
-export class App {
+export class App implements AfterViewInit  {
     userName: string = "";
     nodeVersion: string = "";
     chromeVersion: string = "";
@@ -56,14 +59,16 @@ export class App {
         })
         
         // route the user to a view based if the user is authenticated
-        let status = auth.isUserAuthenticated();
+        auth.isUserAuthenticated()
+            .then(() => {
+                router.navigate(["/Home"]);
+            })
+            .catch(() => {
+                router.navigate(["/Login"]);
+            });
+    }
 
-        if (status) {
-            // access token exists...display the users files
-            router.navigate(["/Home"]);
-        } else {
-            // access token doesn't exist, so the user needs to login
-            router.navigate(["/Login"]);
-        }
+    ngAfterViewInit() {
+        componentHandler.upgradeAllRegistered();
     }
 }

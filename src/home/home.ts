@@ -4,6 +4,7 @@ import { Router } from "@angular/router-deprecated";
 
 import { Profile } from "../profile/profile";
 import { AuthHelper } from "../authHelper/authHelper";
+import { Toast } from "../toast/toast";
 
 
 @Component({
@@ -12,18 +13,20 @@ import { AuthHelper } from "../authHelper/authHelper";
     directives: [NgIf, Profile]
 })
 export class Home {
-    private profile: Profile;
     private authenticated: boolean = false;
 
-    constructor(public authHelper: AuthHelper, profile: Profile, router: Router) {
-        this.profile = profile;
+    constructor(public authHelper: AuthHelper, 
+                public profile: Profile,
+                public toast: Toast, 
+                router: Router) {
         
-        this.authenticated = this.authHelper.isUserAuthenticated();
-        
-        if (!this.authHelper.isUserAuthenticated) {
-            router.navigate(["/Login"]);
-            return;
-        }
+        this.authHelper.isUserAuthenticated()
+            .then(() => {
+                toast.show("You are authenticated!");
+            })
+            .catch(() => {
+                router.navigate(["/Login"]);
+            });
 	}
 
     public signOut() {

@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import { Router } from "@angular/router-deprecated";
 
 import { AuthHelper } from "../authHelper/authHelper";
+import { Toast } from "../toast/toast";
 
 @Component({
     selector: "my-files",
@@ -10,20 +11,23 @@ import { AuthHelper } from "../authHelper/authHelper";
 
 export class Files {
     private files = [];
-    private authHelper: AuthHelper;
 
-    constructor(auth: AuthHelper, router: Router) {
-        this.authHelper = auth;
-        
-        if (!auth.isUserAuthenticated) {
-            router.navigate(["/Login"]);
-            return;
-        }
-        
-        this.refreshInfo();
+    constructor(public authHelper: AuthHelper,
+        public toast: Toast,
+        router: Router) {
+
+        this.authHelper.isUserAuthenticated()
+            .then(() => {
+                this.toast.show("Getting you files...");
+                this.refreshInfo();
+            })
+            .catch(() => {
+                this.toast.show("Redirecting to Login...");
+                router.navigate(["/Login"]);
+            });
     }
 
-    public refreshInfo(){
+    public refreshInfo() {
         // perform REST call into Microsoft Graph for files on OneDrive for Business
         this.authHelper.getRequestPromise("/v1.0/me/drive/root/children").then((data: any) => {
             if (data) {
