@@ -23,12 +23,6 @@ To build and watch for changes
 npm run watch
 `
 
-Compile typescript files
-
-`
-npm run tsc
-`
-
 Run application
 
 `
