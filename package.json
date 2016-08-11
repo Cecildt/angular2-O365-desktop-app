@@ -44,7 +44,7 @@
     "zone.js": "^0.6.12"
   },
   "devDependencies": {
-    "codelyzer": "0.0.23",
+    "codelyzer": "0.0.28",
     "css-loader": "^0.23.1",
     "devtron": "^1.2.0",
     "electron-packager": "7.0.4",
