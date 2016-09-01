@@ -27,7 +27,7 @@
     "@angular/platform-browser-dynamic": "2.0.0-rc.2",
     "@angular/router": "2.0.0-rc.2",
     "@angular/router-deprecated": "2.0.0-rc.2",
-    "adal-angular": "^1.0.10",
+    "adal-angular": "^1.0.12",
     "adal-node": "^0.1.19",
     "electron-debug": "^1.0.0",
     "es6-promise": "^3.2.1",
