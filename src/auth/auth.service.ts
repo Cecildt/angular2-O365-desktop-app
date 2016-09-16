@@ -1,11 +1,12 @@
 import { Injectable } from "@angular/core";
 import { Http, Headers, Response } from "@angular/http";
+import { Observable } from 'rxjs';
 
 import { AdalConfig } from "../adal/adal-config";
 import { UserMessages } from "../messages/messages";
 
 @Injectable()
-export class AuthHelper {
+export class AuthService {
 
     private http: Http;
     private access_token: string = null;

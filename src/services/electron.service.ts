@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Http, Headers, Response } from "@angular/http";
 import 'rxjs/add/operator/toPromise';
 
-import { InfoModel } from "../models/infoModel";
+import { RuntimeInfoModel } from "../models/runtime-info.model";
 
 @Injectable()
 export class ElectronService {
@@ -13,11 +13,11 @@ export class ElectronService {
         this.http = http;
     }
 
-    public GetInfo(): Promise<InfoModel> {
-        return new Promise<InfoModel>(resolve => {
+    public GetInfo(): Promise<RuntimeInfoModel> {
+        return new Promise<RuntimeInfoModel>(resolve => {
             this.http.get("http://localhost:3000/info")
                 .toPromise()
-                .then(response => response.json() as InfoModel)
+                .then(response => response.json() as RuntimeInfoModel)
                 .catch(this.handleError)
         });
     }

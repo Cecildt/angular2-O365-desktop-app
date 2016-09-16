@@ -3,7 +3,7 @@ import { NgModule }       from '@angular/core';
 import { BrowserModule }  from '@angular/platform-browser';
 
 import { ElectronService } from "../services/electron.service";
-import { InfoModel } from "../models/infoModel";
+import { RuntimeInfoModel } from "../models/runtime-info.model";
 import { ToastComponent } from "../toast/toast.component"
 
 declare var componentHandler: any;
@@ -11,7 +11,6 @@ declare var componentHandler: any;
 @Component({
     selector: "graph-app",
     templateUrl: "src/app/view-main.html",
-    directives: [ToastComponent],
     providers:[ElectronService]
 })
 export class AppComponent implements AfterViewInit, OnInit  {
@@ -25,7 +24,7 @@ export class AppComponent implements AfterViewInit, OnInit  {
     }
 
     ngOnInit(){
-        this.electronService.GetInfo().then((info: InfoModel) => {
+        this.electronService.GetInfo().then((info: RuntimeInfoModel) => {
             this.nodeVersion = info.nodeVersion;
             this.chromeVersion = info.chromeVersion;
             this.electronVersion = info.electronVersion;

@@ -1,32 +1,31 @@
-
 import { ModuleWithProviders }  from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { Home } from "../home/home";
-import { Login } from "../login/login";
-import { Files } from "../files/files";
-import { Profile } from "../profile/profile";
-import { Contacts } from "../contacts/contacts";
-import { Groups } from "../groups/groups";
-import { Mails } from "../mails/mails";
-import { Notes } from "../notes/notes";
-import { Tasks } from "../tasks/tasks";
-import { Trending } from "../trending/trending";
-import { Users } from "../users/users";
-import { AuthGuard } from '../authHelper/auth-guard';
+import { HomeComponent } from "../home/home.component";
+import { LoginComponent } from "../login/login.component";
+import { FilesComponent } from "../files/files.component";
+import { ProfileComponent } from "../profile/profile.component";
+import { ContactsComponent } from "../contacts/contacts.component";
+import { GroupsComponent } from "../groups/groups.component";
+import { MailsComponent } from "../mails/mails.component";
+import { NotesComponent } from "../notes/notes.component";
+import { TasksComponent } from "../tasks/tasks.component";
+import { TrendingComponent } from "../trending/trending.component";
+import { UsersComponent } from "../users/users.component";
+import { AuthGuardService } from '../auth/auth-guard.service';
 
 const appRoutes: Routes = [
-    { path: "", component: Home },
-    { component: Home, path: "/home", canActivate: [AuthGuard] },
-    { component: Login, path: "/login" },
-    { component: Files, path: "/files", canActivate: [AuthGuard] },
-    { component: Groups, path: "/groups", canActivate: [AuthGuard] },
-    { component: Contacts, path: "/contacts", canActivate: [AuthGuard] },
-    { component: Mails, path: "/mails", canActivate: [AuthGuard] },
-    { component: Notes, path: "/notes", canActivate: [AuthGuard] },
-    { component: Tasks, path: "/tasks", canActivate: [AuthGuard] },
-    { component: Trending, path: "/trending", canActivate: [AuthGuard] },
-    { component: Users, path: "/users", canActivate: [AuthGuard] }
+    { path: "", component: HomeComponent },
+    { component: HomeComponent, path: "/home", canActivate: [AuthGuardService] },
+    { component: LoginComponent, path: "/login" },
+    { component: FilesComponent, path: "/files", canActivate: [AuthGuardService] },
+    { component: GroupsComponent, path: "/groups", canActivate: [AuthGuardService] },
+    { component: ContactsComponent, path: "/contacts", canActivate: [AuthGuardService] },
+    { component: MailsComponent, path: "/mails", canActivate: [AuthGuardService] },
+    { component: NotesComponent, path: "/notes", canActivate: [AuthGuardService] },
+    { component: TasksComponent, path: "/tasks", canActivate: [AuthGuardService] },
+    { component: TrendingComponent, path: "/trending", canActivate: [AuthGuardService] },
+    { component: UsersComponent, path: "/users", canActivate: [AuthGuardService] }
 ];
 
 export const APP_ROUTING: ModuleWithProviders = RouterModule.forRoot(appRoutes);

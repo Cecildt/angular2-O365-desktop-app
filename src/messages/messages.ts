@@ -1,4 +1,4 @@
-export const UserMessages = {
+export const USER_MESSAGES = {
     redirect_login: "Redirecting to Login. You must first login to Office 365.",
     get_files: "Getting your files...",
     get_contacts: "Getting your contacts...",

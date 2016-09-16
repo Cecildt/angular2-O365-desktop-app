@@ -6,11 +6,11 @@ import {
   RouterStateSnapshot
 } from '@angular/router';
 
-import { AuthHelper } from "../authHelper/authHelper";
+import { AuthService } from "../auth/auth.service";
 
 @Injectable()
-export class AuthGuard implements CanActivate {
-  constructor(private auth: AuthHelper, private router: Router) {}
+export class AuthGuardService implements CanActivate {
+  constructor(private auth: AuthService, private router: Router) {}
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     if (this.auth.isUserAuthenticated()) {
