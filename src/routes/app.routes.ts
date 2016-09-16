@@ -16,16 +16,16 @@ import { AuthGuardService } from '../auth/auth-guard.service';
 
 const appRoutes: Routes = [
     { path: "", component: HomeComponent },
-    { component: HomeComponent, path: "/home", canActivate: [AuthGuardService] },
-    { component: LoginComponent, path: "/login" },
-    { component: FilesComponent, path: "/files", canActivate: [AuthGuardService] },
-    { component: GroupsComponent, path: "/groups", canActivate: [AuthGuardService] },
-    { component: ContactsComponent, path: "/contacts", canActivate: [AuthGuardService] },
-    { component: MailsComponent, path: "/mails", canActivate: [AuthGuardService] },
-    { component: NotesComponent, path: "/notes", canActivate: [AuthGuardService] },
-    { component: TasksComponent, path: "/tasks", canActivate: [AuthGuardService] },
-    { component: TrendingComponent, path: "/trending", canActivate: [AuthGuardService] },
-    { component: UsersComponent, path: "/users", canActivate: [AuthGuardService] }
+    { component: HomeComponent, path: "home", canActivate: [AuthGuardService] },
+    { component: LoginComponent, path: "login" },
+    { component: FilesComponent, path: "files", canActivate: [AuthGuardService] },
+    { component: GroupsComponent, path: "groups", canActivate: [AuthGuardService] },
+    { component: ContactsComponent, path: "contacts", canActivate: [AuthGuardService] },
+    { component: MailsComponent, path: "mails", canActivate: [AuthGuardService] },
+    { component: NotesComponent, path: "notes", canActivate: [AuthGuardService] },
+    { component: TasksComponent, path: "tasks", canActivate: [AuthGuardService] },
+    { component: TrendingComponent, path: "trending", canActivate: [AuthGuardService] },
+    { component: UsersComponent, path: "users", canActivate: [AuthGuardService] }
 ];
 
 export const APP_ROUTING: ModuleWithProviders = RouterModule.forRoot(appRoutes);

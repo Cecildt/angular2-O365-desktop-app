@@ -26,6 +26,6 @@ import { UsersComponent } from "../users/users.component";
     ContactsComponent, GroupsComponent, MailsComponent, NotesComponent, TasksComponent, TrendingComponent,
     UsersComponent ],
   bootstrap:    [ AppComponent ],
-  providers:    [ AuthService, ElectronService,  ]
+  providers:    [ AuthService, ElectronService, ProfileComponent, ToastComponent ]
 })
 export class AppModule { }
