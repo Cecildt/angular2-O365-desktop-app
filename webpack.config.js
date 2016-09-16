@@ -1,6 +1,7 @@
 var path = require('path');
 var webpack = require('webpack');
 var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
+var DashboardPlugin = require('webpack-dashboard/plugin');
 
 module.exports = {
   devtool: 'source-map',
@@ -51,7 +52,8 @@ module.exports = {
   },
   plugins: [
     new CommonsChunkPlugin({ names: ['@angular', 'common'], minChunks: Infinity }),
-    new webpack.ExternalsPlugin('commonjs', ['electron'])
+    new webpack.ExternalsPlugin('commonjs', ['electron']),
+    new DashboardPlugin()
   ],
   externals: [
     {
