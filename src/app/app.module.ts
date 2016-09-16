@@ -11,8 +11,8 @@ import { ToastComponent } from "../toast/toast.component"
 
 
 @NgModule({
-  imports:      [ BrowserModule, HttpModule, APP_ROUTING ],
-  declarations: [ AppComponent, AuthService, ProfileComponent, ElectronService, ToastComponent ],
+  imports:      [ BrowserModule, HttpModule, APP_ROUTING, AuthService, ProfileComponent, ElectronService, ToastComponent ],
+  declarations: [ AppComponent ],
   bootstrap:    [ AppComponent ]
 })
 export class AppModule { }
