@@ -1,30 +1,35 @@
-import { Component, AfterViewInit } from "@angular/core";
+import { Component, AfterViewInit, OnInit } from "@angular/core";
 import { NgModule }       from '@angular/core';
 import { BrowserModule }  from '@angular/platform-browser';
 
-import { ElectronService } from "../services/electronService";
+import { ElectronService } from "../services/electron.service";
 import { InfoModel } from "../models/infoModel";
-import { Toast } from "../toast/toast"
+import { ToastComponent } from "../toast/toast.component"
 
 declare var componentHandler: any;
 
 @Component({
     selector: "graph-app",
     templateUrl: "src/app/view-main.html",
-    directives: [Toast]
+    directives: [ToastComponent],
+    providers:[ElectronService]
 })
-export class AppComponent implements AfterViewInit  {
+export class AppComponent implements AfterViewInit, OnInit  {
     userName: string = "";
     nodeVersion: string = "";
     chromeVersion: string = "";
     electronVersion: string = "";
 
-    constructor(electronService: ElectronService) {       
-        electronService.GetInfo((info: InfoModel) => {
+    constructor(private electronService: ElectronService) {       
+                
+    }
+
+    ngOnInit(){
+        this.electronService.GetInfo().then((info: InfoModel) => {
             this.nodeVersion = info.nodeVersion;
             this.chromeVersion = info.chromeVersion;
             this.electronVersion = info.electronVersion;
-        })        
+        });
     }
 
     ngAfterViewInit() {

@@ -8,7 +8,7 @@ import { Component, Injectable } from "@angular/core";
                </div>`,
 })
 @Injectable()
-export class Toast {
+export class ToastComponent {
     constructor() {
     }
 
