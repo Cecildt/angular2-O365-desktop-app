@@ -3,7 +3,7 @@ import { HTTP_PROVIDERS } from "@angular/http";
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import "rxjs";
 
-import { APP_ROUTER_PROVIDER } from '../routes/app.routes';
+import { routing } from '../routes/app.routes';
 
 import { App } from '../app/app'
 import { AuthHelper } from "../authHelper/authHelper";
