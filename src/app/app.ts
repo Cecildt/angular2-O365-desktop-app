@@ -2,9 +2,9 @@ import { Component, AfterViewInit } from "@angular/core";
 import { NgModule }       from '@angular/core';
 import { BrowserModule }  from '@angular/platform-browser';
 
+import { ElectronService } from "../services/electronService";
 import { InfoModel } from "../models/infoModel";
 import { Toast } from "../toast/toast"
-import { routing } from '../routes/app.routes';
 
 declare var componentHandler: any;
 
@@ -13,13 +13,7 @@ declare var componentHandler: any;
     templateUrl: "src/app/view-main.html",
     directives: [Toast]
 })
-@NgModule({
-  imports: [
-    BrowserModule,
-    routing
-  ],
-})
-export class App implements AfterViewInit  {
+export class AppComponent implements AfterViewInit  {
     userName: string = "";
     nodeVersion: string = "";
     chromeVersion: string = "";

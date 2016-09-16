@@ -14,7 +14,7 @@ module.exports = {
       'zone.js'
     ],
     'common': ['es6-shim'],
-    'app': './src/boot/boot.ts'
+    'app': './src/app/main.ts'
   },
 
   output: {

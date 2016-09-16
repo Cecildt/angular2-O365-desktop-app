@@ -29,4 +29,4 @@ const appRoutes: Routes = [
     { component: Users, path: "/users", canActivate: [AuthGuard] }
 ];
 
-export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);
+export const APP_ROUTING: ModuleWithProviders = RouterModule.forRoot(appRoutes);
