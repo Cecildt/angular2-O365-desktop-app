@@ -1,5 +1,4 @@
 import { Component } from "@angular/core";
-import { Router } from "@angular/router-deprecated";
 
 import { AuthHelper } from "../authHelper/authHelper";
 import { Toast } from "../toast/toast";
@@ -13,18 +12,10 @@ export class Users {
     private users = [];
 
     constructor(public authHelper: AuthHelper,
-        public toast: Toast,
-        router: Router) {
+        public toast: Toast) {
 
-        this.authHelper.isUserAuthenticated()
-            .then(() => {
-                this.toast.show(UserMessages.get_users);
-                this.getUsers();
-            })
-            .catch(() => {
-                this.toast.show(UserMessages.redirect_login);
-                router.navigate(["/Login"]);
-            });
+        this.toast.show(UserMessages.get_users);
+        this.getUsers();
     }
 
     private getUsers() {

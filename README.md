@@ -105,7 +105,6 @@ TODO Packaging: https://www.xplatform.rocks/2016/02/14/angular2-and-electron-the
 
 ## TODO
 
-* Set Electron top menu options.
 * Improve error handling.
 * Implement better design for each section.
 * Manual refresh button for user.
