@@ -3,7 +3,8 @@ import { Http, Headers, Response } from "@angular/http";
 import { Observable } from 'rxjs';
 
 import { AdalConfig } from "../adal/adal-config";
-import { UserMessages } from "../messages/messages";
+import { USER_MESSAGES } from "../messages/messages";
+import { OFFICE_URLS } from "../office/office-urls"
 
 @Injectable()
 export class AuthService {
@@ -21,19 +22,19 @@ export class AuthService {
             this.access_token = token;
 
             if (this.access_token === null) {
-                reject(UserMessages.no_access_token);
+                reject(USER_MESSAGES.no_access_token);
             }
 
-            this.getRequestPromise("/v1.0/me/")
+            this.getRequestPromise(OFFICE_URLS.me_profile_url)
                 .then((data: any) => {
                     if (data) {
                         resolve();
                     } else {
-                        reject(UserMessages.no_access_token);
+                        reject(USER_MESSAGES.no_access_token);
                     }
                 })
                 .catch((err) => {
-                    reject(UserMessages.fail_graph_api + " " + err);
+                    reject(USER_MESSAGES.fail_graph_api + " " + err);
                 });
         });
 
@@ -76,7 +77,7 @@ export class AuthService {
 
                         reader.readAsDataURL(request.response);
                     } else {
-                        reject(UserMessages.fail_graph_api);
+                        reject(USER_MESSAGES.fail_graph_api);
                     }
                 };
 
