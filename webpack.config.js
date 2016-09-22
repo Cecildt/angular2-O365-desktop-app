@@ -57,7 +57,7 @@ module.exports = {
   ],
   externals: [
     {
-      // electron : "commonjs electron"
+      electron : "commonjs electron"
     }
   ],
   target:'electron-renderer'

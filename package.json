@@ -19,7 +19,11 @@
     "start": "electron main.js",
     "build": "webpack --progress --profile --colors --display-error-details --display-cached",
     "watch": "webpack-dashboard -- webpack --watch --progress --profile --colors --display-error-details --display-cached",
-    "distribute": "electron-packager . O365-Angular --platform=darwin --arch=x64 --out=releases/ --overwrite --icon=src/assets/images/icon  --asar"
+    "distribute": "electron-packager . O365-Angular --platform=darwin --arch=x64 --out=releases/ --overwrite --icon=src/assets/images/icon  --asar",
+    "electron:package": "npm run electron:pack-mac && npm run electron:pack-win && npm run electron:pack-linux",
+    "electron:pack-mac": "electron-packager www --asar --overwrite --platform=darwin --arch=x64 --out=built",
+    "electron:pack-win": "electron-packager www --asar --overwrite --platform=win32 --arch=ia32 --out=built",
+    "electron:pack-linux": "electron-packager www --asar --overwrite --platform=linux --arch=x64 --out=built"
   },
   "author": "Cecil du Toit",
   "license": "MIT",
@@ -59,7 +63,7 @@
     "json-loader": "^0.5.4",
     "raw-loader": "^0.5.1",
     "ts-loader": "^0.8.2",
-    "typescript": "^1.8.10",
+    "typescript": "^2.0.3",
     "typings": "^1.3.3",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.2",

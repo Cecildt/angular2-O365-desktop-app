@@ -19,8 +19,7 @@ export class AppComponent implements AfterViewInit, OnInit  {
     chromeVersion: string = "";
     electronVersion: string = "";
 
-    constructor(private electronService: ElectronService) {       
-                
+    constructor(private electronService: ElectronService) {                       
     }
 
     ngOnInit(){

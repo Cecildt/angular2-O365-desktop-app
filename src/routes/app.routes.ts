@@ -15,7 +15,7 @@ import { UsersComponent } from "../users/users.component";
 import { AuthGuardService } from '../auth/auth-guard.service';
 
 const appRoutes: Routes = [
-    { path: "", component: HomeComponent },
+    { path: "", component: LoginComponent },
     { component: HomeComponent, path: "home", canActivate: [AuthGuardService] },
     { component: LoginComponent, path: "login" },
     { component: FilesComponent, path: "files", canActivate: [AuthGuardService] },
