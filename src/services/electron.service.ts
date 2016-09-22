@@ -14,14 +14,14 @@ export class ElectronService {
         this.http = http;
     }
 
-    public GetInfo(): RuntimeInfoModel {
+    public getInfo(): RuntimeInfoModel {
         return new RuntimeInfoModel(
             remote.process.versions.node,
             remote.process.versions.chrome,
             remote.process.versions.electron);
     }
   
-    public Login(state = "/") {
+    public logIn(state = "/") {
         let originalURL = location.href;
         let authUrl = "";
         let BrowserWindow = remote.BrowserWindow;

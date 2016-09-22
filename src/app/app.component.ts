@@ -23,7 +23,7 @@ export class AppComponent implements AfterViewInit, OnInit {
     }
 
     ngOnInit() {
-        let info: RuntimeInfoModel = this.electronService.GetInfo();
+        let info: RuntimeInfoModel = this.electronService.getInfo();
 
         this.nodeVersion = info.nodeVersion;
         this.chromeVersion = info.chromeVersion;
