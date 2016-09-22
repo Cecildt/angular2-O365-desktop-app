@@ -10,7 +10,7 @@ import { OFFICE_URLS } from "../office/office-urls"
 export class AuthService {
 
     private http: Http;
-    private access_token: string = null;
+    private access_token: string | null;
 
     constructor(http: Http) {
         this.http = http;
@@ -18,7 +18,7 @@ export class AuthService {
 
     public isUserAuthenticated = (): Promise<any> => {
         let p = new Promise<any>((resolve: Function, reject: Function) => {
-            var token = localStorage.getItem("accessToken");
+            let token : string | null = localStorage.getItem("accessToken");
             this.access_token = token;
 
             if (this.access_token === null) {
