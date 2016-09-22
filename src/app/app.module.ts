@@ -18,6 +18,7 @@ import { NotesComponent } from "../notes/notes.component";
 import { TasksComponent } from "../tasks/tasks.component";
 import { TrendingComponent } from "../trending/trending.component";
 import { UsersComponent } from "../users/users.component";
+import { AuthGuardService } from "../auth/auth-guard.service"
 
 @NgModule({
   imports:      [ BrowserModule, HttpModule, APP_ROUTING ],
@@ -26,6 +27,6 @@ import { UsersComponent } from "../users/users.component";
     ContactsComponent, GroupsComponent, MailsComponent, NotesComponent, TasksComponent, TrendingComponent,
     UsersComponent ],
   bootstrap:    [ AppComponent ],
-  providers:    [ AuthService, ElectronService, ProfileComponent, ToastComponent ]
+  providers:    [ AuthService, AuthGuardService, ElectronService, ProfileComponent, ToastComponent ]
 })
 export class AppModule { }
