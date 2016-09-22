@@ -6,7 +6,7 @@ var mainConfig = {
     extraQueryParameter: 'nux=1',
     disableRenewal: true,
     resource: "https://graph.microsoft.com",
-    redirectUri: "http://localhost:3000/auth/azureoauth/callback",
+    redirectUri: "/",
     postLogoutRedirectUri: "",
     endpoints: {
         graphApiUri: 'https://graph.microsoft.com'

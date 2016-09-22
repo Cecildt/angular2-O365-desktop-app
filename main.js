@@ -16,9 +16,6 @@ let hash = "";
 require('electron-reload')(__dirname + '/build');
 
 function createWindow() {
-  global.nodeVersion = process.versions.node;
-  global.chromeVersion = process.versions.chrome;
-  global.electronVersion = process.versions.electron;
 
   // Initialize the window to our specified dimensions
   mainWindow = new BrowserWindow({
@@ -36,9 +33,7 @@ function createWindow() {
 
   // Clear out the main window when the app is closed
   mainWindow.on('closed', function () {
-
     mainWindow = null;
-
   });
 }
 
