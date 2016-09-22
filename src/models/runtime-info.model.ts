@@ -1,5 +1,4 @@
 export class RuntimeInfoModel{
-    nodeVersion: string = "";
-    chromeVersion: string = "";
-    electronVersion: string = "";    
+    constructor(public nodeVersion: string, public chromeVersion: string, public electronVersion: string){
+    }    
 }

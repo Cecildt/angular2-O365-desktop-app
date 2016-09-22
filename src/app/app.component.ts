@@ -1,6 +1,6 @@
 import { Component, AfterViewInit, OnInit } from "@angular/core";
-import { NgModule }       from '@angular/core';
-import { BrowserModule }  from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 
 import { ElectronService } from "../services/electron.service";
 import { RuntimeInfoModel } from "../models/runtime-info.model";
@@ -11,23 +11,23 @@ declare var componentHandler: any;
 @Component({
     selector: "graph-app",
     templateUrl: "src/app/view-main.html",
-    providers:[ElectronService]
+    providers: [ElectronService]
 })
-export class AppComponent implements AfterViewInit, OnInit  {
+export class AppComponent implements AfterViewInit, OnInit {
     userName: string = "";
     nodeVersion: string = "";
     chromeVersion: string = "";
     electronVersion: string = "";
 
-    constructor(private electronService: ElectronService) {                       
+    constructor(private electronService: ElectronService) {
     }
 
-    ngOnInit(){
-        this.electronService.GetInfo().then((info: RuntimeInfoModel) => {
-            this.nodeVersion = info.nodeVersion;
-            this.chromeVersion = info.chromeVersion;
-            this.electronVersion = info.electronVersion;
-        });
+    ngOnInit() {
+        let info: RuntimeInfoModel = this.electronService.GetInfo();
+
+        this.nodeVersion = info.nodeVersion;
+        this.chromeVersion = info.chromeVersion;
+        this.electronVersion = info.electronVersion;
     }
 
     ngAfterViewInit() {

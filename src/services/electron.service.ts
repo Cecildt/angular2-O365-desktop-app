@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Http, Headers, Response } from "@angular/http";
 import 'rxjs/add/operator/toPromise';
+import { remote } from 'electron';
 
 import { RuntimeInfoModel } from "../models/runtime-info.model";
 
@@ -13,13 +14,11 @@ export class ElectronService {
         this.http = http;
     }
 
-    public GetInfo(): Promise<RuntimeInfoModel> {
-        return new Promise<RuntimeInfoModel>(resolve => {
-            this.http.get("http://localhost:3000/info")
-                .toPromise()
-                .then(response => response.json() as RuntimeInfoModel)
-                .catch(this.handleError)
-        });
+    public GetInfo(): RuntimeInfoModel {
+        return new RuntimeInfoModel(
+            remote.process.versions.node, 
+            remote.process.versions.chrome, 
+            remote.process.versions.electron);
     }
 
     private handleError(error: any): Promise<any> {

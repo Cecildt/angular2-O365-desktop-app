@@ -3,10 +3,6 @@
 const electron = require('electron');
 const app = electron.app;
 
-const restify = require('restify');
-const url = require('url');
-const crypto = require('crypto');
-const AuthenticationContext = require('adal-node').AuthenticationContext;
 const AdalMainConfig = require("./main-config");
 
 require('electron-debug')({ showDevTools: true });
@@ -20,13 +16,17 @@ let hash = "";
 require('electron-reload')(__dirname + '/build');
 
 function createWindow() {
+  global.nodeVersion = process.versions.node;
+  global.chromeVersion = process.versions.chrome;
+  global.electronVersion = process.versions.electron;
+
   // Initialize the window to our specified dimensions
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 900,
     autoHideMenuBar: true,
     webPreferences: {
-      nodeIntegration: false
+      nodeIntegration: true
     }
   });
 
@@ -58,138 +58,3 @@ app.on('activate', function () {
   }
 });
 
-// ADAL Settings
-let authToken = '';
-let authorityUrl = AdalMainConfig.authorityHostUrl + '/' + AdalMainConfig.tenant;
-let templateAuthzUrl = 'https://login.windows.net/' + AdalMainConfig.tenant + '/oauth2/authorize?response_type=code&client_id=<client_id>&redirect_uri=<redirect_uri>&state=<state>&resource=<resource>';
-let tenantID = '';
-let accessToken = '';
-let refreshToken = '';
-let user = {
-  userID: '',
-  lastName: '',
-  firstName: '',
-  fullName: ''
-}
-
-// Start Restify API Server
-let port = process.env.PORT || 3000;
-var server = restify.createServer({ name: 'electron-backend', version: '0.0.1' });
-
-server.use(restify.queryParser());
-server.use(restify.bodyParser());
-
-server.get('/info', (req, res, next) => {
-  res.send({
-    nodeVersion: process.versions.node,
-    chromeVersion: process.versions.chrome,
-    electronVersion: process.versions.electron
-  });
-});
-
-server.get('/auth', (req, res, next) => {
-  console.log("Authenticate attempt!")
-  clearStorage();
-
-  crypto.randomBytes(48, function (ex, buf) {
-    var token = buf.toString('base64').replace(/\//g, '_').replace(/\+/g, '-');
-
-    this.authToken = token;
-    //res.cookie('authstate', token);
-    var authorizationUrl = createAuthorizationUrl(token);
-
-    console.log("Auth URL: " + authorizationUrl);
-    //res.redirect(authorizationUrl);
-    mainWindow.loadURL(authorizationUrl);
-  });
-});
-
-
-server.get('/auth/azureoauth/callback', (req, res, next) => {
-  // TODO: Need to investigate query state fix - low priority
-  // if (this.authToken !== req.query.state) {
-  //   console.log('error: state does not match');
-  //   res.send('error: state does not match');
-  // }
-  
-  clearStorage();
-
-  var authenticationContext = new AuthenticationContext(authorityUrl);
-  authenticationContext.acquireTokenWithAuthorizationCode(req.query.code, AdalMainConfig.redirectUri, AdalMainConfig.resource, AdalMainConfig.clientId, AdalMainConfig.clientSecret, function (err, response) {
-    var message = '';
-    if (err) {
-      message = 'error: ' + err.message + '\n';
-      logError(message);
-      return;
-    }
-
-    accessToken = response.accessToken;
-    refreshToken = response.refreshToken;
-    tenantID = response.tenantId;
-    user.userID = response.userId;
-    user.lastName = response.familyName;
-    user.firstName = response.firstName;
-    user.fullName = response.firstName + ' ' + response.familyName;
-
-    // console.log("User: " + JSON.stringify(user));
-    // console.log("Access Token: " + response.accessToken);
-    // console.log("Refresh Token:" + response.refreshToken);
-
-    saveTokens();
-    saveUser();
-
-    mainWindow.loadURL('file://' + __dirname + '/index.html');
-
-    // Later, if the access token is expired it can be refreshed.
-    authenticationContext.acquireTokenWithRefreshToken(response.refreshToken, AdalMainConfig.clientId, AdalMainConfig.clientSecret, AdalMainConfig.resource, function (refreshErr, refreshResponse) {
-      if (refreshErr) {
-        message += 'refreshError: ' + refreshErr.message + '\n';
-        logError(message);
-      }
-
-      accessToken = response.accessToken;
-      refreshToken = response.refreshToken;
-      tenantID = response.tenantId;
-      user.userID = response.userId;
-      user.lastName = response.familyName;
-      user.firstName = response.firstName;
-      user.fullName = response.firstName + ' ' + response.familyName;
-
-      saveTokens();
-      saveUser();
-    });
-  });
-});
-
-server.listen(port, () => {
-  console.log('server running on port ' + port);
-});
-
-
-function createAuthorizationUrl(state) {
-  var authorizationUrl = templateAuthzUrl.replace('<client_id>', AdalMainConfig.clientId);
-  authorizationUrl = authorizationUrl.replace('<redirect_uri>', AdalMainConfig.redirectUri);
-  authorizationUrl = authorizationUrl.replace('<state>', state);
-  authorizationUrl = authorizationUrl.replace('<resource>', AdalMainConfig.resource);
-  return authorizationUrl;
-}
-
-function logError(message) {
-  let code = "localStorage.setItem('error', '" + message + "');";
-  mainWindow.webContents.executeJavaScript(code);
-}
-
-function saveTokens() {
-  let code = "localStorage.setItem('accessToken', '" + accessToken + "');";
-  mainWindow.webContents.executeJavaScript(code);
-}
-
-function saveUser() {
-  let code = "localStorage.setItem('user', '" + JSON.stringify(user) + "');";
-  mainWindow.webContents.executeJavaScript(code);
-}
-
-function clearStorage(){
-  let code = "localStorage.clear()";
-  mainWindow.webContents.executeJavaScript(code);
-}
