@@ -11,6 +11,6 @@ export class LoginComponent {
 	}
 
 	login() {
-		this.electronService.logIn2();
+		this.electronService.logIn();
 	}
 }

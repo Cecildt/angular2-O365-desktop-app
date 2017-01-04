@@ -2,7 +2,6 @@ import { Injectable } from "@angular/core";
 import { Http, Headers, Response } from "@angular/http";
 import 'rxjs/add/operator/toPromise';
 import { remote } from "electron";
-import * as kurve from "kurvejs";
 
 import { RuntimeInfoModel } from "../models/runtime-info.model";
 
@@ -22,17 +21,13 @@ export class ElectronService {
             remote.process.versions.electron);
     }
   
-    public logIn2(){
-        let id = new kurve.Identity("", "./node_modules/kurvejs/dist/login.html");
-
-        id.loginAsync().then(_ => {
-            console.log("Login"); 
-        });
-    }
-
     public logIn(state = "/") {
+        let clientID = "94e57a3e-2436-4b86-a280-5286e2152a22";
         let originalURL = location.href;
-        let authUrl = "";
+        let authUrl = "https://login.microsoftonline.com/" + this._serviceConstants.tenantID +
+            "/oauth2/authorize?response_type=id_token&client_id=" + this._serviceConstants.clientID +
+            "&redirect_uri=" + encodeURIComponent(this._serviceConstants.redirectURL) +
+            "&state=" + state + "&nonce=SomeNonce";
         let BrowserWindow = remote.BrowserWindow;        
 
         let authWindow = new BrowserWindow({
@@ -91,7 +86,7 @@ export class ElectronService {
     }
 
     refreshAccessToken(state = "/") {
-        this.Login(state); // force login, assume that renewToken.html didn't work which is why dev is calling this.
+        this.logIn(state); // force login, assume that renewToken.html didn't work which is why dev is calling this.
     }
 
     public getAccessToken() {

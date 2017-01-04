@@ -44,9 +44,7 @@
     "rxjs": "5.0.0-beta.12",
     "systemjs": "^0.19.37",
     "zone.js": "^0.6.23",
-    "kurvejs": "^0.6.1",
     "core-js": "^2.4.1"
-
   },
   "devDependencies": {
     "codelyzer": "^0.0.28",
