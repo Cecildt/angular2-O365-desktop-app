@@ -23,7 +23,6 @@ export class ElectronService {
     }
   
     public logIn(state = "/") {
-        let clientID = "94e57a3e-2436-4b86-a280-5286e2152a22";
         let originalURL = location.href;
         let authUrl = "https://login.microsoftonline.com/" + AdalConfig.tenant +
             "/oauth2/authorize?response_type=id_token&client_id=" + AdalConfig.clientId +

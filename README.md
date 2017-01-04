@@ -20,7 +20,7 @@ npm run watch
 Run application
 
 `
-npm run start
+npm start
 `
 
 ## Debug Electron using [Devtron](http://electron.atom.io/devtron/)
