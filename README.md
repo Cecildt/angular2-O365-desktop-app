@@ -40,7 +40,7 @@ Register this application in the Azure Active Directory service for your Office 
 Easy to use online tool: [Office 365 App Registration Tool](https://dev.office.com/app-registration) 
 
 * App Registration Type: Native Application
-* Redirect URI: http://localhost:8000
+* Redirect URI: http://localhost/callback
 * Select all read items for Users, Groups, Mail, Calendar, Contacts and Files.
 * Register the app and remember to copy your client ID provided to you.
 * Update the svcConstant.ts file with your values.
