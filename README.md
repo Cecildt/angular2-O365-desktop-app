@@ -37,7 +37,7 @@ require('devtron').install()
 ## Azure AD application Registration
 
 Register this application in the Azure Active Directory service for your Office 365 tenant.
-Easy to use online tool: [Office 365 App Registration Tool](https://dev.office.com/app-registration) 
+Easy to use online tool: [Office 365 App Registration Tool](https://dev.office.com/app-registration)
 
 * App Registration Type: Native Application
 * Redirect URI: http://localhost/callback

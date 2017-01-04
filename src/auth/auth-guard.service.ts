@@ -6,24 +6,21 @@ import {
   RouterStateSnapshot
 } from '@angular/router';
 
-import { AuthService } from "../auth/auth.service";
+import { GraphService } from "../services/graph.service";
 import { ToastComponent } from "../toast/toast.component";
 import { USER_MESSAGES } from "../messages/messages";
 
 @Injectable()
 export class AuthGuardService implements CanActivate {
-  constructor(private auth: AuthService, private toast: ToastComponent, private router: Router) {}
+  constructor(private graph: GraphService, private toast: ToastComponent, private router: Router) {}
 
-  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    this.auth.isUserAuthenticated().then(() => {
+  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) : Promise<boolean> {
+     return this.graph.isUserAuthenticated().then(() => {
       return true;
     }).catch((err) => {
       this.toast.show(USER_MESSAGES.not_authenticated + " " + err);
       this.router.navigate(['login']);
       return false;
     });
-
-    this.router.navigate(['login']);
-    return false;
   }
 }

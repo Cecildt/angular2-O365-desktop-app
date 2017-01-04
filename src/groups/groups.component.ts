@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 
-import { AuthService } from "../auth/auth.service";
+import { GraphService } from "../services/graph.service";
 import { ToastComponent } from "../toast/toast.component";
 import { USER_MESSAGES } from "../messages/messages"
 import { OFFICE_URLS } from "../office/office-urls";
@@ -12,7 +12,7 @@ import { OFFICE_URLS } from "../office/office-urls";
 export class GroupsComponent implements OnInit {
     private groups = [];
 
-    constructor(public auth: AuthService,
+    constructor(public graph: GraphService,
         public toast: ToastComponent) {
     }
 
@@ -22,7 +22,7 @@ export class GroupsComponent implements OnInit {
     }
 
     private getGroups() {
-        this.auth.getRequestPromise(OFFICE_URLS.me_groups_url)
+        this.graph.getRequestPromise(OFFICE_URLS.me_groups_url)
             .then((data: any) => {
                 if (data) {
                     this.groups = data.value;

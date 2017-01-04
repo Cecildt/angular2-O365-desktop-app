@@ -14,6 +14,7 @@ export class ToastComponent {
 
     public show(message: string) {
         let notify: any = document.querySelector('.mdl-js-snackbar');
+        notify.style.backgroundColor = "#FF5722";
         notify.MaterialSnackbar.showSnackbar({
             message: message,
             timeout: 4000

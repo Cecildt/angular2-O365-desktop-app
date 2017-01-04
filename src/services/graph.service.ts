@@ -7,7 +7,7 @@ import { USER_MESSAGES } from "../messages/messages";
 import { OFFICE_URLS } from "../office/office-urls"
 
 @Injectable()
-export class AuthService {
+export class GraphService {
 
     private http: Http;
     private access_token: string | null;
@@ -18,7 +18,7 @@ export class AuthService {
 
     public isUserAuthenticated = (): Promise<any> => {
         let p = new Promise<any>((resolve: Function, reject: Function) => {
-            let token : string | null = localStorage.getItem("accessToken");
+            let token : string | null = localStorage.getItem("access_token");
             this.access_token = token;
 
             if (this.access_token === null) {
@@ -53,7 +53,10 @@ export class AuthService {
                     .map((res: any) => res.json())
                     .subscribe(
                     (res: any) => resolve(res),
-                    (error: any) => reject(error));
+                    (error: any) => {
+                        console.error(error);
+                        reject(error);
+                    });
             });
         });
 
@@ -90,12 +93,11 @@ export class AuthService {
 
     private tokenPromise = (endpoint: string): Promise<string> => {
         let p = new Promise<string>((resolve: Function, reject: Function) => {
-            var token = window.localStorage.getItem("accessToken");
+            var token = window.localStorage.getItem("access_token");
             if (token && token !== "undefined") {
                 resolve(token);
             } else {
-                //this.logIn();
-                reject();
+                reject(USER_MESSAGES.no_access_token);
             }
         });
 

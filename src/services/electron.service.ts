@@ -21,17 +21,24 @@ export class ElectronService {
             remote.process.versions.chrome,
             remote.process.versions.electron);
     }
-  
+
     public logIn(state = "/") {
         let originalURL = location.href;
         let authUrl = "https://login.microsoftonline.com/" + ADAL_CONFIG.tenant +
             "/oauth2/authorize?response_type=id_token&client_id=" + ADAL_CONFIG.clientId +
             "&redirect_uri=" + encodeURIComponent(ADAL_CONFIG.redirectUri) +
             "&state=" + state + "&nonce=SomeNonce";
-        let BrowserWindow = remote.BrowserWindow;        
+        let BrowserWindow = remote.BrowserWindow;
 
         let authWindow = new BrowserWindow({
-            width: 800, height: 600, show: false, frame: false, webPreferences: { nodeIntegration: false }
+            width: 800,
+            height: 600,
+            show: false,
+            frame: true,
+            autoHideMenuBar: true,
+            webPreferences: {
+                nodeIntegration: false
+            }
         });
 
         authWindow.webContents.on("did-get-redirect-request", (event: any, oldUrl: string, newUrl: string) => {
@@ -39,31 +46,9 @@ export class ElectronService {
             let params: any = this.parseQueryString(newUrl);
             if (params["id_token"] != null) {
                 window.localStorage.setItem("id_token", params["id_token"]);
+                window.localStorage.removeItem("access_token");
 
-                let accessTokenUrl = "";
-
-                let accessWindow = new BrowserWindow({
-                    width: 800, height: 600, show: false, frame: false, webPreferences: { nodeIntegration: false }
-                });
-
-                accessWindow.on("closed", () => {
-                    accessWindow = null;
-                });
-
-                accessWindow.webContents.on("did-get-redirect-request", (event: any, oldUrl: string, newUrl: string) => {
-                    accessWindow.destroy();
-                    let params: any = this.parseQueryString(newUrl);
-
-                    if (params["access_token"] != null) {
-                        window.localStorage.setItem("access_token", params["access_token"]);
-                        remote.getCurrentWindow().loadURL(originalURL + "index.html");
-                    } else {
-                        window.localStorage.removeItem("id_token");
-                        window.localStorage.removeItem("access_token");
-                    }
-                });
-
-                accessWindow.loadURL(accessTokenUrl);
+                this.getNewAccessToken();
             } else {
                 window.localStorage.removeItem("id_token");
                 window.localStorage.removeItem("access_token");
@@ -77,6 +62,39 @@ export class ElectronService {
 
         authWindow.loadURL(authUrl);
         authWindow.show();
+    }
+
+
+    public getNewAccessToken(state = "/"){
+        let originalURL = location.href;
+        let accessTokenUrl = "https://login.microsoftonline.com/" + ADAL_CONFIG.tenant +
+                    "/oauth2/authorize?response_type=token&client_id=" + ADAL_CONFIG.clientId +
+                    "&resource=" + ADAL_CONFIG.endpoints.graphApiUri +
+                    "&redirect_uri=" + encodeURIComponent(ADAL_CONFIG.redirectUri) +
+                    "&prompt=none&state=" + state + "&nonce=SomeNonce";
+        let BrowserWindow = remote.BrowserWindow;
+
+        let accessWindow = new BrowserWindow({
+            width: 800, height: 600, show: false, frame: false, webPreferences: { nodeIntegration: false }
+        });
+
+        accessWindow.on("closed", () => {
+            accessWindow = null;
+        });
+
+        accessWindow.webContents.on("did-get-redirect-request", (event: any, oldUrl: string, newUrl: string) => {
+            accessWindow.destroy();
+            let params: any = this.parseQueryString(newUrl);
+
+            if (params["access_token"] != null) {
+                window.localStorage.setItem("access_token", params["access_token"]);
+                remote.getCurrentWindow().loadURL(originalURL + "index.html");
+            } else {
+                window.localStorage.removeItem("access_token");
+            }
+        });
+
+        accessWindow.loadURL(accessTokenUrl);
     }
 
     logOut(state = "/") {

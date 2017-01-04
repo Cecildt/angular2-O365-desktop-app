@@ -4,7 +4,7 @@ import { HttpModule }    from '@angular/http';
 
 import { APP_ROUTING } from '../routes/app.routes';
 import { AppComponent } from '../app/app.component'
-import { AuthService } from "../auth/auth.service";
+import { GraphService } from "../services/graph.service";
 import { ProfileComponent } from "../profile/profile.component";
 import { ElectronService } from "../services/electron.service";
 import { ToastComponent } from "../toast/toast.component";
@@ -27,6 +27,6 @@ import { AuthGuardService } from "../auth/auth-guard.service"
     ContactsComponent, GroupsComponent, MailsComponent, NotesComponent, TasksComponent, TrendingComponent,
     UsersComponent ],
   bootstrap:    [ AppComponent ],
-  providers:    [ AuthService, AuthGuardService, ElectronService, ProfileComponent, ToastComponent ]
+  providers:    [ GraphService, AuthGuardService, ElectronService, ProfileComponent, ToastComponent ]
 })
 export class AppModule { }

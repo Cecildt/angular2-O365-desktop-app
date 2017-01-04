@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 
-import { AuthService } from "../auth/auth.service";
+import { GraphService } from "../services/graph.service";
 import { ToastComponent } from "../toast/toast.component";
 import { USER_MESSAGES } from "../messages/messages"
 import { OFFICE_URLS } from "../office/office-urls";
@@ -13,7 +13,7 @@ import { OFFICE_URLS } from "../office/office-urls";
 export class FilesComponent implements OnInit {
     private files = [];
 
-    constructor(private auth: AuthService,
+    constructor(private graph: GraphService,
         private toast: ToastComponent) {
     }
 
@@ -23,8 +23,7 @@ export class FilesComponent implements OnInit {
     }
 
     public getFiles() {
-        // perform REST call into Microsoft Graph for files on OneDrive for Business
-        this.auth.getRequestPromise(OFFICE_URLS.me_drive_url)
+        this.graph.getRequestPromise(OFFICE_URLS.me_drive_url)
             .then((data: any) => {
                 if (data) {
                     this.files = data.value;

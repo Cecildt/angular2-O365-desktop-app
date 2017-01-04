@@ -1,6 +1,6 @@
 import { Component, OnInit, Injectable } from "@angular/core";
 
-import { AuthService } from "../auth/auth.service";
+import { GraphService } from "../services/graph.service";
 import { ToastComponent } from "../toast/toast.component";
 import { USER_MESSAGES } from "../messages/messages"
 import { OFFICE_URLS } from "../office/office-urls";
@@ -14,7 +14,7 @@ export class ProfileComponent implements OnInit {
     private displayName: string = "";
     private photo: string = "";
 
-    constructor(private auth: AuthService, private toast: ToastComponent) {        
+    constructor(private graph: GraphService, private toast: ToastComponent) {
     }
 
     ngOnInit(){
@@ -23,7 +23,7 @@ export class ProfileComponent implements OnInit {
 
     public refreshInfo() {
 
-        this.auth.isUserAuthenticated()
+        this.graph.isUserAuthenticated()
             .then(() => {
                 this.getUserName();
                 this.getUserPhoto();
@@ -34,7 +34,7 @@ export class ProfileComponent implements OnInit {
     }
 
     private getUserName() {
-        this.auth.getRequestPromise(OFFICE_URLS.me_profile_url).then((data: any) => {
+        this.graph.getRequestPromise(OFFICE_URLS.me_profile_url).then((data: any) => {
             if (data) {
                 this.displayName = data.displayName;
             } else {                
@@ -46,7 +46,7 @@ export class ProfileComponent implements OnInit {
     }
 
     private getUserPhoto() {
-        this.auth.getPhotoRequestPromise(OFFICE_URLS.me_photo_url).then((data: any) => {
+        this.graph.getPhotoRequestPromise(OFFICE_URLS.me_photo_url).then((data: any) => {
             if (data) {
                 this.photo = data;
             } else {
