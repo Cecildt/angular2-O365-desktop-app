@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Http, Headers, Response } from "@angular/http";
 import { Observable } from 'rxjs';
 
-import { AdalConfig } from "../adal/adal-config";
+import { ADAL_CONFIG } from "../adal/adal-config";
 import { USER_MESSAGES } from "../messages/messages";
 import { OFFICE_URLS } from "../office/office-urls"
 
@@ -43,13 +43,13 @@ export class AuthService {
 
     public getRequestPromise = (reqUrl: string): Promise<any> => {
         let p = new Promise<any>((resolve: Function, reject: Function) => {
-            let tokenPromise = this.tokenPromise(AdalConfig.endpoints.graphApiUri);
+            let tokenPromise = this.tokenPromise(ADAL_CONFIG.endpoints.graphApiUri);
 
             tokenPromise.then((token: string) => {
                 let headers = new Headers();
                 headers.append("Authorization", "Bearer " + token);
 
-                this.http.get(AdalConfig.endpoints.graphApiUri + reqUrl, { headers: headers })
+                this.http.get(ADAL_CONFIG.endpoints.graphApiUri + reqUrl, { headers: headers })
                     .map((res: any) => res.json())
                     .subscribe(
                     (res: any) => resolve(res),
@@ -62,10 +62,10 @@ export class AuthService {
 
     public getPhotoRequestPromise = (reqUrl: string): Promise<any> => {
         let p = new Promise<any>((resolve: Function, reject: Function) => {
-            let tokenPromise = this.tokenPromise(AdalConfig.endpoints.graphApiUri);
+            let tokenPromise = this.tokenPromise(ADAL_CONFIG.endpoints.graphApiUri);
             tokenPromise.then((token: string) => {
                 var request = new XMLHttpRequest;
-                request.open("GET", AdalConfig.endpoints.graphApiUri + reqUrl);
+                request.open("GET", ADAL_CONFIG.endpoints.graphApiUri + reqUrl);
                 request.setRequestHeader("Authorization", "Bearer " + token);
                 request.responseType = "blob";
                 request.onload = function () {
@@ -88,21 +88,13 @@ export class AuthService {
         return p;
     };
 
-    public logIn() {
-        window.location.href = "http://localhost:3000/auth";
-    }
-
-    public logOut() {
-        localStorage.clear();
-    }
-
     private tokenPromise = (endpoint: string): Promise<string> => {
         let p = new Promise<string>((resolve: Function, reject: Function) => {
             var token = window.localStorage.getItem("accessToken");
             if (token && token !== "undefined") {
                 resolve(token);
             } else {
-                this.logIn();
+                //this.logIn();
                 reject();
             }
         });

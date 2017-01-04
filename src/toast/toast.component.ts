@@ -15,7 +15,8 @@ export class ToastComponent {
     public show(message: string) {
         let notify: any = document.querySelector('.mdl-js-snackbar');
         notify.MaterialSnackbar.showSnackbar({
-            message: message
+            message: message,
+            timeout: 4000
         });
     }
 }

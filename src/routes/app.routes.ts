@@ -25,7 +25,8 @@ const appRoutes: Routes = [
     { component: NotesComponent, path: "notes", canActivate: [AuthGuardService] },
     { component: TasksComponent, path: "tasks", canActivate: [AuthGuardService] },
     { component: TrendingComponent, path: "trending", canActivate: [AuthGuardService] },
-    { component: UsersComponent, path: "users", canActivate: [AuthGuardService] }
+    { component: UsersComponent, path: "users", canActivate: [AuthGuardService] },
+    { component: LoginComponent, path: "**"}
 ];
 
 export const APP_ROUTING: ModuleWithProviders = RouterModule.forRoot(appRoutes);

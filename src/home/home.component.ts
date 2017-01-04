@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { NgIf } from "@angular/common";
 
 import { ProfileComponent } from "../profile/profile.component";
-import { AuthService } from "../auth/auth.service";
+import { ElectronService } from "../services/electron.service";
 import { ToastComponent } from "../toast/toast.component";
 
 @Component({
@@ -11,9 +11,9 @@ import { ToastComponent } from "../toast/toast.component";
 })
 export class HomeComponent implements OnInit {
 
-    constructor(private auth: AuthService,
+    constructor(private electron: ElectronService,
         private profile: ProfileComponent,
-        private toast: ToastComponent) {        
+        private toast: ToastComponent) {
     }
 
     ngOnInit(){
@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
     }
 
     public signOut() {
-        this.auth.logOut();
+        this.electron.logOut();
     }
 
     public refreshInfo() {
