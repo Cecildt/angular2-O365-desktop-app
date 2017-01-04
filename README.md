@@ -11,12 +11,6 @@ Install dependencies
 npm install
 `
 
-Install type definitions
-
-`
-typings install
-`
-
 To build and watch for changes
 
 `

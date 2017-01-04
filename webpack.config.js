@@ -13,7 +13,7 @@ module.exports = {
       'reflect-metadata',
       'zone.js'
     ],
-    'common': ['es6-shim'],
+    'common': [],
     'app': './src/app/main.ts'
   },
 

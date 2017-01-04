@@ -4,6 +4,7 @@ import 'rxjs/add/operator/toPromise';
 import { remote } from "electron";
 
 import { RuntimeInfoModel } from "../models/runtime-info.model";
+import { AdalConfig } from "../adal/adal-config";
 
 @Injectable()
 export class ElectronService {
@@ -24,9 +25,9 @@ export class ElectronService {
     public logIn(state = "/") {
         let clientID = "94e57a3e-2436-4b86-a280-5286e2152a22";
         let originalURL = location.href;
-        let authUrl = "https://login.microsoftonline.com/" + this._serviceConstants.tenantID +
-            "/oauth2/authorize?response_type=id_token&client_id=" + this._serviceConstants.clientID +
-            "&redirect_uri=" + encodeURIComponent(this._serviceConstants.redirectURL) +
+        let authUrl = "https://login.microsoftonline.com/" + AdalConfig.tenant +
+            "/oauth2/authorize?response_type=id_token&client_id=" + AdalConfig.clientId +
+            "&redirect_uri=" + encodeURIComponent(AdalConfig.redirectUri) +
             "&state=" + state + "&nonce=SomeNonce";
         let BrowserWindow = remote.BrowserWindow;        
 
