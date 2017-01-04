@@ -1,4 +1,4 @@
-export const ADAL_CONFIG = {
+export const AZURE_CONFIG = {
   authorityHostUrl:'https://login.windows.net',
   tenant: 'devlaundry.onmicrosoft.com',
   clientId: '8582721b-acf4-4f1e-b1a3-6be84a8b55f7',

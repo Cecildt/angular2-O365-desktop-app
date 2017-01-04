@@ -15,7 +15,7 @@ export class LoginComponent {
         window.localStorage.removeItem("id_token");
         window.localStorage.removeItem("access_token");
         window.localStorage.removeItem("user");
-		
+
 		this.electronService.logIn();
 	}
 }

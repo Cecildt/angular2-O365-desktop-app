@@ -4,7 +4,7 @@ import 'rxjs/add/operator/toPromise';
 import { remote } from "electron";
 
 import { RuntimeInfoModel } from "../models/runtime-info.model";
-import { ADAL_CONFIG } from "../adal/adal-config";
+import { AZURE_CONFIG } from "../config/azure-config";
 
 @Injectable()
 export class ElectronService {
@@ -24,9 +24,9 @@ export class ElectronService {
 
     public logIn(state = "/") {
         let originalURL = location.href;
-        let authUrl = "https://login.microsoftonline.com/" + ADAL_CONFIG.tenant +
-            "/oauth2/authorize?response_type=id_token&client_id=" + ADAL_CONFIG.clientId +
-            "&redirect_uri=" + encodeURIComponent(ADAL_CONFIG.redirectUri) +
+        let authUrl = "https://login.microsoftonline.com/" + AZURE_CONFIG.tenant +
+            "/oauth2/authorize?response_type=id_token&client_id=" + AZURE_CONFIG.clientId +
+            "&redirect_uri=" + encodeURIComponent(AZURE_CONFIG.redirectUri) +
             "&state=" + state + "&nonce=SomeNonce";
         let BrowserWindow = remote.BrowserWindow;
 
@@ -67,10 +67,10 @@ export class ElectronService {
 
     public getNewAccessToken(state = "/"){
         let originalURL = location.href;
-        let accessTokenUrl = "https://login.microsoftonline.com/" + ADAL_CONFIG.tenant +
-                    "/oauth2/authorize?response_type=token&client_id=" + ADAL_CONFIG.clientId +
-                    "&resource=" + ADAL_CONFIG.endpoints.graphApiUri +
-                    "&redirect_uri=" + encodeURIComponent(ADAL_CONFIG.redirectUri) +
+        let accessTokenUrl = "https://login.microsoftonline.com/" + AZURE_CONFIG.tenant +
+                    "/oauth2/authorize?response_type=token&client_id=" + AZURE_CONFIG.clientId +
+                    "&resource=" + AZURE_CONFIG.endpoints.graphApiUri +
+                    "&redirect_uri=" + encodeURIComponent(AZURE_CONFIG.redirectUri) +
                     "&prompt=none&state=" + state + "&nonce=SomeNonce";
         let BrowserWindow = remote.BrowserWindow;
 

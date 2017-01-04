@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Http, Headers, Response } from "@angular/http";
 import { Observable } from 'rxjs';
 
-import { ADAL_CONFIG } from "../adal/adal-config";
+import { AZURE_CONFIG } from "../config/azure-config";
 import { USER_MESSAGES } from "../messages/messages";
 import { OFFICE_URLS } from "../office/office-urls"
 
@@ -43,13 +43,13 @@ export class GraphService {
 
     public getRequestPromise = (reqUrl: string): Promise<any> => {
         let p = new Promise<any>((resolve: Function, reject: Function) => {
-            let tokenPromise = this.tokenPromise(ADAL_CONFIG.endpoints.graphApiUri);
+            let tokenPromise = this.tokenPromise(AZURE_CONFIG.endpoints.graphApiUri);
 
             tokenPromise.then((token: string) => {
                 let headers = new Headers();
                 headers.append("Authorization", "Bearer " + token);
 
-                this.http.get(ADAL_CONFIG.endpoints.graphApiUri + reqUrl, { headers: headers })
+                this.http.get(AZURE_CONFIG.endpoints.graphApiUri + reqUrl, { headers: headers })
                     .map((res: any) => res.json())
                     .subscribe(
                     (res: any) => resolve(res),
@@ -65,10 +65,10 @@ export class GraphService {
 
     public getPhotoRequestPromise = (reqUrl: string): Promise<any> => {
         let p = new Promise<any>((resolve: Function, reject: Function) => {
-            let tokenPromise = this.tokenPromise(ADAL_CONFIG.endpoints.graphApiUri);
+            let tokenPromise = this.tokenPromise(AZURE_CONFIG.endpoints.graphApiUri);
             tokenPromise.then((token: string) => {
                 var request = new XMLHttpRequest;
-                request.open("GET", ADAL_CONFIG.endpoints.graphApiUri + reqUrl);
+                request.open("GET", AZURE_CONFIG.endpoints.graphApiUri + reqUrl);
                 request.setRequestHeader("Authorization", "Bearer " + token);
                 request.responseType = "blob";
                 request.onload = function () {
