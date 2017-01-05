@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import { Http, Headers, Response } from "@angular/http";
-import 'rxjs/add/operator/toPromise';
+import { Http } from "@angular/http";
+import "rxjs/add/operator/toPromise";
 import { remote } from "electron";
 
 import { RuntimeInfoModel } from "../models/runtime-info.model";
@@ -10,6 +10,7 @@ import { AZURE_CONFIG } from "../config/azure-config";
 export class ElectronService {
 
     private http: Http;
+    private originalURL;
 
     constructor(http: Http) {
         this.http = http;
@@ -23,7 +24,7 @@ export class ElectronService {
     }
 
     public logIn(state = "/") {
-        let originalURL = location.href;
+        this.originalURL = location.href;
         let authUrl = "https://login.microsoftonline.com/" + AZURE_CONFIG.tenant +
             "/oauth2/authorize?response_type=id_token&client_id=" + AZURE_CONFIG.clientId +
             "&redirect_uri=" + encodeURIComponent(AZURE_CONFIG.redirectUri) +
@@ -31,21 +32,22 @@ export class ElectronService {
         let BrowserWindow = remote.BrowserWindow;
 
         let authWindow = new BrowserWindow({
-            width: 800,
+            autoHideMenuBar: true,
+            frame: true,
             height: 600,
             show: false,
-            frame: true,
-            autoHideMenuBar: true,
             webPreferences: {
-                nodeIntegration: false
-            }
+                nodeIntegration: false,
+            },
+            width: 800,
         });
 
         authWindow.webContents.on("did-get-redirect-request", (event: any, oldUrl: string, newUrl: string) => {
             authWindow.destroy();
             let params: any = this.parseQueryString(newUrl);
-            if (params["id_token"] != null) {
-                window.localStorage.setItem("id_token", params["id_token"]);
+            let idToken = params.id_token;
+            if (idToken != null) {
+                window.localStorage.setItem("id_token", idToken);
                 window.localStorage.removeItem("access_token");
 
                 this.getNewAccessToken();
@@ -55,7 +57,6 @@ export class ElectronService {
             }
         });
 
-        // reset the authWindow on close
         authWindow.on("closed", () => {
             authWindow = null;
         });
@@ -64,8 +65,7 @@ export class ElectronService {
         authWindow.show();
     }
 
-
-    public getNewAccessToken(state = "/"){
+    public getNewAccessToken(state = "/") {
         let originalURL = location.href;
         let accessTokenUrl = "https://login.microsoftonline.com/" + AZURE_CONFIG.tenant +
                     "/oauth2/authorize?response_type=token&client_id=" + AZURE_CONFIG.clientId +
@@ -75,7 +75,14 @@ export class ElectronService {
         let BrowserWindow = remote.BrowserWindow;
 
         let accessWindow = new BrowserWindow({
-            width: 800, height: 600, show: false, frame: false, webPreferences: { nodeIntegration: false }
+            autoHideMenuBar: true,
+            frame: false,
+            height: 600,
+            show: false,
+            webPreferences: {
+                nodeIntegration: false,
+            },
+            width: 800,
         });
 
         accessWindow.on("closed", () => {
@@ -85,9 +92,9 @@ export class ElectronService {
         accessWindow.webContents.on("did-get-redirect-request", (event: any, oldUrl: string, newUrl: string) => {
             accessWindow.destroy();
             let params: any = this.parseQueryString(newUrl);
-
-            if (params["access_token"] != null) {
-                window.localStorage.setItem("access_token", params["access_token"]);
+            let accessToken = params.access_token;
+            if (accessToken != null) {
+                window.localStorage.setItem("access_token", accessToken);
                 remote.getCurrentWindow().loadURL(originalURL + "index.html");
             } else {
                 window.localStorage.removeItem("access_token");
@@ -97,13 +104,13 @@ export class ElectronService {
         accessWindow.loadURL(accessTokenUrl);
     }
 
-    logOut(state = "/") {
+    public logOut(state = "/") {
         window.localStorage.removeItem("id_token");
         window.localStorage.removeItem("access_token");
         remote.getCurrentWindow().loadURL(location.href + "index.html");
     }
 
-    refreshAccessToken(state = "/") {
+    public refreshAccessToken(state = "/") {
         this.logIn(state); // force login, assume that renewToken.html didn't work which is why dev is calling this.
     }
 
@@ -112,19 +119,21 @@ export class ElectronService {
     }
 
     private parseQueryString(url: string) {
-        var params = {};
-        var queryString = "";
-        if (url.search("#") != -1) {
-            queryString = url.substring(url.search("#") + 1);
+        let params = {};
+        let queryString = "";
 
+        if (url.search("#") !== -1) {
+            queryString = url.substring(url.search("#") + 1);
         } else {
             queryString = url.substring(url.indexOf("?") + 1);
         }
-        var a = queryString.split('&');
-        for (var i = 0; i < a.length; i++) {
-            var b = a[i].split('=');
-            params[decodeURIComponent(b[0])] = decodeURIComponent(b[1] || '');
+
+        let a = queryString.split("&");
+        for (let i = 0; i < a.length; i++) {
+            let b = a[i].split("=");
+            params[decodeURIComponent(b[0])] = decodeURIComponent(b[1] || "");
         }
+
         return params;
     }
 }

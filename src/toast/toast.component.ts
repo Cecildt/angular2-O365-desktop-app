@@ -9,15 +9,13 @@ import { Component, Injectable } from "@angular/core";
 })
 @Injectable()
 export class ToastComponent {
-    constructor() {
-    }
 
     public show(message: string) {
-        let notify: any = document.querySelector('.mdl-js-snackbar');
+        let notify: any = document.querySelector(".mdl-js-snackbar");
         notify.style.backgroundColor = "#FF5722";
         notify.MaterialSnackbar.showSnackbar({
             message: message,
-            timeout: 4000
+            timeout: 4000,
         });
     }
 }

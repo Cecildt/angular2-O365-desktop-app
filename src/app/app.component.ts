@@ -1,28 +1,24 @@
 import { Component, AfterViewInit, OnInit } from "@angular/core";
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 
 import { ElectronService } from "../services/electron.service";
 import { RuntimeInfoModel } from "../models/runtime-info.model";
-import { ToastComponent } from "../toast/toast.component"
 
 declare var componentHandler: any;
 
 @Component({
+    providers: [ElectronService],
     selector: "graph-app",
     templateUrl: "src/app/view-main.html",
-    providers: [ElectronService]
 })
 export class AppComponent implements AfterViewInit, OnInit {
-    userName: string = "";
-    nodeVersion: string = "";
-    chromeVersion: string = "";
-    electronVersion: string = "";
+    private nodeVersion: string = "";
+    private chromeVersion: string = "";
+    private electronVersion: string = "";
 
-    constructor(private electronService: ElectronService) {        
+    constructor(private electronService: ElectronService) {
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         let info: RuntimeInfoModel = this.electronService.getInfo();
 
         this.nodeVersion = info.nodeVersion;
@@ -30,7 +26,7 @@ export class AppComponent implements AfterViewInit, OnInit {
         this.electronVersion = info.electronVersion;
     }
 
-    ngAfterViewInit() {
+    public ngAfterViewInit() {
         componentHandler.upgradeAllRegistered();
     }
 }

@@ -1,13 +1,13 @@
 export const AZURE_CONFIG = {
-  authorityHostUrl:'https://login.windows.net',
-  tenant: 'devlaundry.onmicrosoft.com',
-  clientId: '8582721b-acf4-4f1e-b1a3-6be84a8b55f7',
-  extraQueryParameter: 'nux=1',
+  authorityHostUrl: "https://login.windows.net",
+  clientId: "8582721b-acf4-4f1e-b1a3-6be84a8b55f7",
   disableRenewal: true,
-  resource: "https://graph.microsoft.com",
-  redirectUri:  "http://localhost/callback",
-  postLogoutRedirectUri: "",
   endpoints: {
-    graphApiUri:'https://graph.microsoft.com'
-  }
-}
+    graphApiUri: "https://graph.microsoft.com",
+  },
+  extraQueryParameter: "nux=1",
+  postLogoutRedirectUri: "",
+  redirectUri:  "http://localhost/callback",
+  resource: "https://graph.microsoft.com",
+  tenant: "devlaundry.onmicrosoft.com",
+};
