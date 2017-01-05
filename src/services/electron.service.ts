@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Http } from "@angular/http";
+import { Router } from "@angular/router";
 import "rxjs/add/operator/toPromise";
 import { remote } from "electron";
 
@@ -9,11 +10,9 @@ import { AZURE_CONFIG } from "../config/azure-config";
 @Injectable()
 export class ElectronService {
 
-    private http: Http;
     private originalURL;
 
-    constructor(http: Http) {
-        this.http = http;
+    constructor(private http: Http, private router: Router) {
     }
 
     public getInfo(): RuntimeInfoModel {
@@ -95,7 +94,8 @@ export class ElectronService {
             let accessToken = params.access_token;
             if (accessToken != null) {
                 window.localStorage.setItem("access_token", accessToken);
-                remote.getCurrentWindow().loadURL(originalURL + "index.html");
+                // remote.getCurrentWindow().loadURL(originalURL + "index.html");
+                this.router.navigate(["home"]);
             } else {
                 window.localStorage.removeItem("access_token");
             }
@@ -107,7 +107,7 @@ export class ElectronService {
     public logOut(state = "/") {
         window.localStorage.removeItem("id_token");
         window.localStorage.removeItem("access_token");
-        remote.getCurrentWindow().loadURL(location.href + "index.html");
+        this.router.navigate(["login"]);
     }
 
     public refreshAccessToken(state = "/") {
