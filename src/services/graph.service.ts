@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Http, Headers } from "@angular/http";
-import { Observable } from "rxjs";
+import "rxjs";
 
 import { AZURE_CONFIG } from "../config/azure-config";
 import { USER_MESSAGES } from "../messages/messages";

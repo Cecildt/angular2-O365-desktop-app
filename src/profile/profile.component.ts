@@ -2,7 +2,7 @@ import { Component, OnInit, Injectable } from "@angular/core";
 
 import { GraphService } from "../services/graph.service";
 import { ToastComponent } from "../toast/toast.component";
-import { USER_MESSAGES } from "../messages/messages"
+import { USER_MESSAGES } from "../messages/messages";
 import { OFFICE_URLS } from "../office/office-urls";
 
 @Component({
@@ -11,13 +11,13 @@ import { OFFICE_URLS } from "../office/office-urls";
 })
 @Injectable()
 export class ProfileComponent implements OnInit {
-    private displayName: string = "";
+    private displayName: string = "User";
     private photo: string = "";
 
     constructor(private graph: GraphService, private toast: ToastComponent) {
     }
 
-    ngOnInit(){
+    public ngOnInit() {
         this.refreshInfo();
     }
 
@@ -37,7 +37,7 @@ export class ProfileComponent implements OnInit {
         this.graph.getRequestPromise(OFFICE_URLS.me_profile_url).then((data: any) => {
             if (data) {
                 this.displayName = data.displayName;
-            } else {                
+            } else {
                 this.toast.show(USER_MESSAGES.fail_username);
             }
         }).catch(() => {
@@ -50,7 +50,7 @@ export class ProfileComponent implements OnInit {
             if (data) {
                 this.photo = data;
             } else {
-                this.toast.show(USER_MESSAGES.fail_user_photo);                
+                this.toast.show(USER_MESSAGES.fail_user_photo);
             }
         }).catch(() => {
             this.toast.show(USER_MESSAGES.fail_graph_api);
