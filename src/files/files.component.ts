@@ -36,4 +36,8 @@ export class FilesComponent implements OnInit {
                 this.toast.show(USER_MESSAGES.fail_graph_api);
             });
     }
+
+    public refreshInfo() {
+        this.getFiles();
+    }
 }
