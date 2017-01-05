@@ -1,4 +1,4 @@
-import { Component, OnInit, Injectable } from "@angular/core";
+import { Component, OnInit, Injectable, ApplicationRef } from "@angular/core";
 
 import { GraphService } from "../services/graph.service";
 import { ToastComponent } from "../toast/toast.component";
@@ -14,7 +14,9 @@ export class ProfileComponent implements OnInit {
     private displayName: string = "User";
     private photo: string = "";
 
-    constructor(private graph: GraphService, private toast: ToastComponent) {
+    constructor(private graph: GraphService,
+                private toast: ToastComponent,
+                private changeRef: ApplicationRef) {
     }
 
     public ngOnInit() {
@@ -37,6 +39,7 @@ export class ProfileComponent implements OnInit {
         this.graph.getRequestPromise(OFFICE_URLS.me_profile_url).then((data: any) => {
             if (data) {
                 this.displayName = data.displayName;
+                this.changeRef.tick();
             } else {
                 this.toast.show(USER_MESSAGES.fail_username);
             }
@@ -49,6 +52,7 @@ export class ProfileComponent implements OnInit {
         this.graph.getPhotoRequestPromise(OFFICE_URLS.me_photo_url).then((data: any) => {
             if (data) {
                 this.photo = data;
+                this.changeRef.tick();
             } else {
                 this.toast.show(USER_MESSAGES.fail_user_photo);
             }

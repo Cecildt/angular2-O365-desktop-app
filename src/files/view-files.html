@@ -13,8 +13,8 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr *ngFor="let file of files">
-			<td></td>
+		<tr *ngFor="let file of files; let i=index">
+			<td>{{i + 1}}</td>
             <td class="mdl-data-table__cell--non-numeric">
 				<span *ngIf="file.file">File</span>
 				<span *ngIf="!file.file">Folder</span>
