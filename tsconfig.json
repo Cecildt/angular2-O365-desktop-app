@@ -14,10 +14,8 @@
         "releases"
     ],
     "filesGlob": [
-    "./src/customDefinitions.d.ts",
     "./src/**/*.ts",
-    "!./node_modules/**/*.ts",
-    "typings/index.d.ts"
+    "!./node_modules/**/*.ts"
   ],
   "awesomeTypescriptLoaderOptions": {
     "resolveGlobs": true,
