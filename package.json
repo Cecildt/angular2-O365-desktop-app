@@ -39,7 +39,7 @@
     "modular-adal-angular": "^1.0.4",
     "oauth": "^0.9.14",
     "reflect-metadata": "^0.1.9",
-    "rxjs": "5.0.1",
+    "rxjs": "5.4.0",
     "systemjs": "^0.19.40",
     "zone.js": "^0.7.4"
   },
