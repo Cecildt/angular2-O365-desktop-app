@@ -97,15 +97,4 @@ TODO Packaging: https://www.xplatform.rocks/2016/02/14/angular2-and-electron-the
 * [Office 365](https://products.office.com/en-gb/business/compare-office-365-for-business-plans)
 * [Office 365 Development](https://dev.office.com/)
 
-## TODO
-
-* Improve error handling.
-* Implement better design for each section.
-* Manual refresh button for user.
-* Add content paging.
-* Add D3.js for dashboard components
-* Setup production build task.
-* Create unit tests.
-
-
 If you have any issues or suggestion please submit on [GitHub Issues](https://github.com/Cecildt/angular2-O365-desktop-app/issues).
